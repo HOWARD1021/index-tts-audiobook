@@ -55,3 +55,15 @@ still match and its WAV passes validation.
 Do not commit model checkpoints, private speaker references, generated audiobook
 files, local caches, or source-book copies. The upstream model repository is
 configured at runtime through `--project-root`.
+
+## Development branch
+
+`main` is the canonical development trunk and the repository's default branch.
+All maintained pipeline code, configuration, tests, and documentation belong on
+`main`. Short-lived feature branches may be used for isolated work, but they
+must branch from and return to `main`; there is no separate long-lived `develop`
+branch.
+
+Keep checkpoints, prompts, speaker references, generated audio, source books,
+local work directories, and agent checkpoints outside the repository. See
+[`CONTRIBUTING.md`](CONTRIBUTING.md) for the complete contribution boundary.
