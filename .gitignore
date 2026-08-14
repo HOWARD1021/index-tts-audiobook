@@ -1,0 +1,18 @@
+.venv/
+.pytest_cache/
+.ruff_cache/
+__pycache__/
+*.py[cod]
+
+# Local model and audiobook artifacts.
+checkpoints/
+models/
+audio/
+work/
+outputs/
+chunks/
+*.wav
+*.mp3
+*.m4a
+*.flac
+*.DS_Store

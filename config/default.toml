@@ -1,0 +1,17 @@
+[defaults]
+language = "ZH"
+device = "mps"
+max_chunk_chars = 400
+max_text_tokens_per_segment = 100
+interval_silence_ms = 250
+inter_chunk_pause_ms = 450
+text_normalization = true
+use_random = false
+use_qwen_emo = false
+sample_rate = 22050
+channels = 1
+max_seconds_per_char = 0.8
+
+[defaults.emotion]
+vector = [0.30, 0.0, 0.0, 0.0, 0.0, 0.0, 0.15, 0.35]
+alpha = 1.0
