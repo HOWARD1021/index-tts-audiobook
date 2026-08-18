@@ -12,5 +12,7 @@ def test_traditional_text_is_converted_without_reordering_paragraphs():
 
 def test_glossary_entry_is_protected_from_conversion():
     source = "量價分析與自訂術語"
-    result = convert_traditional_to_simplified(source, {"量價分析": "量价分析", "自訂術語": "VPA"})
+    result = convert_traditional_to_simplified(
+        source, {"量價分析": "量价分析", "自訂術語": "VPA"}
+    )
     assert result == "量价分析与VPA"
