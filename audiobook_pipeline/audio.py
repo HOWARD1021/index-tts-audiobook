@@ -47,7 +47,7 @@ def validate_wav(
             errors.append("empty audio")
         elif not np.isfinite(samples).all():
             errors.append("audio contains non-finite samples")
-    except Exception as exc:  # pragma: no cover - exact decoder errors vary
+    except (OSError, RuntimeError, ValueError) as exc:
         errors.append(f"unreadable WAV: {exc}")
 
     if sample_rate != expected_sample_rate:
