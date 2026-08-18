@@ -28,7 +28,8 @@ Do not start a full-book render until the preview is intelligible.
 Every chunk must be:
 
 - readable as WAV;
-- mono PCM 16-bit at 22,050 Hz;
+- mono PCM 16-bit at the selected backend's rate: 22,050 Hz for IndexTTS-2.5
+  and 24,000 Hz for MLX IndexTTS 1.5;
 - non-empty with finite samples;
 - within the broad duration sanity limit for its text length.
 
@@ -37,6 +38,6 @@ speaking-rate evaluator.
 
 ## Resume gate
 
-A chunk may be skipped only when its text identity and generation settings still
-match the current run and its WAV passes the audio gate. Otherwise it must be
-regenerated.
+A chunk may be skipped only when its text hash, backend, model path, prompt hash,
+sampling and chunking settings, and output format still match the current run;
+its WAV checksum and audio gate must also pass. Otherwise it is regenerated.

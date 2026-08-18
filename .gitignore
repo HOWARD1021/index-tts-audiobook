@@ -15,4 +15,7 @@ chunks/
 *.mp3
 *.m4a
 *.flac
+*.npz
+*.manifest.json
 *.DS_Store
+.omx/

@@ -27,9 +27,11 @@ source:
 - source manuscripts and book corpora; and
 - temporary work directories, caches, agent checkpoints, and session prompts.
 
-Pass the external IndexTTS checkout with `--project-root` at render time. Keep
-manuscripts, speaker references, and generated audio outside this repository;
-the ignore rules are a safety net, not a replacement for that boundary.
+Pass the external IndexTTS-2.5 checkout with `--project-root`, or install the
+external MLX runtime and pass its converted model with `--model-dir`. Keep both
+runtimes, models, manuscripts, speaker references, and generated audio outside
+this repository; the ignore rules are a safety net, not a replacement for that
+boundary.
 
 ## Verification before commit
 

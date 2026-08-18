@@ -1,7 +1,7 @@
 [project]
 name = "index-tts-audiobook"
 version = "0.1.0"
-description = "Reliable long-form audiobook orchestration for IndexTTS-2.5"
+description = "Reliable long-form audiobook orchestration for IndexTTS backends"
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
