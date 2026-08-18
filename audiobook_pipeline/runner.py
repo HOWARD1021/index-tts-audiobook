@@ -59,6 +59,7 @@ def _run_identity(
     script: Path,
     prompt_wav: Path,
     model_dir: Path,
+    project_root: Path | None,
     config: PipelineConfig,
 ) -> dict[str, Any]:
     output_format = output_format_for(backend, config)
@@ -70,6 +71,7 @@ def _run_identity(
         "prompt_wav": str(prompt_wav),
         "prompt_sha256": sha256_file(prompt_wav),
         "model_dir": str(model_dir),
+        "runtime_root": str(project_root) if backend == INDEXTTS_25 else None,
         "sampling_parameters": sampling_parameters_for(backend, config),
         "chunking": {
             "max_chunk_chars": config.max_chunk_chars,
@@ -127,7 +129,9 @@ def render_chapter(
         Path(project_root).expanduser().resolve() if project_root is not None else None
     )
     if model_dir is None:
-        if backend == INDEXTTS_25 and resolved_project_root is not None:
+        if backend == INDEXTTS_25:
+            if resolved_project_root is None:
+                raise ValueError("--project-root is required for indextts-2.5")
             resolved_model_dir = (resolved_project_root / "checkpoints").resolve()
         else:
             raise ValueError("--model-dir is required for mlx-1.5")
@@ -144,6 +148,7 @@ def render_chapter(
         script=script,
         prompt_wav=prompt_wav,
         model_dir=resolved_model_dir,
+        project_root=resolved_project_root,
         config=config,
     )
     if dry_run:
@@ -177,7 +182,8 @@ def render_chapter(
     session: SynthesisBackend | None = None
     wavs: list[Path] = []
     prompt_sha = identity["prompt_sha256"]
-    speaker_cache = chunk_root / f"speaker-{prompt_sha[:16]}.npz"
+    speaker_cache_key = sha256_text(f"{backend}\n{resolved_model_dir}\n{prompt_sha}")
+    speaker_cache = chunk_root / f"speaker-{speaker_cache_key[:16]}.npz"
 
     for chunk in chunks:
         chunk_text = text_root / f"{chunk.index:04d}.txt"

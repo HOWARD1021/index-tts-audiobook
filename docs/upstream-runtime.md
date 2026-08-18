@@ -34,7 +34,8 @@ uv run audiobook render \
 ```
 
 The model is loaded once per chapter run. Speaker conditioning is stored beside
-the ignored chunk workspace as a prompt-SHA-keyed `.npz` cache and reused.
+the ignored chunk workspace as a backend/model/prompt-keyed `.npz` cache and
+reused.
 Validated chunks are reused only when the complete manifest identity (backend,
 script, prompt, model path, sampling settings, chunking settings, and output
 format) still matches.

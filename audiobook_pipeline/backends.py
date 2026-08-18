@@ -47,7 +47,10 @@ def sampling_parameters_for(backend: str, config: PipelineConfig) -> dict[str, o
             "text_normalization": config.text_normalization,
             "use_random": config.use_random,
             "use_qwen_emo": config.use_qwen_emo,
-            "emotion": asdict(config.emotion),
+            "emotion": {
+                "vector": list(config.emotion.vector),
+                "alpha": config.emotion.alpha,
+            },
         }
     if backend == MLX_15:
         return {

@@ -1,6 +1,7 @@
 import json
 
 import numpy as np
+import pytest
 import soundfile as sf
 
 from audiobook_pipeline.config import PipelineConfig
@@ -103,6 +104,83 @@ def test_manifest_identity_change_prevents_stale_chunk_reuse(tmp_path):
         backend_factory=lambda *args, **kwargs: FakeBackend(24_000, second_calls),
     )
     assert len(second_calls) == 2
+
+
+def test_model_change_invalidates_chunks_and_speaker_cache(tmp_path):
+    script, prompt, first_model = fixture_inputs(tmp_path)
+    output = tmp_path / "chapter.wav"
+    speaker_caches = []
+
+    def factory(backend, **kwargs):
+        speaker_caches.append(kwargs["speaker_cache"])
+        return FakeBackend(24_000, [])
+
+    render_chapter(
+        script,
+        output,
+        backend="mlx-1.5",
+        prompt_wav=prompt,
+        model_dir=first_model,
+        config=PipelineConfig(),
+        backend_factory=factory,
+    )
+    render_chapter(
+        script,
+        output,
+        backend="mlx-1.5",
+        prompt_wav=prompt,
+        model_dir=tmp_path / "different-model",
+        config=PipelineConfig(),
+        backend_factory=factory,
+    )
+    assert len(speaker_caches) == 2
+    assert speaker_caches[0] != speaker_caches[1]
+
+
+def test_indextts_25_default_format_manifest_and_resume(tmp_path):
+    script, prompt, _ = fixture_inputs(tmp_path)
+    project_root = tmp_path / "indextts-runtime"
+    output = tmp_path / "chapter.wav"
+    factory_calls = []
+
+    def factory(backend, **kwargs):
+        factory_calls.append(backend)
+        return FakeBackend(22_050, [])
+
+    render_chapter(
+        script,
+        output,
+        project_root=project_root,
+        prompt_wav=prompt,
+        config=PipelineConfig(),
+        backend_factory=factory,
+    )
+    manifest = json.loads(output.with_suffix(".manifest.json").read_text())
+    assert factory_calls == ["indextts-2.5"]
+    assert manifest["runtime_root"] == str(project_root.resolve())
+    assert manifest["output_format"]["sample_rate"] == 22_050
+
+    render_chapter(
+        script,
+        output,
+        project_root=project_root,
+        prompt_wav=prompt,
+        config=PipelineConfig(),
+        backend_factory=lambda *args, **kwargs: (_ for _ in ()).throw(
+            AssertionError("resumed 2.5 run loaded the model")
+        ),
+    )
+
+
+def test_indextts_25_requires_project_root(tmp_path):
+    script, prompt, _ = fixture_inputs(tmp_path)
+    with pytest.raises(ValueError, match="--project-root is required for indextts-2.5"):
+        render_chapter(
+            script,
+            tmp_path / "chapter.wav",
+            prompt_wav=prompt,
+            config=PipelineConfig(),
+        )
 
 
 def test_dry_run_does_not_construct_backend_or_write_manifest(tmp_path):
