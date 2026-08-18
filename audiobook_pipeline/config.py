@@ -2,9 +2,9 @@
 
 from __future__ import annotations
 
+import tomllib
 from dataclasses import asdict, dataclass, field, replace
 from pathlib import Path
-import tomllib
 from typing import Any
 
 
@@ -28,6 +28,15 @@ class PipelineConfig:
     sample_rate: int = 22050
     channels: int = 1
     max_seconds_per_char: float = 0.8
+    max_mel_tokens: int = 800
+    temperature: float = 1.0
+    top_k: int = 30
+    top_p: float = 0.8
+    repetition_penalty: float = 10.0
+    speed: float = 1.0
+    seed: int = 42
+    memory_limit_gb: float = 8.0
+    quantize_bits: int | None = None
     emotion: EmotionConfig = field(default_factory=EmotionConfig)
 
     def as_dict(self) -> dict[str, Any]:

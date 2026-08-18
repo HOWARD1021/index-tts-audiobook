@@ -1,6 +1,6 @@
 # IndexTTS Audiobook
 
-Reliable long-form audiobook generation around an external IndexTTS-2.5 checkout.
+Reliable long-form audiobook generation around external IndexTTS runtimes.
 
 This repository owns the audiobook pipeline, not the IndexTTS model or its
 checkpoints. Keep the canonical manuscript separate from the narration script:
@@ -9,10 +9,11 @@ derivative is used for the current IndexTTS Mandarin path.
 
 ## Status
 
-The first vertical slice covers text preparation, paragraph-preserving chunk
-planning, WAV validation, configuration loading, and the IndexTTS-2.5 render
-boundary. Full-book rendering is intentionally gated by preview and human
-listening checks.
+The pipeline supports the existing IndexTTS-2.5 backend and an MLX IndexTTS 1.5
+backend for Apple Silicon. Both reuse the same text preparation,
+paragraph-preserving chunking, manifest, resume, validation, and concatenation
+flow. Full-book rendering is intentionally gated by preview and human listening
+checks.
 
 ## Quick start
 
@@ -29,18 +30,29 @@ uv run audiobook plan \
   --script work/chapter-01-zh-simplified.md \
   --max-chars 400
 
-# Render with an existing IndexTTS checkout and speaker reference.
+# Render with an existing IndexTTS-2.5 checkout and speaker reference.
 uv run audiobook render \
+  --backend indextts-2.5 \
   --script work/chapter-01-zh-simplified.md \
   --output audio/chapter-01.wav \
   --project-root /path/to/index-tts \
   --prompt /path/to/speaker.wav \
   --device mps
+
+# Render through an externally installed MLX IndexTTS 1.5 runtime.
+uv run audiobook render \
+  --backend mlx-1.5 \
+  --script work/chapter-01-zh-simplified.md \
+  --output audio/chapter-01-yuanyuan.wav \
+  --model-dir /Users/howard/index-tts-workspace/mlx-indextts-15/models/IndexTTS-1.5-MLX \
+  --prompt /Users/howard/index-tts-workspace/index-tts/prompts/voice.wav
 ```
 
 The render command keeps chunk text, chunk WAVs, and a manifest next to the
 chapter output. It skips a chunk only when its text and configuration identity
-still match and its WAV passes validation.
+still match, its checksum is unchanged, and its WAV passes backend-specific
+validation. Use `--dry-run` to inspect chunks and output format without importing
+or loading a model.
 
 ## Quality gates
 
@@ -52,9 +64,11 @@ still match and its WAV passes validation.
 
 ## Repository boundaries
 
-Do not commit model checkpoints, private speaker references, generated audiobook
-files, local caches, or source-book copies. The upstream model repository is
-configured at runtime through `--project-root`.
+Do not commit model checkpoints, private speaker references, speaker-conditioning
+caches, generated audiobook files, local caches, virtual environments, or
+source-book copies. The 2.5 checkout is selected through `--project-root`; the
+MLX package, converted model, and prompt remain external and are selected at
+runtime. See [`docs/upstream-runtime.md`](docs/upstream-runtime.md).
 
 ## Development branch
 

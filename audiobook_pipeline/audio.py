@@ -25,6 +25,7 @@ def validate_wav(
     *,
     expected_sample_rate: int = 22050,
     expected_channels: int = 1,
+    expected_subtype: str = "PCM_16",
     max_seconds_per_char: float | None = None,
     text_characters: int | None = None,
 ) -> AudioValidation:
@@ -46,19 +47,21 @@ def validate_wav(
             errors.append("empty audio")
         elif not np.isfinite(samples).all():
             errors.append("audio contains non-finite samples")
-    except Exception as exc:  # pragma: no cover - exact decoder errors vary
+    except (OSError, RuntimeError, ValueError) as exc:
         errors.append(f"unreadable WAV: {exc}")
 
     if sample_rate != expected_sample_rate:
         errors.append(f"sample rate {sample_rate} != {expected_sample_rate}")
     if channels != expected_channels:
         errors.append(f"channels {channels} != {expected_channels}")
-    if subtype != "PCM_16":
-        errors.append(f"subtype {subtype} != PCM_16")
+    if subtype != expected_subtype:
+        errors.append(f"subtype {subtype} != {expected_subtype}")
     if max_seconds_per_char is not None and text_characters is not None:
         maximum = max(5.0, text_characters * max_seconds_per_char + 5.0)
         if duration > maximum:
-            errors.append(f"duration {duration:.2f}s exceeds {maximum:.2f}s sanity limit")
+            errors.append(
+                f"duration {duration:.2f}s exceeds {maximum:.2f}s sanity limit"
+            )
 
     return AudioValidation(
         path=str(path),
@@ -77,6 +80,8 @@ def concatenate_wavs(
     *,
     pause_ms: int = 450,
     expected_sample_rate: int = 22050,
+    expected_channels: int = 1,
+    expected_subtype: str = "PCM_16",
 ) -> None:
     """Concatenate validated mono PCM-16 WAV files with a fixed pause."""
 
@@ -84,7 +89,12 @@ def concatenate_wavs(
         raise ValueError("at least one WAV is required")
     arrays: list[np.ndarray] = []
     for path in inputs:
-        validation = validate_wav(path, expected_sample_rate=expected_sample_rate)
+        validation = validate_wav(
+            path,
+            expected_sample_rate=expected_sample_rate,
+            expected_channels=expected_channels,
+            expected_subtype=expected_subtype,
+        )
         if not validation.ok:
             raise ValueError(f"invalid chunk {path}: {'; '.join(validation.errors)}")
         samples, sample_rate = sf.read(path, dtype="float32")
@@ -99,4 +109,6 @@ def concatenate_wavs(
         merged.append(array)
     output = Path(output)
     output.parent.mkdir(parents=True, exist_ok=True)
-    sf.write(output, np.concatenate(merged), expected_sample_rate, subtype="PCM_16")
+    sf.write(
+        output, np.concatenate(merged), expected_sample_rate, subtype=expected_subtype
+    )

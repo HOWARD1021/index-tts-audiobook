@@ -2,12 +2,11 @@
 
 from __future__ import annotations
 
-from pathlib import Path
 import re
-from typing import Mapping
+from collections.abc import Mapping
+from pathlib import Path
 
 from opencc import OpenCC
-
 
 HEADING_RE = re.compile(r"^\s{0,3}#{1,6}\s*", re.MULTILINE)
 
