@@ -4,19 +4,19 @@ Project: index-tts-audiobook
 
 Notebook: .agentflow/devlog.md — root.
 
-Current commit: initialization pending.
+Current commit: 0dbd5b3 — local Markdown emotion implementation; record commits follow.
 
-Tests/scenarios: none.
+Tests/scenarios: 26 passed, 1 skipped; chapter 04 planning and emphasis boundary checks passed.
 
 Configuration: ag.json — schema v7; validated for codex this round.
 
-Proven: the host template was initialized.
+Proven: local emphasis vectors, cleanup, pronunciation overrides, chunk-boundary carry, and MLX rejection are verified.
 
-Open: none.
+Open: real IndexTTS-2.5 multi-span acoustic listening remains.
 
-Next: await the first request.
+Next: use the new local-emotion workflow for the next preview render.
 
-Artifacts: none.
+Artifacts: `.agentflow/artifacts/A-001-local-emotion/`.
 
 Archived eras: none.
 
@@ -46,3 +46,41 @@ sure godev
 - Review: an independent read-only reviewer found and blocked on cross-chunk emphasis state and silent MLX emotion loss; both defects were fixed with regression tests.
 - Review result: corrected implementation received Outcome PASS and Minimality PASS; the remaining conformance record issue was fixed by adding the frozen cross-check artifacts to the exact inventory and reconciling the cumulative line delta.
 - Evidence: final product suite remains 26 passed, 1 skipped; real-model acoustic rendering remains not-tested.
+
+# ← Reply / A-001
+* _2026-09-19 23:14:42 (gpt-5.4/high)_
+
+## [SUMMARY]
+
+- 已完成 `godev` 要求的局部情緒整合：Markdown 粗體／斜體先轉成 metadata，再清除標記並分段生成。
+- 普通文字使用 base emotion vector；粗體使用 `bold_vector`；斜體使用 `italic_vector`。
+- 長粗體跨 chunk 時會保留情緒狀態；MLX 1.5 沒有情緒向量介面，因此會明確拒絕局部情緒來源。
+- `uv run pytest -q`: 26 passed, 1 skipped。
+
+## [FINAL REPORT]
+
+原始 Markdown 現在依序經過：繁體轉簡體、朗讀清理、發音修正、Markdown emphasis metadata 擷取、局部情緒渲染、WAV 合併與驗證。`**巨大的成交量**` 的 `**` 不會送入模型，但該 span 會使用可設定的 bold emotion vector；`*斜體*` 同理。
+
+主要修改：
+
+- `audiobook_pipeline/text.py`: `PreparedNarration`、`NarrationSpan`、跨 chunk marker state。
+- `audiobook_pipeline/runner.py`: per-span synthesis、短停頓合併、markup hash resume identity。
+- `audiobook_pipeline/backends.py` / `config.py`: per-request emotion vector 與 bold/italic preset。
+- `README.md`、`docs/quality-gates.md`、全域 IndexTTS workflow 文件：記錄新的工作流程。
+
+已驗證：完整 pytest、compileall、第 4 章 149 chunks planning、長 emphasis 跨 chunk、MLX 明確拒絕 styled source。沒有修改原始稿、模型、prompt 或生成音檔。
+
+限制：尚未用真實 IndexTTS-2.5 對含多個 styled span 的完整章節做聲音聆聽；短粗體片段若接縫不自然，應改成句子級強調。
+
+Cross-check review: `.agentflow/artifacts/A-001-local-emotion/cross-check-report.md`
+Cross-check implementation: 0dbd5b3d3be9a0b71e67f142b54e14b19313ca58
+
+## Questions (batched — each with a suggested default)
+
+- None.
+
+---
+
+# → Ask / A-002
+
++

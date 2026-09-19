@@ -3,6 +3,7 @@
     ".agentflow/artifacts/A-001-local-emotion/design.md",
     ".agentflow/artifacts/A-001-local-emotion/cross-check-brief.md",
     ".agentflow/artifacts/A-001-local-emotion/cross-check-facts.json",
+    ".agentflow/artifacts/A-001-local-emotion/cross-check-report.md",
     ".agentflow/devlog.md",
     ".gitignore",
     "README.md",
@@ -17,7 +18,7 @@
     "tests/test_runner.py",
     "tests/test_text.py"
   ],
-  "changed_lines": 765,
+  "changed_lines": 825,
   "behavior_change": true,
   "trust_boundary": false,
   "broad_change": false,
