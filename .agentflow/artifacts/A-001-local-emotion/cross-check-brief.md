@@ -2,7 +2,7 @@
 
 # Cross-check brief
 
-Implementation commit: `2d4be95`
+Implementation commits: `2d4be95`, `0dbd5b3`
 Review level: `full`
 Frozen facts: `cross-check-facts.json`
 
@@ -22,4 +22,4 @@ Required checks:
   focused emphasis-rendering tests.
 - Do not modify the repository, invoke Agentflow, or delegate another review.
 
-Self-check: brief is frozen against implementation commit 2d4be95 and the cross-check plan output.
+Self-check: brief is frozen against implementation commits 2d4be95 and 0dbd5b3 and the cross-check plan output.
