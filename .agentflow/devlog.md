@@ -83,4 +83,11 @@ Cross-check implementation: 0dbd5b3d3be9a0b71e67f142b54e14b19313ca58
 
 # → Ask / A-002
 
-+
+godev 生成 執行計劃
+
+## [RUN-001] Event (during round A-002)
+
+- Route: direct execution plan for frontier GitHub Issue #5; no product source changes or model generation started.
+- Plan: five tasks cover preflight, isolated preparation, real IndexTTS-2.5 generation, objective validation/resume, and human listening gate.
+- Boundary: Issue #6 owns phrase-level versus sentence-level policy; Issue #7 owns the release-quality gate.
+- Evidence: tracker validated; plan and tracker are stored under `.agentflow/artifacts/A-002-execution-plan/`.
