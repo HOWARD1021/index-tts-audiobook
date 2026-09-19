@@ -17,7 +17,7 @@
     "tests/test_runner.py",
     "tests/test_text.py"
   ],
-  "changed_lines": 760,
+  "changed_lines": 765,
   "behavior_change": true,
   "trust_boundary": false,
   "broad_change": false,
