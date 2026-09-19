@@ -6,9 +6,13 @@ The pipeline must pass these gates before a chapter is packaged.
 
 - The Traditional source is preserved.
 - The Simplified narration script is generated deterministically.
+- `plan` and `render` automatically run the same narration preparation even when
+  the input is raw Markdown.
 - Paragraph order is unchanged.
 - English names, quotations, URLs, numbers, and financial notation are reviewed.
 - Glossary overrides and Pinyin annotations are reviewed for high-risk terms.
+- Markdown emphasis is captured as local emotion metadata before delimiters are
+  removed; generated backend text contains no Markdown markers.
 
 ## Preview gate
 
@@ -22,6 +26,8 @@ Listen to representative passages covering:
 - polyphonic characters.
 
 Do not start a full-book render until the preview is intelligible.
+Listen at emphasis joins; short bold spans may need sentence-level emphasis if
+a phrase-level join sounds abrupt.
 
 ## Audio gate
 

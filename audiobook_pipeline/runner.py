@@ -6,6 +6,7 @@ import hashlib
 import json
 import os
 from collections.abc import Callable
+from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
@@ -20,8 +21,32 @@ from .backends import (
 )
 from .chunking import TextChunk, split_text
 from .config import PipelineConfig
+from .text import (
+    NarrationSpan,
+    parse_narration_markers,
+    prepare_narration_document,
+)
 
 BackendFactory = Callable[..., SynthesisBackend]
+
+
+@dataclass(frozen=True)
+class PreparedChunk:
+    index: int
+    markup_text: str
+    spans: tuple[NarrationSpan, ...]
+
+    @property
+    def text(self) -> str:
+        return "".join(span.text for span in self.spans)
+
+    @property
+    def characters(self) -> int:
+        return len(self.text)
+
+    @property
+    def has_local_emotion(self) -> bool:
+        return any(span.emphasis is not None for span in self.spans)
 
 
 def sha256_file(path: str | Path) -> str:
@@ -36,11 +61,35 @@ def sha256_text(text: str) -> str:
     return hashlib.sha256(text.encode("utf-8")).hexdigest()
 
 
+def _load_narration_document(script: str | Path):
+    """Load a source Markdown file through canonical narration preparation."""
+
+    return prepare_narration_document(
+        Path(script).read_text(encoding="utf-8")
+    )
+
+
+def _prepare_chunks(script: str | Path, config: PipelineConfig) -> list[PreparedChunk]:
+    document = _load_narration_document(script)
+    chunks = split_text(document.marked_text, config.max_chunk_chars)
+    prepared: list[PreparedChunk] = []
+    for chunk in chunks:
+        spans = parse_narration_markers(chunk.text)
+        prepared.append(
+            PreparedChunk(
+                index=chunk.index,
+                markup_text=chunk.text,
+                spans=spans,
+            )
+        )
+    return prepared
+
+
 def plan_chapter(script: str | Path, config: PipelineConfig) -> list[dict[str, Any]]:
-    text = Path(script).read_text(encoding="utf-8")
+    chunks = _prepare_chunks(script, config)
     return [
         {"index": chunk.index, "characters": chunk.characters, "text": chunk.text}
-        for chunk in split_text(text, config.max_chunk_chars)
+        for chunk in chunks
     ]
 
 
@@ -64,7 +113,11 @@ def _run_identity(
 ) -> dict[str, Any]:
     output_format = output_format_for(backend, config)
     return {
-        "format_version": 2,
+        "format_version": 3,
+        "text_preparation": {
+            "name": "canonical-narration-preparation",
+            "version": 1,
+        },
         "backend": backend,
         "script": str(script),
         "script_sha256": sha256_file(script),
@@ -76,6 +129,7 @@ def _run_identity(
         "chunking": {
             "max_chunk_chars": config.max_chunk_chars,
             "inter_chunk_pause_ms": config.inter_chunk_pause_ms,
+            "emotion_span_pause_ms": config.emotion_span_pause_ms,
             "max_seconds_per_char": config.max_seconds_per_char,
         },
         "output_format": output_format.as_dict(),
@@ -138,8 +192,7 @@ def render_chapter(
     else:
         resolved_model_dir = Path(model_dir).expanduser().resolve()
 
-    text = script.read_text(encoding="utf-8")
-    chunks = split_text(text, config.max_chunk_chars)
+    chunks = _prepare_chunks(script, config)
     if not chunks:
         raise ValueError(f"script contains no narration text: {script}")
 
@@ -189,17 +242,19 @@ def render_chapter(
         chunk_text = text_root / f"{chunk.index:04d}.txt"
         chunk_wav = chunk_root / f"{chunk.index:04d}.wav"
         text_sha = sha256_text(chunk.text)
+        markup_sha = sha256_text(chunk.markup_text)
         prior = previous_records.get(chunk.index, {})
         validation = None
         reusable = (
             prior.get("status") == "validated"
             and prior.get("text_sha256") == text_sha
+            and prior.get("markup_sha256") == markup_sha
             and chunk_wav.is_file()
         )
         if reusable:
             validation = _validated_chunk(
                 chunk_wav,
-                chunk,
+                TextChunk(chunk.index, chunk.text),
                 sample_rate=audio_format.sample_rate,
                 channels=audio_format.channels,
                 subtype=audio_format.subtype,
@@ -218,10 +273,55 @@ def render_chapter(
                     config=config,
                 )
             partial_wav = chunk_wav.with_name(f"{chunk_wav.stem}.partial.wav")
-            session.synthesize(chunk.text, partial_wav, chunk_index=chunk.index)
+            if not chunk.has_local_emotion:
+                session.synthesize(
+                    chunk.text,
+                    partial_wav,
+                    chunk_index=chunk.index,
+                    emotion_vector=config.emotion.vector,
+                    emotion_alpha=config.emotion.alpha,
+                )
+            else:
+                span_root = chunk_root / "spans" / f"{chunk.index:04d}"
+                span_root.mkdir(parents=True, exist_ok=True)
+                span_wavs: list[Path] = []
+                for span_index, span in enumerate(
+                    span for span in chunk.spans if span.text.strip()
+                ):
+                    span_wav = span_root / f"{span_index:04d}.wav"
+                    vector, alpha = config.emotion.for_style(span.emphasis)
+                    session.synthesize(
+                        span.text,
+                        span_wav,
+                        chunk_index=chunk.index * 1000 + span_index,
+                        emotion_vector=vector,
+                        emotion_alpha=alpha,
+                    )
+                    span_validation = _validated_chunk(
+                        span_wav,
+                        TextChunk(chunk.index, span.text),
+                        sample_rate=audio_format.sample_rate,
+                        channels=audio_format.channels,
+                        subtype=audio_format.subtype,
+                        max_seconds_per_char=config.max_seconds_per_char,
+                    )
+                    if not span_validation.ok:
+                        raise RuntimeError(
+                            f"chunk {chunk.index} span {span_index} failed validation: "
+                            f"{span_validation.errors}"
+                        )
+                    span_wavs.append(span_wav)
+                concatenate_wavs(
+                    span_wavs,
+                    partial_wav,
+                    pause_ms=config.emotion_span_pause_ms,
+                    expected_sample_rate=audio_format.sample_rate,
+                    expected_channels=audio_format.channels,
+                    expected_subtype=audio_format.subtype,
+                )
             validation = _validated_chunk(
                 partial_wav,
-                chunk,
+                TextChunk(chunk.index, chunk.text),
                 sample_rate=audio_format.sample_rate,
                 channels=audio_format.channels,
                 subtype=audio_format.subtype,
@@ -239,6 +339,7 @@ def render_chapter(
             "index": chunk.index,
             "text": str(chunk_text),
             "text_sha256": text_sha,
+            "markup_sha256": markup_sha,
             "wav": str(chunk_wav),
             "characters": chunk.characters,
             "duration_seconds": validation.duration_seconds,

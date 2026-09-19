@@ -25,7 +25,15 @@ class AudioFormat:
 
 
 class SynthesisBackend(Protocol):
-    def synthesize(self, text: str, output: Path, *, chunk_index: int) -> None:
+    def synthesize(
+        self,
+        text: str,
+        output: Path,
+        *,
+        chunk_index: int,
+        emotion_vector: tuple[float, ...] | None = None,
+        emotion_alpha: float | None = None,
+    ) -> None:
         """Synthesize one text chunk to ``output``."""
 
 
@@ -50,6 +58,10 @@ def sampling_parameters_for(backend: str, config: PipelineConfig) -> dict[str, o
             "emotion": {
                 "vector": list(config.emotion.vector),
                 "alpha": config.emotion.alpha,
+                "bold_vector": list(config.emotion.bold_vector),
+                "bold_alpha": config.emotion.bold_alpha,
+                "italic_vector": list(config.emotion.italic_vector),
+                "italic_alpha": config.emotion.italic_alpha,
             },
         }
     if backend == MLX_15:
@@ -100,15 +112,27 @@ class IndexTTS25Backend:
             use_qwen_emo=config.use_qwen_emo,
         )
 
-    def synthesize(self, text: str, output: Path, *, chunk_index: int) -> None:
+    def synthesize(
+        self,
+        text: str,
+        output: Path,
+        *,
+        chunk_index: int,
+        emotion_vector: tuple[float, ...] | None = None,
+        emotion_alpha: float | None = None,
+    ) -> None:
         config = self._config
         self._model.infer(
             spk_audio_prompt=str(self._prompt_wav),
             text=text,
             output_path=str(output),
             lang=config.language,
-            emo_vector=list(config.emotion.vector),
-            emo_alpha=config.emotion.alpha,
+            emo_vector=list(emotion_vector or config.emotion.vector),
+            emo_alpha=(
+                config.emotion.alpha
+                if emotion_alpha is None
+                else emotion_alpha
+            ),
             use_random=config.use_random,
             interval_silence=config.interval_silence_ms,
             max_text_tokens_per_segment=config.max_text_tokens_per_segment,
@@ -145,7 +169,15 @@ class MLX15Backend:
             self._model.save_speaker(prompt_wav, speaker_cache)
         self._speaker_cache = speaker_cache
 
-    def synthesize(self, text: str, output: Path, *, chunk_index: int) -> None:
+    def synthesize(
+        self,
+        text: str,
+        output: Path,
+        *,
+        chunk_index: int,
+        emotion_vector: tuple[float, ...] | None = None,
+        emotion_alpha: float | None = None,
+    ) -> None:
         config = self._config
         audio = self._model.generate(
             text=text,

@@ -5,6 +5,7 @@ max_chunk_chars = 400
 max_text_tokens_per_segment = 100
 interval_silence_ms = 250
 inter_chunk_pause_ms = 450
+emotion_span_pause_ms = 80
 text_normalization = true
 use_random = false
 use_qwen_emo = false
@@ -23,3 +24,7 @@ memory_limit_gb = 8.0
 [defaults.emotion]
 vector = [0.30, 0.0, 0.0, 0.0, 0.0, 0.0, 0.15, 0.35]
 alpha = 1.0
+bold_vector = [0.45, 0.0, 0.0, 0.0, 0.0, 0.0, 0.20, 0.10]
+bold_alpha = 1.0
+italic_vector = [0.15, 0.0, 0.0, 0.0, 0.0, 0.20, 0.0, 0.45]
+italic_alpha = 1.0

@@ -12,6 +12,17 @@ from typing import Any
 class EmotionConfig:
     vector: tuple[float, ...] = (0.30, 0.0, 0.0, 0.0, 0.0, 0.0, 0.15, 0.35)
     alpha: float = 1.0
+    bold_vector: tuple[float, ...] = (0.45, 0.0, 0.0, 0.0, 0.0, 0.0, 0.20, 0.10)
+    bold_alpha: float = 1.0
+    italic_vector: tuple[float, ...] = (0.15, 0.0, 0.0, 0.0, 0.0, 0.20, 0.0, 0.45)
+    italic_alpha: float = 1.0
+
+    def for_style(self, style: str | None) -> tuple[tuple[float, ...], float]:
+        if style == "bold":
+            return self.bold_vector, self.bold_alpha
+        if style == "italic":
+            return self.italic_vector, self.italic_alpha
+        return self.vector, self.alpha
 
 
 @dataclass(frozen=True)
@@ -22,6 +33,7 @@ class PipelineConfig:
     max_text_tokens_per_segment: int = 100
     interval_silence_ms: int = 250
     inter_chunk_pause_ms: int = 450
+    emotion_span_pause_ms: int = 80
     text_normalization: bool = True
     use_random: bool = False
     use_qwen_emo: bool = False
@@ -52,8 +64,9 @@ def load_config(path: str | Path | None = None) -> PipelineConfig:
     raw = tomllib.loads(Path(path).read_text(encoding="utf-8"))
     values = dict(raw.get("defaults", {}))
     emotion_values = values.pop("emotion", {})
-    if "vector" in emotion_values:
-        emotion_values["vector"] = tuple(float(x) for x in emotion_values["vector"])
+    for key in ("vector", "bold_vector", "italic_vector"):
+        if key in emotion_values:
+            emotion_values[key] = tuple(float(x) for x in emotion_values[key])
     emotion = EmotionConfig(**emotion_values)
     return PipelineConfig(emotion=emotion, **values)
 

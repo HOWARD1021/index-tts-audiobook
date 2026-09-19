@@ -13,8 +13,18 @@ class FakeBackend:
         self.sample_rate = sample_rate
         self.calls = calls
 
-    def synthesize(self, text, output, *, chunk_index):
-        self.calls.append((chunk_index, text))
+    def synthesize(
+        self,
+        text,
+        output,
+        *,
+        chunk_index,
+        emotion_vector=None,
+        emotion_alpha=None,
+    ):
+        self.calls.append(
+            (chunk_index, text, emotion_vector, emotion_alpha)
+        )
         sf.write(
             output, np.zeros(self.sample_rate // 10), self.sample_rate, subtype="PCM_16"
         )
@@ -202,3 +212,59 @@ def test_dry_run_does_not_construct_backend_or_write_manifest(tmp_path):
     )
     assert not output.exists()
     assert not output.with_suffix(".manifest.json").exists()
+
+
+def test_render_prepares_source_markdown_before_synthesis(tmp_path):
+    script = tmp_path / "raw-chapter.md"
+    script.write_text(
+        "價格的小幅上漲是由**巨大的成交量**產生的，伴隨著『震盪』。",
+        encoding="utf-8",
+    )
+    prompt = tmp_path / "prompt.wav"
+    sf.write(prompt, np.zeros(2205), 22_050, subtype="PCM_16")
+    calls = []
+
+    render_chapter(
+        script,
+        tmp_path / "chapter.wav",
+        prompt_wav=prompt,
+        project_root=tmp_path / "indextts-runtime",
+        config=PipelineConfig(),
+        backend_factory=lambda *args, **kwargs: FakeBackend(22_050, calls),
+    )
+
+    assert [call[1] for call in calls] == [
+        "价格的小幅上涨是由",
+        "巨大的成交量",
+        "产生的，伴随<著|ZHE5>震荡。",
+    ]
+
+
+def test_render_applies_local_emotion_to_markdown_emphasis(tmp_path):
+    script = tmp_path / "raw-chapter.md"
+    script.write_text(
+        "價格的小幅上漲是由**巨大的成交量**產生的。",
+        encoding="utf-8",
+    )
+    prompt = tmp_path / "prompt.wav"
+    sf.write(prompt, np.zeros(2205), 22_050, subtype="PCM_16")
+    calls = []
+    config = PipelineConfig()
+
+    render_chapter(
+        script,
+        tmp_path / "chapter.wav",
+        prompt_wav=prompt,
+        project_root=tmp_path / "indextts-runtime",
+        config=config,
+        backend_factory=lambda *args, **kwargs: FakeBackend(22_050, calls),
+    )
+
+    assert [call[1] for call in calls] == [
+        "价格的小幅上涨是由",
+        "巨大的成交量",
+        "产生的。",
+    ]
+    assert calls[0][2] == config.emotion.vector
+    assert calls[1][2] == config.emotion.bold_vector
+    assert calls[2][2] == config.emotion.vector

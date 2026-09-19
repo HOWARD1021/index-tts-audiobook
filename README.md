@@ -20,7 +20,7 @@ checks.
 ```bash
 uv sync --extra dev
 
-# Derive a narration script without changing the source manuscript.
+# Derive and review a narration script without changing the source manuscript.
 uv run audiobook prepare \
   --input /path/to/chapter-01-zh.md \
   --output work/chapter-01-zh-simplified.md
@@ -31,6 +31,8 @@ uv run audiobook plan \
   --max-chars 400
 
 # Render with an existing IndexTTS-2.5 checkout and speaker reference.
+# render also applies the same narration preparation in memory, so a raw
+# Markdown source can be passed directly when a reviewed derivative is absent.
 uv run audiobook render \
   --backend indextts-2.5 \
   --script work/chapter-01-zh-simplified.md \
@@ -53,6 +55,16 @@ chapter output. It skips a chunk only when its text and configuration identity
 still match, its checksum is unchanged, and its WAV passes backend-specific
 validation. Use `--dry-run` to inspect chunks and output format without importing
 or loading a model.
+
+Every `plan` and `render` run applies the canonical narration preparation before
+chunking: Traditional-to-Simplified conversion, removal of non-spoken Markdown
+and delimiter marks, speech-cue/filler cleanup, and known pronunciation
+overrides such as `伴随<著|ZHE5>`. Meaningful punctuation is preserved so the
+TTS model can use it for natural pauses and intonation. Markdown emphasis is
+captured before its delimiters are removed: bold spans use `bold_vector`, italic
+spans use `italic_vector`, and ordinary text uses the base emotion vector.
+Styled spans are rendered separately and joined with a short pause, so the
+markers never reach the TTS runtime.
 
 ## Quality gates
 
