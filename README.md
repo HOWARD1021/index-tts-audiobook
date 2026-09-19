@@ -64,7 +64,9 @@ TTS model can use it for natural pauses and intonation. Markdown emphasis is
 captured before its delimiters are removed: bold spans use `bold_vector`, italic
 spans use `italic_vector`, and ordinary text uses the base emotion vector.
 Styled spans are rendered separately and joined with a short pause, so the
-markers never reach the TTS runtime.
+markers never reach the TTS runtime. Local Markdown emotion currently requires
+the `indextts-2.5` backend; the MLX 1.5 adapter has no emotion-vector interface
+and rejects styled source rather than silently ignoring it.
 
 ## Quality gates
 

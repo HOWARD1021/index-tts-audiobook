@@ -1,0 +1,24 @@
+{
+  "changed_files": [
+    ".agentflow/artifacts/A-001-local-emotion/design.md",
+    ".agentflow/devlog.md",
+    ".gitignore",
+    "README.md",
+    "ag.json",
+    "audiobook_pipeline/__init__.py",
+    "audiobook_pipeline/backends.py",
+    "audiobook_pipeline/config.py",
+    "audiobook_pipeline/runner.py",
+    "audiobook_pipeline/text.py",
+    "config/default.toml",
+    "docs/quality-gates.md",
+    "tests/test_runner.py",
+    "tests/test_text.py"
+  ],
+  "changed_lines": 607,
+  "behavior_change": true,
+  "trust_boundary": false,
+  "broad_change": false,
+  "consequential_change": false,
+  "owner_control": "default"
+}

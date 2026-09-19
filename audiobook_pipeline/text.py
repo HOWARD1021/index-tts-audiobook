@@ -34,10 +34,12 @@ FILLER_AT_BOUNDARY_RE = re.compile(
     r"(?:嗯+|呃+|啊+|哦+|喔+|哎+|唉+)"
     r"(?:[ \t]*[，,、：:])?[ \t]*"
 )
-EMPHASIS_START = "\ue000"
+EMPHASIS_BOLD_START = "\ue000"
 EMPHASIS_END = "\ue001"
+EMPHASIS_ITALIC_START = "\ue002"
 EMPHASIS_MARKER_RE = re.compile(
-    rf"{re.escape(EMPHASIS_START)}([BI])|{re.escape(EMPHASIS_END)}"
+    rf"([{re.escape(EMPHASIS_BOLD_START + EMPHASIS_ITALIC_START)}])|"
+    rf"{re.escape(EMPHASIS_END)}"
 )
 
 
@@ -66,8 +68,12 @@ class PreparedNarration:
             if span.emphasis is None:
                 parts.append(span.text)
                 continue
-            marker = "B" if span.emphasis == "bold" else "I"
-            parts.append(f"{EMPHASIS_START}{marker}{span.text}{EMPHASIS_END}")
+            marker = (
+                EMPHASIS_BOLD_START
+                if span.emphasis == "bold"
+                else EMPHASIS_ITALIC_START
+            )
+            parts.append(f"{marker}{span.text}{EMPHASIS_END}")
         return "".join(parts)
 
 
@@ -118,15 +124,21 @@ def _preserve_markdown_emphasis(text: str) -> str:
         raw = match.group(0)
         content = match.group(1) or match.group(2) or ""
         style = "B" if raw.startswith(("**", "__")) else "I"
-        return f"{EMPHASIS_START}{style}{content}{EMPHASIS_END}"
+        marker = EMPHASIS_BOLD_START if style == "B" else EMPHASIS_ITALIC_START
+        return f"{marker}{content}{EMPHASIS_END}"
 
     return MARKDOWN_EMPHASIS_RE.sub(replace, text)
 
 
-def _parse_emphasis_markers(text: str) -> tuple[NarrationSpan, ...]:
+def _parse_emphasis_markers(
+    text: str,
+    *,
+    initial_emphasis: str | None = None,
+    allow_open: bool = False,
+) -> tuple[tuple[NarrationSpan, ...], str | None]:
     spans: list[NarrationSpan] = []
     cursor = 0
-    emphasis: str | None = None
+    emphasis = initial_emphasis
     for match in EMPHASIS_MARKER_RE.finditer(text):
         if match.start() > cursor:
             spans.append(
@@ -138,7 +150,11 @@ def _parse_emphasis_markers(text: str) -> tuple[NarrationSpan, ...]:
         if match.group(1):
             if emphasis is not None:
                 raise ValueError("nested Markdown emphasis is not supported")
-            emphasis = "bold" if match.group(1) == "B" else "italic"
+            emphasis = (
+                "bold"
+                if match.group(1) == EMPHASIS_BOLD_START
+                else "italic"
+            )
         else:
             if emphasis is None:
                 raise ValueError("unmatched Markdown emphasis end marker")
@@ -146,15 +162,30 @@ def _parse_emphasis_markers(text: str) -> tuple[NarrationSpan, ...]:
         cursor = match.end()
     if cursor < len(text):
         spans.append(NarrationSpan(text[cursor:], emphasis))
-    if emphasis is not None:
+    if emphasis is not None and not allow_open:
         raise ValueError("unmatched Markdown emphasis start marker")
-    return tuple(span for span in spans if span.text)
+    return tuple(span for span in spans if span.text), emphasis
 
 
 def parse_narration_markers(text: str) -> tuple[NarrationSpan, ...]:
     """Decode internal emphasis markers without exposing them to a backend."""
 
-    return _parse_emphasis_markers(text)
+    spans, emphasis = _parse_emphasis_markers(text)
+    assert emphasis is None
+    return spans
+
+
+def parse_narration_markers_state(
+    text: str,
+    initial_emphasis: str | None = None,
+) -> tuple[tuple[NarrationSpan, ...], str | None]:
+    """Decode one chunk while carrying emphasis across chunk boundaries."""
+
+    return _parse_emphasis_markers(
+        text,
+        initial_emphasis=initial_emphasis,
+        allow_open=True,
+    )
 
 
 def prepare_narration_document(
@@ -172,7 +203,8 @@ def prepare_narration_document(
     prepared = apply_pronunciation_overrides(prepared)
     prepared = remove_narration_markup(prepared)
     prepared = prepared.replace("\r\n", "\n").replace("\r", "\n")
-    spans = _parse_emphasis_markers(prepared.strip() + "\n")
+    spans, emphasis = _parse_emphasis_markers(prepared.strip() + "\n")
+    assert emphasis is None
     return PreparedNarration(spans)
 
 

@@ -23,7 +23,7 @@ from .chunking import TextChunk, split_text
 from .config import PipelineConfig
 from .text import (
     NarrationSpan,
-    parse_narration_markers,
+    parse_narration_markers_state,
     prepare_narration_document,
 )
 
@@ -73,8 +73,12 @@ def _prepare_chunks(script: str | Path, config: PipelineConfig) -> list[Prepared
     document = _load_narration_document(script)
     chunks = split_text(document.marked_text, config.max_chunk_chars)
     prepared: list[PreparedChunk] = []
+    active_emphasis: str | None = None
     for chunk in chunks:
-        spans = parse_narration_markers(chunk.text)
+        spans, active_emphasis = parse_narration_markers_state(
+            chunk.text,
+            active_emphasis,
+        )
         prepared.append(
             PreparedChunk(
                 index=chunk.index,
@@ -82,6 +86,8 @@ def _prepare_chunks(script: str | Path, config: PipelineConfig) -> list[Prepared
                 spans=spans,
             )
         )
+    if active_emphasis is not None:
+        raise ValueError("prepared narration ended with open emphasis")
     return prepared
 
 
@@ -195,6 +201,11 @@ def render_chapter(
     chunks = _prepare_chunks(script, config)
     if not chunks:
         raise ValueError(f"script contains no narration text: {script}")
+    if backend == MLX_15 and any(chunk.has_local_emotion for chunk in chunks):
+        raise ValueError(
+            "local Markdown emotion requires the indextts-2.5 backend; "
+            "mlx-1.5 has no emotion-vector interface"
+        )
 
     identity = _run_identity(
         backend=backend,

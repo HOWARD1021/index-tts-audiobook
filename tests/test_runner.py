@@ -5,7 +5,7 @@ import pytest
 import soundfile as sf
 
 from audiobook_pipeline.config import PipelineConfig
-from audiobook_pipeline.runner import render_chapter
+from audiobook_pipeline.runner import plan_chapter, render_chapter
 
 
 class FakeBackend:
@@ -268,3 +268,31 @@ def test_render_applies_local_emotion_to_markdown_emphasis(tmp_path):
     assert calls[0][2] == config.emotion.vector
     assert calls[1][2] == config.emotion.bold_vector
     assert calls[2][2] == config.emotion.vector
+
+
+def test_plan_handles_emphasis_that_crosses_chunk_boundaries(tmp_path):
+    script = tmp_path / "long-emphasis.md"
+    emphasized = "很長的強調文字" * 20
+    script.write_text(f"**{emphasized}**", encoding="utf-8")
+
+    chunks = plan_chapter(script, PipelineConfig(max_chunk_chars=20))
+
+    assert "".join(chunk["text"] for chunk in chunks) == "很长的强调文字" * 20
+
+
+def test_mlx_render_rejects_local_emotion_until_backend_supports_it(tmp_path):
+    script = tmp_path / "styled.md"
+    script.write_text("普通文字**強調文字**。", encoding="utf-8")
+    prompt = tmp_path / "prompt.wav"
+    sf.write(prompt, np.zeros(2205), 22_050, subtype="PCM_16")
+
+    with pytest.raises(ValueError, match="local Markdown emotion requires"):
+        render_chapter(
+            script,
+            tmp_path / "chapter.wav",
+            backend="mlx-1.5",
+            prompt_wav=prompt,
+            model_dir=tmp_path / "model",
+            config=PipelineConfig(),
+            backend_factory=lambda *args, **kwargs: FakeBackend(24_000, []),
+        )

@@ -28,6 +28,8 @@ Listen to representative passages covering:
 Do not start a full-book render until the preview is intelligible.
 Listen at emphasis joins; short bold spans may need sentence-level emphasis if
 a phrase-level join sounds abrupt.
+- Local Markdown emotion is an IndexTTS-2.5 feature; MLX 1.5 styled source must
+  fail clearly until that backend exposes an emotion interface.
 
 ## Audio gate
 
