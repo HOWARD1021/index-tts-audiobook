@@ -13,6 +13,26 @@ from typing import Any
 
 
 @dataclass(frozen=True)
+class ChunkTiming:
+    """Timing and audio duration for one rendered chunk."""
+
+    index: int
+    characters: int
+    wall_seconds: float
+    audio_duration_seconds: float
+
+    def __post_init__(self) -> None:
+        if self.index < 1:
+            raise ValueError("chunk index must be positive")
+        if self.characters < 1:
+            raise ValueError("chunk characters must be positive")
+        for name in ("wall_seconds", "audio_duration_seconds"):
+            value = getattr(self, name)
+            if not math.isfinite(value) or value <= 0:
+                raise ValueError(f"chunk {name} must be finite and positive")
+
+
+@dataclass(frozen=True)
 class BenchmarkRun:
     """One externally measured cold or warm backend run."""
 
@@ -24,6 +44,7 @@ class BenchmarkRun:
     model_load_seconds: float = 0.0
     chunk_count: int = 0
     synthesis_calls: int = 0
+    chunk_timings: tuple[ChunkTiming, ...] = ()
 
     def __post_init__(self) -> None:
         if not self.backend.strip():
@@ -41,6 +62,8 @@ class BenchmarkRun:
         for name in ("chunk_count", "synthesis_calls"):
             if getattr(self, name) < 0:
                 raise ValueError(f"{name} must be non-negative")
+        if self.chunk_timings and len(self.chunk_timings) != self.chunk_count:
+            raise ValueError("chunk_timings must match chunk_count")
 
     @property
     def rtf(self) -> float:
@@ -50,6 +73,7 @@ class BenchmarkRun:
 
     def as_dict(self) -> dict[str, Any]:
         result = asdict(self)
+        result["chunk_timings"] = [asdict(timing) for timing in self.chunk_timings]
         result["rtf"] = self.rtf
         return result
 
