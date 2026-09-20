@@ -329,3 +329,36 @@ godev
 - T-2 PASS: added pure `BenchmarkRun`/summary/report contract at the backend-neutral seam with atomic JSON output. Focused red test first failed on missing module; implementation then passed 3 focused tests.
 - Complete verification: 29 passed, 1 skipped; compileall PASS; offline Ruff PASS. No default backend, emotion vector, chunk setting, prompt, manuscript, or runtime changed.
 - T-3 now starts only after tests: real primary runs will use external benchmark root and the T-1 plain-text parity script; all model/audio artifacts stay outside Git.
+
+## [RUN-003] Event (during round A-005)
+
+- T-3 PASS: MLX 1.5 pause-only cold + three warm runs and IndexTTS-2.5 MPS neutral pause-only cold + three warm runs completed in the external benchmark root. Both used identical script SHA-256 `09b52c1800afef10018ae1c20be9706c22e7027ffba345a28e301d6bd67b3437` and prompt SHA-256 `dd077517ab6558b5aab2cb785a2c6e47bf9450f94982cad35cf5f9a1f5366297`.
+- MLX 1.5: cold load 0.694 s; warm median RTF 1.863 (range 1.732–2.726); native mono PCM16/24 kHz.
+- IndexTTS-2.5 MPS: cold load 25.605 s; warm median RTF 4.105 (range 4.097–4.661); native mono PCM16/22.05 kHz. The measured median RTF ratio is 2.20x in favor of MLX 1.5 on this Apple M4 host.
+- T-4 PASS: 32 chunk WAVs and 8 final WAVs pass finite/native-format/duration/checksum validation; objective-validation.json and comparison-report.json are written externally. MLX rail samples are 0%; IndexTTS-2.5 rail samples are 0.2815%.
+- Resume evidence: unchanged artifact scan reused 32 validated chunk files with zero model loads and zero synthesis calls; existing render_chapter resume tests remain in the 29 passed / 1 skipped suite. No backend default or emotion preset changed.
+- T-5 pending: listening.md names the paired warm outputs and naturalness-first questions. Faster MLX must still pass human audiobook listening before any follow-up recommendation.
+
+## [WIP-001] Checkpoint (during round A-005)
+
+- **Finished:** T-1 preflight, T-2 report seam/tests, T-3 real MLX/IndexTTS primary runs, and T-4 objective validation/resume scan.
+
+  1. MLX 1.5 warm median RTF 1.863; IndexTTS-2.5 MPS warm median RTF 4.105.
+  2. 32 chunk WAVs and 8 final WAVs pass native format, finite, duration, and checksum checks.
+  3. Same script/prompt identity confirmed; M4/16 GB host recorded.
+
+- **Running now:** No model process; external paired outputs and listening note are ready.
+
+- **Still to do:** Human listening gate and naturalness-first recommendation.
+
+- **Next work action:** Listen to the paired warm-2 outputs and record timestamped verdicts in listening.md.
+
+- **Checks:** [x] tracker.md | [x] devlog RUN | [x] scope matches tracker
+
+## [RUN-004] Event (during round A-005)
+
+- Independent review initially BLOCKED T-2 because aggregate report runs omitted per-chunk timing, despite raw external logs containing it.
+- Applied red-to-green correction: added typed `ChunkTiming`, per-chunk validation/serialization, and multi-backend grouping coverage. Focused benchmark tests now 5 passed; complete suite 31 passed / 1 skipped; compileall and Ruff PASS.
+- Rebuilt the two external formal reports from unchanged raw model outputs so `runs[].chunk_timings` is now present; no model rerun was needed.
+- Follow-up independent cross-check of implementation commit `08691b2572018ecb70fbacf3eca479e3ef3f810b` returned Outcome PASS, Minimality PASS, Conformance PASS, Verdict PASS. Report is stored under A-005 benchmark execution records.
+- T-5 remains the only pending task and requires human listening of the paired warm outputs.
