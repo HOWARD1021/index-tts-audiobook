@@ -85,9 +85,72 @@ Cross-check implementation: 0dbd5b3d3be9a0b71e67f142b54e14b19313ca58
 
 godev 生成 執行計劃
 
+已生成並固定 execution plan。
+
+  - Plan：.agentflow/artifacts/A-002-execution-plan/plan.md
+  - Tracker：.agentflow/artifacts/A-002-execution-plan/tracker.md
+  - Commit：c7da029
+  - Tracker validation：PASS
+
+  執行順序：
+
+  1. Preflight IndexTTS-2.5 runtime、MPS 與 reference WAV
+  2. 建立隔離 preview 稿
+  3. 使用指定 speaker reference 生成真實 styled preview
+  4. 驗證 WAV、manifest、prompt checksum 與 resume
+  5. 人工聽感驗收，必要時交給 Issue #6 調整策略
+
+  目前下一個安全動作是 T-1：確認 runtime 與 /Users/howard/orca/workspaces/index-tts/horseshoe/prompts/voice.wav。尚未開始生成音檔或
+  修改產品程式。 godev
+
+為何停止
+
+keep  going  godev
+
 ## [RUN-001] Event (during round A-002)
 
 - Route: direct execution plan for frontier GitHub Issue #5; no product source changes or model generation started.
 - Plan: five tasks cover preflight, isolated preparation, real IndexTTS-2.5 generation, objective validation/resume, and human listening gate.
 - Boundary: Issue #6 owns phrase-level versus sentence-level policy; Issue #7 owns the release-quality gate.
 - Evidence: tracker validated; plan and tracker are stored under `.agentflow/artifacts/A-002-execution-plan/`.
+
+## [RUN-002] Event (during round A-002)
+
+- Route: direct operational execution of frozen plan c7da029; owner said `keep  going  godev`. No product implementation or preset changes.
+- Recovery: previous turn was interrupted; no model process or partial render exists. Corrected notebook path to configured `.agentflow/devlog.md`.
+- T-1: runtime/checkpoint/reference exist; torch 2.8.0 MPS allocation passes; prompt is finite mono PCM16/22050 Hz, 9.612 seconds, SHA-256 dd077517ab6558b5aab2cb785a2c6e47bf9450f94982cad35cf5f9a1f5366297.
+- Runtime imports pass using existing pure-Python OpenCC loaded by explicit package path; no dependency installation or environment changes. FP32, MPS fallback, QwenEmotion disabled are retained.
+- Ownership: preserve unrelated untracked docs/apple-audiobook-conversion.md. Only task records and external isolated preview artifacts will change; no stream needed for these disjoint operational paths.
+
+## [RUN-003] Event (during round A-002)
+
+- T-1/T-2 PASS: required checkpoints and auxiliary resources exist; runtime imports and MPS allocation pass. Output is /Users/howard/index-tts-workspace/previews/issue-5-20260920, outside the repository.
+- Prepared chapter-four lines 125, 127, 129; only isolated copy adds italic to the final clause of line 127 and bold around line 129. max_chunk_chars=120 creates four chunks and nine spans, including cross-chunk bold. Source wording and canonical manuscript remain unchanged.
+- Exact defaults retained for all emotion vectors/alpha and 80 ms local pauses. Clean-text checks and ZHE5 annotation PASS; prepared.json and preparation.json hold private evidence externally.
+- T-3 starts with one instrumented backend factory and seed 42; existing runtime Python loads only the existing pure-Python OpenCC package by explicit path. No dependency changes. Resume mode will fail if any backend load is attempted.
+
+## [RUN-004] Event (during round A-002)
+
+- Preparation correction: added italic marker produced one comma-only span. Interrupted first generation gracefully (exit 130) before reaching it; preserved attempt under issue-5-20260920.
+- Moved only the isolated italic opening marker before its comma, preserving narration text, canonical source, and all profiles. Revised output root: /Users/howard/index-tts-workspace/previews/issue-5-20260920-v2. Four chunks / eight spans; every span now contains spoken characters; all T-2 checks pass.
+- Verification: pytest 26 passed, 1 opt-in MLX skip; compileall and offline Ruff PASS. No product-source changes. Tracker mechanical proof-field omission corrected and validation PASS.
+
+## [RUN-005] Event (during round A-002)
+
+- Correction to RUN-004: v2 preparation did NOT pass. Adjacent closing bold/opening italic markers formed a triple-star sequence and left a raw star; the preparation assertion caught this. A shell sequencing mistake nevertheless started the v2 process; it was interrupted (exit 130), and is no longer running.
+- v3 moves the italic marker after the ordinary words 這是, preventing both punctuation-only and adjacent-marker cases. Direct assertions now PASS for all styles, no raw markers, every span containing spoken characters, ZHE5, and cross-chunk bold. Final fixture: four chunks / nine spans.
+- Runtime/output root is /Users/howard/index-tts-workspace/previews/issue-5-20260920-v3. Prior attempts retained for diagnosis. No product or canonical manuscript changes; only isolated test marker placement changed.
+
+## [RUN-006] Event (during round A-002)
+
+- WIP scope comparison: actual owned changes are .agentflow/devlog.md, tracker.md, preflight.json, and external preview artifacts. These match task records plus external outputs; unrelated docs/apple-audiobook-conversion.md is untouched. No product code, preset, or canonical source changes.
+- T-1/T-2 complete; T-3 session 99754 is rendering v3 with one loaded backend; first span validated (3.31 s). T-4 and human T-5 remain.
+- Tracker validation PASS; pytest 26 passed / 1 skipped, Ruff and compileall PASS. Next: complete generation, objective WAV/manifest checks, unchanged-input resume, then human listening.
+
+## [WIP-001] Checkpoint (during round A-002)
+
+- **Finished:** T-1 runtime/MPS/reference preflight and T-2 isolated preparation; code suite and static checks pass.
+- **Running now:** T-3 real MPS render in external issue-5-20260920-v3; two of nine spans generated.
+- **Still to do:** Complete render, validate WAVs/manifest/checksums/resume, and obtain human listening verdict.
+- **Next work action:** Monitor current model session through completion and execute validate-preview.py.
+- **Checks:** [x] tracker.md | [x] devlog RUN | [x] scope matches tracker

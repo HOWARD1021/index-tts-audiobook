@@ -1,0 +1,111 @@
+{
+  "plan_commit": "c7da029",
+  "external_artifacts": "/Users/howard/index-tts-workspace/previews/issue-5-20260920-v3",
+  "runtime_commit": "4f8792ff120cd3ea470dd511e997a17c86cddd10",
+  "runtime_file_sha256": "333c0c1a140206e18a7bfe286efd9979571e6dc1370a8b2f4a18eef7619ac5d5",
+  "runtime_config_sha256": "18adf417be3e8f5e2e48e30f7420c719170a6870619436250f360d626877870e",
+  "checkpoint_sizes": {
+    "config.yaml": 2860,
+    "gpt.pth": 3259599833,
+    "codec.pth": 607290935,
+    "s2mel.pth": 414908601,
+    "feat1.pt": 57170,
+    "feat2.pt": 374866,
+    "wav2vec2bert_stats.pt": 9343,
+    "multilingual_zh_ja_yue_char_del.tiktoken": 907395,
+    "hf_cache/campplus_cn_common.bin": 28036335
+  },
+  "torch": "2.8.0",
+  "python": "3.11.13",
+  "mps_available": true,
+  "mps_allocation_result": 1.0,
+  "mps_fallback": "1",
+  "precision": "FP32",
+  "qwen_emotion": false,
+  "prompt_sha256": "dd077517ab6558b5aab2cb785a2c6e47bf9450f94982cad35cf5f9a1f5366297",
+  "prompt_ffprobe": {
+    "programs": [],
+    "stream_groups": [],
+    "streams": [
+      {
+        "codec_name": "pcm_s16le",
+        "sample_fmt": "s16",
+        "sample_rate": "22050",
+        "channels": 1
+      }
+    ],
+    "format": {
+      "duration": "9.611610"
+    }
+  },
+  "prompt_finite": true,
+  "prompt_peak": 0.999969482421875,
+  "source_sha256": "451e440c0f168152e5ffd1df538379f44d6fe66315b6204800fdfc601c0c132f",
+  "chunks": 4,
+  "spans": 9,
+  "preparation_checks": "PASS: clean markers; base/bold/italic vectors; ZHE5; cross-chunk bold; no punctuation-only spans",
+  "external_opencc": "Only existing pure-Python opencc package loaded from project environment; no installation or mixed site-packages",
+  "config": {
+    "language": "ZH",
+    "device": "mps",
+    "max_chunk_chars": 120,
+    "max_text_tokens_per_segment": 100,
+    "interval_silence_ms": 250,
+    "inter_chunk_pause_ms": 450,
+    "emotion_span_pause_ms": 80,
+    "text_normalization": true,
+    "use_random": false,
+    "use_qwen_emo": false,
+    "sample_rate": 22050,
+    "channels": 1,
+    "max_seconds_per_char": 0.8,
+    "max_mel_tokens": 800,
+    "temperature": 1.0,
+    "top_k": 30,
+    "top_p": 0.8,
+    "repetition_penalty": 10.0,
+    "speed": 1.0,
+    "seed": 42,
+    "memory_limit_gb": 8.0,
+    "quantize_bits": null,
+    "emotion": {
+      "vector": [
+        0.3,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.15,
+        0.35
+      ],
+      "alpha": 1.0,
+      "bold_vector": [
+        0.45,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.2,
+        0.1
+      ],
+      "bold_alpha": 1.0,
+      "italic_vector": [
+        0.15,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.2,
+        0.0,
+        0.45
+      ],
+      "italic_alpha": 1.0
+    }
+  },
+  "interrupted_attempts": [
+    "/Users/howard/index-tts-workspace/previews/issue-5-20260920",
+    "/Users/howard/index-tts-workspace/previews/issue-5-20260920-v2"
+  ]
+}
