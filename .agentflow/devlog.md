@@ -4,17 +4,17 @@ Project: index-tts-audiobook
 
 Notebook: .agentflow/devlog.md — root.
 
-Current commit: e234145 — A-006 production rerender/upload/cleanup plan; A-007 destination inventory recorded.
+Current commit: 3828041 — A-006 production rerender/upload/cleanup plan now uses a chapter-four pilot gate.
 
 Tests/scenarios: 31 passed, 1 opt-in MLX skip; Ruff/compileall PASS; 32 chunk WAVs and 8 final WAVs validated.
 
 Configuration: ag.json — validated; MLX 1.5 and IndexTTS-2.5 external runtimes; primary runs used same script/prompt identity.
 
-Proven: Original 13-chapter local audio/feed inventory and R2 destination recovered; Issue #9 pronunciation gate and A-006 production delivery plan are recorded.
+Proven: Original 13-chapter local audio/feed inventory and R2 destination recovered; chapter-four pilot-first gate recorded before production rerender.
 
 Open: Freeze Issue #9 pronunciation form before production rerender; Issue #6 emotion policy; Issue #7 headroom.
 
-Next: lock the successful pronunciation candidate, then stage 13-chapter IndexTTS-2.5 + Yuanyuan rerender; no upload/cleanup before validation.
+Next: lock the successful pronunciation candidate, then stage only chapter 04; no full rerender/upload/cleanup before pilot validation.
 
 Artifacts: A-002 through A-006 Agentflow records; benchmark audio in `/Users/howard/index-tts-workspace/previews/`; production destination remains to be resolved in A-006 T-1.
 
@@ -524,5 +524,48 @@ Host gate: PASS
 ---
 
 # → Ask / A-008
+
+我們下一步要做的是不是先生成1集？
+
+## [RUN-001] Event (during round A-008)
+
+- Owner asked whether the next step should be one chapter first.
+- Decision: yes. Use `04-chapter-four` as the pilot because it contains `伴隨著`, the Issue #9 pronunciation gate, and the previously reviewed styled passage.
+- Pilot gate: freeze pronunciation form, render chapter 04 to new staging, validate and listen; only after PASS proceed to the remaining 12 chapters. No upload, overwrite, or test cleanup before pilot and full destination gates.
+- Plan/tracker updated; no model loaded, production render, upload, or deletion occurred in this round.
+
+# ← Reply / A-008
+* _2026-09-20 17:10:00 (GPT-5)_
+
+## [SUMMARY]
+
+- 對，下一步先生成 1 集，不直接重生 13 集。
+- Pilot 選第 04 章，因為它包含 `伴隨著`、Issue #9 pronunciation gate，以及之前驗收過的代表性內容。
+- Pilot 通過 pronunciation、聲音、WAV/manifest/checksum 後，才生成剩餘 12 集。
+
+## [FINAL REPORT]
+
+A-006 plan 已更新為 pilot-first：
+
+1. 凍結成功 pronunciation form、Yuanyuan prompt、chapter-04 source 與 staging output name。
+2. 用 IndexTTS-2.5 + Yuanyuan 只生成 `04-chapter-four` 到新的 staging 目錄。
+3. 驗證 WAV、manifest、checksum、headroom，並人工聽 `伴隨著` 與整體聲音。
+4. Pilot PASS 後才生成其餘 12 集。
+5. 全部 production files 驗證及 destination dry-run PASS 後，才上傳 R2。
+6. 上傳 checksum 驗證完成後，才清理 allowlist 內的測試檔案。
+
+目前沒有生成、上傳、覆蓋或刪除任何檔案。
+
+Cross-check review: `.agentflow/artifacts/A-008-pilot-plan/cross-check-report.md`
+Cross-check implementation: 3828041ba3ce303150bd38720a9b677af1c0db2f
+Host gate: PASS
+
+## Questions (batched — each with a suggested default)
+
+- None. The next execution gate is the chapter-four pilot after pronunciation form freeze.
+
+---
+
+# → Ask / A-009
 
 +

@@ -4,11 +4,11 @@
 
 - **Work key:** A-006-production-rerender-upload-cleanup.
 
-- **Active Ask:** A-007.
+- **Active Ask:** A-008.
 
 - **Goal:** Plan and execute the verified Yuanyuan/IndexTTS-2.5 production rerender, original-destination publication, and allowlisted test cleanup.
 
-- **Last update:** 2026-09-20 17:35:00 Asia/Taipei.
+- **Last update:** 2026-09-20 17:10:00 Asia/Taipei.
 
 - **Evidence commit:** uncommitted.
 
@@ -27,7 +27,7 @@
 ## Accepted task checklist
 
 - [ ] **T-1:** Resolve and freeze source scripts, production output list, Yuanyuan prompt checksum, accepted pronunciation form, original destination/object keys, and overwrite policy; proof requires production-inputs.json and destination inventory. Source: A-006.
-- [ ] **T-2:** Stage a new IndexTTS-2.5 + Yuanyuan production rerender with resumable manifests and no in-place overwrite; proof requires staged manifests, WAVs, and logs. Source: A-006.
+- [ ] **T-2:** Stage a new IndexTTS-2.5 + Yuanyuan production rerender beginning with a chapter-four pilot that contains `伴隨著`; proceed to the remaining chapters only after pilot pronunciation/listening PASS, with resumable manifests and no in-place overwrite; proof requires pilot/full manifests, WAVs, listening verdict, and logs. Source: A-006.
 - [ ] **T-3:** Validate staged WAVs, checksums, manifests, headroom, pronunciation fixture, and representative human listening; proof requires production-validation.json and release note. Source: A-006.
 - [ ] **T-4:** Publish only after dry-run diff PASS, then verify original destination objects/files, checksums, chapter names, and catalog/feed metadata; proof requires upload receipt and post-upload inventory. Source: A-006.
 - [ ] **T-5:** Remove only the explicit test-artifact allowlist after publication verification; preserve production files, canonical source, models, prompts, and final manifests; proof requires cleanup receipt and after-inventory. Source: A-006.
@@ -44,7 +44,7 @@
 
 - **Active blocker or running process:** None; planning only.
 
-- **Next safe action:** Freeze the successful Issue #9 pronunciation form, then stage production rerender; no upload or cleanup before that gate.
+- **Next safe action:** Freeze the successful Issue #9 pronunciation form, then stage a chapter-four pilot; no full rerender, upload, or cleanup before the pilot gate.
 
 - **Expected changed files:** `.agentflow/artifacts/A-006-production-rerender-upload-cleanup/` and external staged production artifacts; no product source changes expected unless Issue #9 requires a pronunciation fix first.
 

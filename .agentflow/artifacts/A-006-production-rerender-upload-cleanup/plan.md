@@ -57,12 +57,18 @@ Out of scope:
    - Proof: frozen `production-inputs.json` and destination inventory.
 
 2. **Stage the production rerender**
+   - First render only `04-chapter-four`, because it contains `伴隨著`, the
+     Issue #9 pronunciation gate, and the previously reviewed styled passage.
    - Render into a new external staging directory with a new run identity;
      never overwrite the old production files in place.
    - Use one IndexTTS-2.5 model session, production chunking, deterministic
      settings, pronunciation fixture coverage, and resumable manifests.
+   - Stop after the chapter-four pilot if pronunciation, pacing, or voice
+     quality fails; render the remaining 12 chapters only after the pilot
+     listening PASS.
    - Keep private prompts, checkpoints, generated WAVs, and caches outside Git.
-   - Proof: staged manifest, per-chunk WAVs, final WAVs, and generation logs.
+   - Proof: staged pilot manifest, per-chunk WAVs, final WAV, generation logs,
+     and a pilot listening verdict before full-book staging.
 
 3. **Run objective and acoustic release checks**
    - Validate every staged file as non-empty finite mono PCM16 at the expected
@@ -107,8 +113,9 @@ Out of scope:
 
 ## Completion condition
 
-The plan is complete only when the verified production rerender is published to
-the original destination, destination checksums/catalog are recorded, and the
+The plan is complete only when the chapter-four pilot passes pronunciation and
+listening, the remaining production rerender is verified and published to the
+original destination, destination checksums/catalog are recorded, and the
 allowlisted test artifacts are removed without touching production or canonical
 inputs. The final report must name any artifacts intentionally retained.
 
