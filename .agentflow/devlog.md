@@ -315,4 +315,17 @@ Host gate: PASS
 
 # → Ask / A-005
 
-+
+godev
+
+## [RUN-001] Event (during round A-005)
+
+- Owner said `godev`; resumed A-004 Issue #8 benchmark execution at T-1.
+- T-1 PASS: external preflight `/Users/howard/index-tts-workspace/previews/issue-8-benchmark-20260920` confirms MLX 1.5 runtime/model, IndexTTS-2.5 runtime/checkpoints, MPS availability, MLX GPU device, Apple M4/16 GB host, identical horseshoe prompt checksum `dd077517ab6558b5aab2cb785a2c6e47bf9450f94982cad35cf5f9a1f5366297`, and no audio before run.
+- Fixed plain-text benchmark script SHA-256 is `09b52c1800afef10018ae1c20be9706c22e7027ffba345a28e301d6bd67b3437`. The prior `<著|ZHE5>` annotation is removed for primary cross-backend parity because MLX 1.5 has no pronunciation-annotation interface; this limitation is recorded in preflight.json.
+- No checkpoint was loaded, no benchmark audio was generated, and no product source/preset/manuscript changed. Tracker T-1 checked; T-2 is next.
+
+## [RUN-002] Event (during round A-005)
+
+- T-2 PASS: added pure `BenchmarkRun`/summary/report contract at the backend-neutral seam with atomic JSON output. Focused red test first failed on missing module; implementation then passed 3 focused tests.
+- Complete verification: 29 passed, 1 skipped; compileall PASS; offline Ruff PASS. No default backend, emotion vector, chunk setting, prompt, manuscript, or runtime changed.
+- T-3 now starts only after tests: real primary runs will use external benchmark root and the T-1 plain-text parity script; all model/audio artifacts stay outside Git.
