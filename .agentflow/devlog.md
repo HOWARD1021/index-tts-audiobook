@@ -4,19 +4,19 @@ Project: index-tts-audiobook
 
 Notebook: .agentflow/devlog.md — root.
 
-Current commit: 0dbd5b3 — local Markdown emotion implementation; record commits follow.
+Current commit: df99169 — verified real preview evidence; closeout record commits follow.
 
-Tests/scenarios: 26 passed, 1 skipped; chapter 04 planning and emphasis boundary checks passed.
+Tests/scenarios: 26 passed, 1 opt-in MLX skip; Ruff/compileall PASS; 14 WAVs and zero-model resume PASS.
 
-Configuration: ag.json — schema v7; validated for codex this round.
+Configuration: ag.json — validated; IndexTTS-2.5 / MPS / FP32 / voice.wav; unchanged emotion defaults.
 
-Proven: local emphasis vectors, cleanup, pronunciation overrides, chunk-boundary carry, and MLX rejection are verified.
+Proven: T-1 through T-4 pass; 67.36-second styled preview, one model session / nine syntheses; independent cross-check and Host gate PASS.
 
-Open: real IndexTTS-2.5 multi-span acoustic listening remains.
+Open: T-5 human listening; 2.2701% amplitude-rail samples may indicate clipping. Issue #5 remains open.
 
-Next: use the new local-emotion workflow for the next preview render.
+Next: listen using A-002 listening.md and record verdict; route seam/emotion findings to Issue #6 if needed.
 
-Artifacts: `.agentflow/artifacts/A-001-local-emotion/`.
+Artifacts: .agentflow/artifacts/A-002-execution-plan/; audio in /Users/howard/index-tts-workspace/previews/issue-5-20260920-v3/preview.wav.
 
 Archived eras: none.
 
@@ -163,3 +163,63 @@ keep  going  godev
 - Quality warning: 33,716 of 1,485,242 final samples (2.2701%) reach ±32,767; external runtime clamps at that amplitude. Format checks pass but clipping/distortion requires human listening. Runtime also emitted GenerationMixin and past_key_values deprecation warnings; no truncation warning observed.
 - T-5 pending: owner was given the audio link and listening question. No human verdict yet, so Issue #5 is not complete. listening.md provides timestamps and Issue #6 / #7 handoff boundaries; no external messages were sent.
 - Scope comparison: all current owned changes are task records under .agentflow and external preview artifacts; unrelated docs/apple-audiobook-conversion.md remains untouched. No source, preset, canonical manuscript, dependency, or product-document changes in this execution. Tracker validation PASS.
+
+## [RUN-008] Event (during round A-002)
+
+- Required final cross-check completed via external-runner-v1, codex-default / gpt-5.6-terra / high, independent no-remote clone, closed stdin, exit 0. Exact reviewed commit: df99169a860066d6da096c51ca6f9cd3bc981a55.
+- Outcome PASS; Minimality PASS; Conformance PASS; Verdict PASS for objective execution and honest pending human gate. Reviewer reran 26 passing tests / 1 skip and independently checked all WAV inventory/hashes. Human listening was explicitly not performed.
+- Host gate: PASS. Read full report; verified trusted report SHA-256 and clone boundary (only declared cross-check-report.md changed). Imported report without altering substantive conclusions. Clone is not an OS sandbox; inherited credential/network confinement remains unproven.
+- T-5 remains blocked only on human listening. No further model work is running, no product changes are pending, and no extra review cycle is required for record-only closeout.
+
+# ← Reply / A-002
+* _2026-09-20 09:15:22 (GPT-6)_
+
+## [SUMMARY]
+
+- 固定計畫已執行至 T-4：真實 styled preview 長 67.36 秒，WAV／manifest／checksum／resume 檢查通過。
+- T-5 等待人工聽感；Issue #5 尚未完成。
+- 約 2.27% 樣本達振幅上限，可能削波；未改 presets 或產品程式。
+
+## [FINAL REPORT]
+
+### 固定 execution plan 與 keep going godev
+
+已接續 plan commit c7da029，完成 T-1 至 T-4。證據 commit 為 df99169a860066d6da096c51ca6f9cd3bc981a55。
+
+音檔：[preview.wav](/Users/howard/index-tts-workspace/previews/issue-5-20260920-v3/preview.wav)，長 67.3579138322 秒。全部私人稿件、音檔與生成 log 保存在該外部目錄，不進 Git。
+
+T-1 通過：torch 2.8.0、MPS 實際運算、checkpoint 與 runtime import 正常；指定 `/Users/howard/orca/workspaces/index-tts/horseshoe/prompts/voice.wav` 是 9.612 秒 mono PCM16/22050 Hz。SHA-256：dd077517ab6558b5aab2cb785a2c6e47bf9450f94982cad35cf5f9a1f5366297。Runtime 使用已有 Python 環境及指定路徑的既有 pure-Python OpenCC，未安裝依賴。
+
+T-2 通過：隔離複製第 4 章 125、127、129 行，加入斜體／長粗體；max_chunk_chars=120，4 chunks／9 spans。普通、粗體、斜體、ZHE5、跨 chunk 粗體、無 raw markers 的檢查全部通過。首次產生獨立逗號；第二次相鄰標記留下 raw star，而且 shell sequencing 錯誤讓 assertion 失敗後仍啟動模型，已中止；第三版調整副本標記位置後通過。兩次中止記錄保留，canonical manuscript 文字未改。
+
+T-3 通過：IndexTTS-2.5／MPS／FP32／QwenEmotion off、use_random=false、seed=42；維持全部既有 emotion vectors／alpha、80 ms local pause 與 450 ms chunk pause。一次模型載入，九次 synthesis，exit 0；不宣稱跨硬體重新生成必然 bit-identical。
+
+T-4 通過：全部 14 WAV 非空、finite、mono PCM16/22050 Hz，duration 與 joins 長度檢查通過。Manifest clean-text／markup／styled-source／prompt／runtime/config／實際 vectors 與 checksum 一致。Resume exit 0，4 chunks 全部 reused、0 模型載入、0 synthesis；13 個 span/chunk WAV 的 checksum 與 mtime 不變，final checksum 不變：d35111901e757046349ba134d890b3a8170ed5bf46ddc6ac9160b2926a5d8c62。
+
+重現 resume：在 `/Users/howard/orca/workspaces/index-tts/horseshoe` 執行 `PYTORCH_ENABLE_MPS_FALLBACK=1 .venv/bin/python -u /Users/howard/index-tts-workspace/previews/issue-5-20260920-v3/run-preview.py resume`。實際 command、config、preparation、per-call vectors、model identity、WAV hashes 與 log 指標都留在外部目錄及本地 validation.json。
+
+T-5 尚待人工：粗體在 00:03.39、00:24.27；斜體在 00:29.25；長粗體跨 chunk 接縫在 00:49.68。請依 listening.md 確認人聲、伴隨著發音、標記洩漏、情緒強度、接縫及失真。未收到人工判定，不關閉 Issue #5。
+
+風險：33,716／1,485,242 樣本（2.2701%）到達 ±32,767，上游 runtime 在此 clamp，可能有削波；既有客觀檢查不包含 peak gate。另有 GenerationMixin／past_key_values 棄用警告，未觀察到 max_mel truncation 警告。接縫／情緒策略交 Issue #6；peak/headroom release gate 屬 Issue #7；沒有發送外部 issue 訊息。
+
+驗證：26 pytest passed、1 opt-in MLX skipped；Ruff、compileall、tracker validation PASS。此輪只修改 `.agentflow/devlog.md` 與 A-002 task records（tracker、preflight、validation、listening 及 review evidence）；重用現有管線，未新增產品抽象或依賴。原有 untracked `docs/apple-audiobook-conversion.md` 未修改。
+
+Cross-check review: .agentflow/artifacts/A-002-execution-plan/cross-check-report.md
+Cross-check implementation: df99169a860066d6da096c51ca6f9cd3bc981a55
+Host gate: PASS
+
+### 為何先前停止
+
+先前回合遭外部中斷，並非等待重新授權或模型生成失敗；最初 notebook 路徑填錯也已修正。收到 keep going 後持續執行至客觀驗證完成。目前唯一未完成的 accepted task 是人工聽感。
+
+## Questions (batched — each with a suggested default)
+
+- 請聽 preview 後回覆上述項目是否通過，若有問題請附大約秒數。
+- Suggested default: 尚未聽則保留 T-5 pending，不關閉 Issue #5、不調整 presets。
+- ans:
+
+---
+
+# → Ask / A-003
+
++

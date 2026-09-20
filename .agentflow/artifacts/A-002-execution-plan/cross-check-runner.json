@@ -1,0 +1,66 @@
+{
+  "status": "completed",
+  "exit_code": 0,
+  "stdin_closed": true,
+  "timed_out": false,
+  "stalled": false,
+  "process": {
+    "exit_code": 0,
+    "signal": null,
+    "error": null
+  },
+  "working_directory": "/private/var/folders/j_/tq9c1dm51s5bbb_pv5m170900000gn/T/agentflow-external-runner-b5aFjW/clone",
+  "clone": {
+    "root": "/private/var/folders/j_/tq9c1dm51s5bbb_pv5m170900000gn/T/agentflow-external-runner-b5aFjW/clone",
+    "created": true,
+    "independent": true,
+    "remotes": [],
+    "git_directory": "/private/var/folders/j_/tq9c1dm51s5bbb_pv5m170900000gn/T/agentflow-external-runner-b5aFjW/clone/.git",
+    "changed": true,
+    "diff_identity": {
+      "before": "a21943645de99751f0e7ba002cd136bb7beda2a6f84b46f48ac83a044f9f96f6",
+      "after": "1904fd56c2ff9550c57410bf32e00df4aae52104130e82c005e4e4c77ac4a776"
+    }
+  },
+  "clone_diff_identity": {
+    "before": "a21943645de99751f0e7ba002cd136bb7beda2a6f84b46f48ac83a044f9f96f6",
+    "after": "1904fd56c2ff9550c57410bf32e00df4aae52104130e82c005e4e4c77ac4a776",
+    "changed": true
+  },
+  "assurance": {
+    "os_level_confinement": "not_proven",
+    "remote_provider_cancellation": "not_proven"
+  },
+  "limitations": [
+    "The disposable clone does not prove OS-level confinement.",
+    "Local process termination does not prove remote-provider cancellation."
+  ],
+  "dispatch": {
+    "executable": "/Users/howard/.bun/bin/codex",
+    "profile": "codex-default",
+    "model": "gpt-5.6-terra",
+    "effort": "high",
+    "route": "external-runner-v1"
+  },
+  "result_file": {
+    "path": "/private/var/folders/j_/tq9c1dm51s5bbb_pv5m170900000gn/T/agentflow-external-runner-b5aFjW/clone/cross-check-report.md",
+    "exists": true,
+    "parse_error": null,
+    "byte_length": 4609,
+    "sha256": "d025bbf22695235811d339ea8c39bf10e816f7cb4eab2c0ed4b5ca545c3fdc08",
+    "truncated": true,
+    "error": null
+  },
+  "stdout_identity": {
+    "byte_length": 487,
+    "sha256": "f6584b7270357a238b517f2cbc7a2b7d0093b88cdd0a814a9002d6f6e322863f",
+    "truncated": false
+  },
+  "stderr_identity": {
+    "byte_length": 112439,
+    "sha256": "1795d47e798cd4e01a1d0fe415e12d8dc1db7d898a5cad4a013d7704894610a4",
+    "truncated": true
+  },
+  "raw_local_evidence": "/Users/howard/index-tts-workspace/previews/issue-5-20260920-v3/cross-check-runner-full.json",
+  "host_acceptance": "PASS: complete report inspected, hash verified, only declared clone report changed; human listening pending"
+}

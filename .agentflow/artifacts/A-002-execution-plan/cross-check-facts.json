@@ -1,0 +1,17 @@
+{
+  "changed_files": [
+    ".agentflow/artifacts/A-002-execution-plan/listening.md",
+    ".agentflow/artifacts/A-002-execution-plan/plan.md",
+    ".agentflow/artifacts/A-002-execution-plan/preflight.json",
+    ".agentflow/artifacts/A-002-execution-plan/tracker.md",
+    ".agentflow/artifacts/A-002-execution-plan/validation.json",
+    ".agentflow/devlog.md",
+    "docs/specs/2026-09-20-local-markdown-emotion.md"
+  ],
+  "changed_lines": 807,
+  "behavior_change": false,
+  "trust_boundary": false,
+  "broad_change": false,
+  "consequential_change": false,
+  "owner_control": "default"
+}
