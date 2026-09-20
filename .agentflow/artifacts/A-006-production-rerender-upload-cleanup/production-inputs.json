@@ -1,5 +1,5 @@
 {
-  "status": "PASS_WITH_PRONUNCIATION_FORM_PENDING",
+  "status": "PASS",
   "source_dir": "/Users/howard/Downloads/幽靈的禮物/volume-price-analysis-en-chapters/zh",
   "script_dir": "/Users/howard/Downloads/幽靈的禮物/volume-price-analysis-en-chapters/zh-simplified-tts/scripts",
   "local_audio_dir": "/Users/howard/Downloads/幽靈的禮物/volume-price-analysis-en-chapters/zh-simplified-tts/audio",
@@ -34,7 +34,7 @@
   },
   "previous_backend": "mlx-1.5",
   "production_backend_candidate": "indextts-2.5",
-  "pronunciation_form": "PENDING_ISSUE_9_CANDIDATE_CONFIRMATION",
+  "pronunciation_form": "plain-text: 伴随着 (accepted Yuanyuan candidate)",
   "destination_resolution": "PASS: local audio/feed plus R2 bucket/public base recovered from publish_podcast.py and feed.xml; no upload or deletion performed",
   "cleanup_rule": "allowlist only after post-upload checksum verification; use recoverable Trash for local test artifacts"
 }

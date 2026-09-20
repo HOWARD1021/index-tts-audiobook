@@ -12,8 +12,11 @@ from opencc import OpenCC
 HEADING_RE = re.compile(r"^\s{0,3}#{1,6}\s*", re.MULTILINE)
 THEMATIC_BREAK_RE = re.compile(r"(?m)^[ \t]*(?:\*{3,}|-{3,}|_{3,})[ \t]*$\n?")
 PRONUNCIATION_OVERRIDES = {
-    "伴随著": "伴随<著|ZHE5>",
-    "伴随着": "伴随<着|ZHE5>",
+    # The real Yuanyuan + IndexTTS-2.5 acceptance test selected plain text.
+    # Explicitly normalize both source spellings to avoid the unreliable
+    # <字|ZHE5> annotation path for this word.
+    "伴随著": "伴随着",
+    "伴随着": "伴随着",
 }
 MARKDOWN_EMPHASIS_RE = re.compile(
     r"(?<!\*)\*{1,3}([^*\n]+?)\*{1,3}(?!\*)"

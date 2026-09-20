@@ -38,7 +38,7 @@ def test_prepare_narration_marks_light_tone_for_ban_sui_zhe():
 
     prepared = prepare_narration_text(source)
 
-    assert prepared == "伴随<著|ZHE5>大实体 K 线。\n"
+    assert prepared == "伴随着大实体 K 线。\n"
 
 
 def test_prepare_narration_removes_nonspoken_quote_and_parenthesis_marks():

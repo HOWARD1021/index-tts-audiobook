@@ -33,8 +33,8 @@ Create one canonical narration-preparation and rendering workflow:
    filler words, thematic breaks, and other known non-spoken markers.
 5. Preserve meaningful punctuation such as `，。！？……——` for natural pauses
    and intonation.
-6. Apply reviewed pronunciation overrides, including the light-tone annotation
-   for `伴隨著`.
+6. Apply reviewed pronunciation overrides, including the real-model accepted
+   plain-text pronunciation for `伴隨著`.
 7. Split the prepared narration into resumable chunks without losing an active
    emphasis span at a chunk boundary.
 8. Render ordinary, bold, and italic spans with their respective emotion
@@ -129,8 +129,9 @@ Create one canonical narration-preparation and rendering workflow:
   exclamation mark or question mark as an emotion vector; punctuation supplies
   prosody, while Markdown emphasis supplies explicit local emotion metadata.
 - Pronunciation overrides remain deterministic and reviewed. The `伴隨著`
-  override uses IndexTTS-2.5's supported light-tone annotation rather than
-  changing the visible spoken wording.
+  override currently normalizes to the accepted plain-text `伴随着` form,
+  because the real Yuanyuan listening gate found the explicit annotation path
+  acoustically unreliable.
 - Chunk manifests include both clean text identity and styled-source identity,
   so a formatting-only emotion change cannot reuse stale WAV output.
 - MLX 1.5 remains supported for plain narration, but styled source is rejected

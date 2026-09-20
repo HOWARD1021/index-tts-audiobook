@@ -236,7 +236,7 @@ def test_render_prepares_source_markdown_before_synthesis(tmp_path):
     assert [call[1] for call in calls] == [
         "价格的小幅上涨是由",
         "巨大的成交量",
-        "产生的，伴随<著|ZHE5>震荡。",
+        "产生的，伴随着震荡。",
     ]
 
 

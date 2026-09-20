@@ -59,7 +59,7 @@ or loading a model.
 Every `plan` and `render` run applies the canonical narration preparation before
 chunking: Traditional-to-Simplified conversion, removal of non-spoken Markdown
 and delimiter marks, speech-cue/filler cleanup, and known pronunciation
-overrides such as `伴随<著|ZHE5>`. Meaningful punctuation is preserved so the
+overrides such as the reviewed plain-text `伴随着` pronunciation case. Meaningful punctuation is preserved so the
 TTS model can use it for natural pauses and intonation. Markdown emphasis is
 captured before its delimiters are removed: bold spans use `bold_vector`, italic
 spans use `italic_vector`, and ordinary text uses the base emotion vector.

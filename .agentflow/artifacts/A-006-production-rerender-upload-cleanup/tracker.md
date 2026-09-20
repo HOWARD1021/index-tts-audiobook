@@ -4,11 +4,11 @@
 
 - **Work key:** A-006-production-rerender-upload-cleanup.
 
-- **Active Ask:** A-010.
+- **Active Ask:** A-011.
 
 - **Goal:** Plan and execute the verified Yuanyuan/IndexTTS-2.5 production rerender, original-destination publication, and allowlisted test cleanup.
 
-- **Last update:** 2026-09-20 17:45:00 Asia/Taipei.
+- **Last update:** 2026-09-20 17:15:00 Asia/Taipei.
 
 - **Evidence commit:** uncommitted.
 
@@ -20,13 +20,13 @@
 
 - **Total:** 5.
 
-- **Completed:** 0.
+- **Completed:** 1.
 
-- **Remaining:** 5.
+- **Remaining:** 4.
 
 ## Accepted task checklist
 
-- [ ] **T-1:** Resolve and freeze source scripts, production output list, Yuanyuan prompt checksum, accepted pronunciation form, original destination/object keys, and overwrite policy; proof requires production-inputs.json and destination inventory. Source: A-006.
+- [x] **T-1:** Resolve and freeze source scripts, production output list, Yuanyuan prompt checksum, accepted pronunciation form, original destination/object keys, and overwrite policy; proof requires production-inputs.json and destination inventory. Source: A-011. Proof: production-inputs.json and requirements-audit.md.
 - [ ] **T-2:** Stage a new IndexTTS-2.5 + Yuanyuan production rerender beginning with a chapter-four pilot that contains `伴隨著`; proceed to the remaining chapters only after pilot pronunciation/listening PASS, with resumable manifests and no in-place overwrite; proof requires pilot/full manifests, WAVs, listening verdict, and logs. Source: A-006.
 - [ ] **T-3:** Validate staged WAVs, checksums, manifests, headroom, pronunciation fixture, and representative human listening; proof requires production-validation.json and release note. Source: A-006.
 - [ ] **T-4:** Publish only after dry-run diff PASS, then verify original destination objects/files, checksums, chapter names, and catalog/feed metadata; proof requires upload receipt and post-upload inventory. Source: A-006.
@@ -38,13 +38,13 @@
 
 ## Current recovery
 
-- **Current item:** T-1.
+- **Current item:** T-2.
 
-- **Last proven result:** Requirements audit recorded: destination/reference/output inventory PASS; pronunciation form is the only pre-pilot blocker; frontend monitor is out of scope.
+- **Last proven result:** T-1 PASS: destination/output/reference frozen and plain-text `伴随着` pronunciation accepted from Yuanyuan candidate listening.
 
 - **Active blocker or running process:** None; planning only.
 
-- **Next safe action:** Record the accepted Issue #9 candidate, then stage only chapter 04; no full rerender, upload, or cleanup before the pilot gate.
+- **Next safe action:** Stage only chapter 04 with IndexTTS-2.5 + Yuanyuan; validate and listen before any full rerender/upload/cleanup.
 
 - **Expected changed files:** `.agentflow/artifacts/A-006-production-rerender-upload-cleanup/` and external staged production artifacts; no product source changes expected unless Issue #9 requires a pronunciation fix first.
 
@@ -56,7 +56,7 @@
 
 - **Operation running:** no.
 
-- **Next action remaining:** T-1.
+- **Next action remaining:** T-2.
 
 - **Evidence status:** current.
 

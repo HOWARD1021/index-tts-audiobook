@@ -668,4 +668,35 @@ Host gate: PASS
 
 # → Ask / A-011
 
-+
+plain.wav：伴随着高成交量。這個可以
+
+## [RUN-001] Event (during round A-011)
+
+- Owner selected `plain.wav` as the accepted pronunciation candidate: plain text `伴随着高成交量。`.
+- Production override was changed from explicit `<著|ZHE5>` annotation to the accepted plain-text `伴随着` form for both simplified source spellings.
+- TDD evidence: updated text regression first failed against the old annotation output, then the minimal override fix passed. Runner expectation was updated; complete suite is 31 passed / 1 skipped, Ruff and compileall PASS.
+- T-1 is now PASS: production-inputs.json status PASS, Yuanyuan checksum/destination/output list frozen. T-2 is next: stage only chapter 04 pilot.
+- No model loaded, production output overwritten, R2 object changed, or test cleanup performed in this round.
+
+## [RUN-002] Event (during round A-011)
+
+- Godev pronunciation audit completed across 13 Simplified-Chinese scripts: 244 `著／着` occurrences; 184 candidate neutral `ㄓㄜ`, 35 clear `ㄓㄨˋ`, 2 `ㄓㄨㄛˊ`/context-review, and 23 unknown contexts.
+- Decision: no global character replacement. Future full-book production requires phrase-level lexicon, unknown-context classification, and real Yuanyuan listening evidence per pronunciation class.
+- Audit summary is `.agentflow/artifacts/A-011-pronunciation-audit/pronunciation-audit-summary.md`; full JSON remains external. Issue #9 was updated with the counts and gate.
+- Chapter-four pilot continues in external staging; its PASS cannot certify the 23 unknown contexts.
+
+## [WIP-001] Checkpoint (during round A-011)
+
+- **Finished:** Frozen plain-text pronunciation override and full 13-script `著／着` audit; audit found 244 occurrences with 23 unknown contexts.
+
+  1. Focused pronunciation regression and full suite pass after the plain-text override.
+  2. Issue #9 updated with phrase-level lexicon and unknown-context gate.
+  3. Chapter-four pilot staging has model load PASS and five completed chunks.
+
+- **Running now:** IndexTTS-2.5 + Yuanyuan chapter-four pilot in external staging; no production destination mutation.
+
+- **Still to do:** Complete 149-chunk pilot, validate/listen, classify unknown pronunciation contexts before full-book production.
+
+- **Next work action:** Monitor pilot progress and preserve resumable artifacts; do not start remaining chapters.
+
+- **Checks:** [x] tracker.md | [x] devlog RUN | [x] scope matches tracker

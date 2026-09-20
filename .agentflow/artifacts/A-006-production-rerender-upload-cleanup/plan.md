@@ -14,9 +14,9 @@ verified.
 - The accepted speaker reference is
   `/Users/howard/index-tts-workspace/index-tts/prompts/voice.wav`, byte-identical
   to `prompts/yuanyuan/yuanyuan_vocals_30s.wav`.
-- The pronunciation requirement is `伴隨著` → `ㄓㄜ` / `ZHE5`. The exact
-  backend form must be frozen from the successful Issue #9 test before the
-  production render.
+- The pronunciation requirement is `伴隨著` → `ㄓㄜ` / `ZHE5`. The accepted
+  backend form is the plain-text Simplified Chinese `伴随着`, selected from the
+  Yuanyuan real-model candidate test.
 - The current test/benchmark artifacts live outside the repository under
   `/Users/howard/index-tts-workspace/previews/`.
 - A read-only scan found prior chapter WAVs in
