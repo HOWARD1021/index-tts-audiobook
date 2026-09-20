@@ -700,3 +700,9 @@ plain.wav：伴随着高成交量。這個可以
 - **Next work action:** Monitor pilot progress and preserve resumable artifacts; do not start remaining chapters.
 
 - **Checks:** [x] tracker.md | [x] devlog RUN | [x] scope matches tracker
+
+## [RUN-003] Event (during round A-011)
+
+- Plain-text pronunciation fix implementation commit `60f2a6b` received independent cross-check PASS (Outcome/Minimality/Conformance/Verdict).
+- Full 31-pass suite and lint checks remain green. The phrase-level override is limited to `伴随著`/`伴随着`; no global `著／着` replacement was introduced.
+- Audit keeps 23 unknown contexts visible; full-book production remains blocked until those contexts are classified. Chapter-four pilot continues independently as the bounded pilot.
