@@ -4,19 +4,19 @@ Project: index-tts-audiobook
 
 Notebook: .agentflow/devlog.md — root.
 
-Current commit: 439138f — Issue #5 listening gate recorded; Issue #6 handoff ready.
+Current commit: 420aabf — Issue #8 comparison spec published; A-004 planning records follow.
 
 Tests/scenarios: 26 passed, 1 opt-in MLX skip; Ruff/compileall PASS; 14 WAVs and zero-model resume PASS.
 
-Configuration: ag.json — validated; IndexTTS-2.5 / MPS / FP32 / voice.wav; unchanged emotion defaults.
+Configuration: ag.json — validated; MLX 1.5 and IndexTTS-2.5 external runtimes; no benchmark settings changed.
 
-Proven: T-1 through T-5 recorded; objective preview checks and independent cross-check PASS; human listening found the delivery too excited for audiobook use.
+Proven: Issue #5 listening gate recorded; Issue #8 spec published with ready-for-agent; A-004 plan/tracker and spec cross-check PASS.
 
-Open: Issue #6 emotion-policy selection; Issue #7 peak/headroom release gate. Current preview has 2.2701% amplitude-rail samples.
+Open: A-004 benchmark T-1 through T-5; no MLX-vs-2.5 benchmark has run. Issue #6 owns emotion policy and Issue #7 owns headroom.
 
-Next: choose and test restrained emotion, attention-only cues, or pause-only emphasis under Issue #6.
+Next: execute A-004 T-1 preflight only after the benchmark run is explicitly started.
 
-Artifacts: .agentflow/artifacts/A-002-execution-plan/ and .agentflow/artifacts/A-003-acceptance/; audio in /Users/howard/index-tts-workspace/previews/issue-5-20260920-v3/preview.wav.
+Artifacts: .agentflow/artifacts/A-002-execution-plan/, A-003-acceptance/, and A-004-mlx-vs-indextts-benchmark/; Issue #8 spec in docs/specs/.
 
 Archived eras: none.
 
@@ -265,5 +265,54 @@ Host gate: PASS
 ---
 
 # → Ask / A-004
+
+godev 紀錄計劃
+
+## [RUN-001] Event (during round A-004)
+
+- Route: direct planning record for GitHub Issue #8; user requested `godev 紀錄計劃`. No benchmark process, model load, product implementation, preset change, or generated audio started.
+- Frozen plan: compare MLX IndexTTS 1.5 pause-only against IndexTTS-2.5 MPS neutral/pause-only, with optional 2.5 local-emotion diagnostic. Measure cold load, repeated warm RTF, per-chunk timings, audio duration, native format, checksums, resume, and human listening.
+- Seam: existing CLI render entry point and backend-neutral runner; reuse canonical preparation, chunking, manifest identity, WAV validation, concatenation, and resume.
+- Boundary: current host is Apple M4/16 GB; do not claim M3 results. Local workspace has MLX 1.5 model and IndexTTS-2.5 PyTorch runtime; no usable MLX 2.5 model. Issue #6 owns emotion policy and Issue #7 owns peak/headroom policy.
+- Artifacts: `.agentflow/artifacts/A-004-mlx-vs-indextts-benchmark/plan.md` and `tracker.md`; source spec committed as `420aabf`, GitHub Issue #8 published with `ready-for-agent`.
+- Tracker validation: PASS. Actual changed paths are the new A-004 planning records and devlog; unrelated `docs/apple-audiobook-conversion.md` remains untouched.
+
+# ← Reply / A-004
+* _2026-09-20 10:05:00 (GPT-5)_
+
+## [SUMMARY]
+
+- 已將 Issue #8 的 MLX 1.5 vs IndexTTS-2.5 比較 spec 轉成 Agentflow 可恢復 execution plan。
+- Plan 與 tracker 已建立，現階段只完成 planning record，尚未載入模型、執行 benchmark 或修改產品程式。
+- T-1 是下一個安全動作：固定相同文字／prompt，確認兩個 runtime，並記錄實際 Apple Silicon host。
+
+## [FINAL REPORT]
+
+計畫位置：`.agentflow/artifacts/A-004-mlx-vs-indextts-benchmark/plan.md`。
+
+Tracker 位置：`.agentflow/artifacts/A-004-mlx-vs-indextts-benchmark/tracker.md`，validation PASS。
+
+GitHub spec：[#8 Benchmark MLX IndexTTS 1.5 against IndexTTS-2.5 on Apple Silicon](https://github.com/HOWARD1021/index-tts-audiobook/issues/8)，已加上 `ready-for-agent`。Spec commit：`420aabf`。
+
+比較設計如下：
+
+- 主比較：MLX 1.5 pause-only vs IndexTTS-2.5 MPS neutral/pause-only。
+- 次要診斷：目前 IndexTTS-2.5 local-emotion，用來分離模型速度與 per-span synthesis overhead。
+- 指標：cold model load、三次以上 warm run、per-chunk time、RTF、音檔時長、native format、checksum、resume、peak/headroom 與人工聽感。
+- 既有 seam：CLI render、backend-neutral runner、canonical preparation、chunking、manifest、WAV validation、concatenation、resume。
+
+邊界已固定：目前主機是 Apple M4／16 GB，不能把結果稱為 M3；現有 workspace 有 MLX 1.5 model 與 IndexTTS-2.5 PyTorch runtime，沒有可直接使用的 MLX 2.5 model。Issue #6 保留 emotion-policy 決策，Issue #7 保留 peak/headroom release gate。
+
+Cross-check review: `.agentflow/artifacts/A-004-mlx-vs-indextts-benchmark/cross-check-report.md`
+Cross-check implementation: 420aabf0571a70a722db871576a65612ec20ae06
+Host gate: PASS
+
+## Questions (batched — each with a suggested default)
+
+- None. The next planned action is T-1 preflight.
+
+---
+
+# → Ask / A-005
 
 +

@@ -1,0 +1,11 @@
+{
+  "changed_files": [
+    "docs/specs/2026-09-20-mlx-15-vs-indextts-25-benchmark.md"
+  ],
+  "changed_lines": 225,
+  "behavior_change": false,
+  "trust_boundary": false,
+  "broad_change": false,
+  "consequential_change": false,
+  "owner_control": "default"
+}
