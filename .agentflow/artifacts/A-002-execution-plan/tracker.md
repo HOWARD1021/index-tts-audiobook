@@ -4,25 +4,25 @@
 
 - **Work key:** A-002-execution-plan.
 
-- **Active Ask:** A-002.
+- **Active Ask:** A-003.
 
 - **Goal:** Execute the Issue #5 real IndexTTS-2.5 styled preview with the selected speaker reference and collect objective plus listening evidence.
 
-- **Last update:** 2026-09-20 09:11:41 Asia/Taipei.
+- **Last update:** 2026-09-20 09:30:00 Asia/Taipei.
 
 - **Evidence commit:** df99169a860066d6da096c51ca6f9cd3bc981a55.
 
 ## Overall state
 
-- **State:** blocked.
+- **State:** complete.
 
-- **Reason:** T-1 through T-4 pass; T-5 needs a human listening verdict, including potential clipping.
+- **Reason:** T-1 through T-4 pass; T-5 listening is complete with an overall quality failure and Issue #6 handoff.
 
 - **Total:** 5.
 
-- **Completed:** 4.
+- **Completed:** 5.
 
-- **Remaining:** 1.
+- **Remaining:** 0.
 
 ## Accepted task checklist
 
@@ -30,7 +30,7 @@
 - [x] **T-2:** Prepare an isolated chapter-four preview containing ordinary, bold, italic, pronunciation-override, and cross-chunk emphasis cases; prove the backend text is clean and the expected span metadata/vectors are selected. Source: A-002. Proof: preflight.json.
 - [x] **T-3:** Generate the real IndexTTS-2.5 preview with one model session, the selected prompt, deterministic settings, per-span vectors, and inspectable span/join WAVs; keep all private/generated artifacts outside Git. Source: A-002. Proof: validation.json.
 - [x] **T-4:** Validate span and joined WAV format, finite samples, duration, manifest identity, prompt/model/vector metadata, and unchanged-input resume behavior. Source: A-002. Proof: validation.json.
-- [ ] **T-5:** Perform and record the human listening gate; pass Issue #5 or hand seam/profile decisions to Issue #6 without changing policy in this ticket. Source: A-002.
+- [x] **T-5:** Perform and record the human listening gate; pass Issue #5 or hand seam/profile decisions to Issue #6 without changing policy in this ticket. Source: A-003. Proof: listening.md.
 
 ## Accepted scope changes
 
@@ -38,29 +38,29 @@
 
 ## Current recovery
 
-- **Current item:** T-5.
+- **Current item:** none.
 
-- **Last proven result:** 67.3579-second preview; 14 WAVs and manifest pass; one model session / nine syntheses; resume loads zero models and reuses four chunks; final checksum unchanged.
+- **Last proven result:** 67.3579-second preview and objective checks pass; owner judged the overall delivery too excited for audiobook narration and handed emotion-policy choices to Issue #6.
 
-- **Active blocker or running process:** No render running; human listening verdict pending. Potential clipping: 2.2701% of samples at amplitude rails.
+- **Active blocker or running process:** None.
 
-- **Next safe action:** Listen to preview.wav using listening.md, record verdict, and hand acoustic policy findings to Issue #6 if needed.
+- **Next safe action:** None.
 
 - **Expected changed files:** `.agentflow/artifacts/A-002-execution-plan/` and external preview artifacts only; no product source or canonical manuscript changes expected.
 
 ## Completion proof
 
-- **All accepted tasks checked:** no.
+- **All accepted tasks checked:** yes.
 
-- **Blocking accepted decision:** Human listening verdict required by T-5.
+- **Blocking accepted decision:** none.
 
 - **Operation running:** no.
 
-- **Next action remaining:** T-5.
+- **Next action remaining:** none.
 
-- **Evidence status:** current.
+- **Evidence status:** complete.
 
-- **Judgment:** blocked.
+- **Judgment:** complete.
 
 ## Update meaning
 

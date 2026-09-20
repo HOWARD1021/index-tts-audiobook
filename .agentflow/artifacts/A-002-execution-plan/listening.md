@@ -1,6 +1,9 @@
-# Human listening gate — pending
+# Human listening gate — completed: quality fail / Issue #6 handoff
 
-No human listening verdict has been received. Issue #5 remains open.
+Human listening verdict received from the owner. Objective generation and file
+validation passed, but the overall delivery is too excited for audiobook
+narration. Issue #5 is complete as a diagnostic preview; the acoustic profile
+decision is handed to Issue #6.
 
 Audio: `/Users/howard/index-tts-workspace/previews/issue-5-20260920-v3/preview.wav`
 Duration: 67.3579 seconds. Backend: IndexTTS-2.5 / MPS / FP32 / QwenEmotion off.
@@ -17,12 +20,27 @@ Listen at:
 
 | Check | Verdict |
 | --- | --- |
-| Speaker identity continuity | Pending human |
-| 伴隨著 pronunciation | Pending human |
-| No spoken Markdown/bracket/cue leakage | Pending human |
-| Bold/italic emotion strength | Pending human |
-| Natural joins, pauses, and pitch | Pending human |
-| Audible distortion/clipping | Pending human |
+| Speaker identity continuity | Not separately rejected; overall delivery failed |
+| 伴隨著 pronunciation | Not separately rejected |
+| No spoken Markdown/bracket/cue leakage | Not separately rejected |
+| Bold/italic emotion strength | Failed: overall voice is too excited |
+| Natural joins, pauses, and pitch | Needs re-evaluation after profile change |
+| Audible distortion/clipping | Needs follow-up; rail warning remains |
+
+Owner verdict: the current overall delivery is too excited and is unsuitable
+for audiobook narration. Do not reuse the current emphasis profile as the
+default audiobook voice.
+
+Issue #6 decision space:
+
+- test a restrained affirmative / confident emotion for selective emphasis;
+- test a light attention cue only where the listener must notice a point;
+- test no explicit emotion vector for most narration, keeping only short
+  pauses at emphasis boundaries.
+
+No option is selected in this ticket. Preserve the current preview and presets
+until Issue #6 chooses and tests a policy. Peak/headroom acceptance remains an
+Issue #7 release concern.
 
 Objective warning: 33,716 / 1,485,242 samples (2.2701%) reach ±32,767.
 The external runtime clamps samples at that amplitude. Existing format/finite/

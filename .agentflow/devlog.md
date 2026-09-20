@@ -4,19 +4,19 @@ Project: index-tts-audiobook
 
 Notebook: .agentflow/devlog.md — root.
 
-Current commit: df99169 — verified real preview evidence; closeout record commits follow.
+Current commit: 8e0aeea — verified preview evidence; Issue #5 listening gate recorded in follow-up records.
 
 Tests/scenarios: 26 passed, 1 opt-in MLX skip; Ruff/compileall PASS; 14 WAVs and zero-model resume PASS.
 
 Configuration: ag.json — validated; IndexTTS-2.5 / MPS / FP32 / voice.wav; unchanged emotion defaults.
 
-Proven: T-1 through T-4 pass; 67.36-second styled preview, one model session / nine syntheses; independent cross-check and Host gate PASS.
+Proven: T-1 through T-5 recorded; objective preview checks and independent cross-check PASS; human listening found the delivery too excited for audiobook use.
 
-Open: T-5 human listening; 2.2701% amplitude-rail samples may indicate clipping. Issue #5 remains open.
+Open: Issue #6 emotion-policy selection; Issue #7 peak/headroom release gate. Current preview has 2.2701% amplitude-rail samples.
 
-Next: listen using A-002 listening.md and record verdict; route seam/emotion findings to Issue #6 if needed.
+Next: choose and test restrained emotion, attention-only cues, or pause-only emphasis under Issue #6.
 
-Artifacts: .agentflow/artifacts/A-002-execution-plan/; audio in /Users/howard/index-tts-workspace/previews/issue-5-20260920-v3/preview.wav.
+Artifacts: .agentflow/artifacts/A-002-execution-plan/ and .agentflow/artifacts/A-003-acceptance/; audio in /Users/howard/index-tts-workspace/previews/issue-5-20260920-v3/preview.wav.
 
 Archived eras: none.
 
@@ -221,5 +221,49 @@ Host gate: PASS
 ---
 
 # → Ask / A-003
+
+godev 驗收完成 整體 聲音太過亢奮 不適合 擔任有聲書的配音 或許可以調用其他情緒 像是肯定 或是想要引起閱聽人注意的 或是就不要特定強掉 停頓即可
+
+## [RUN-001] Event (during round A-003)
+
+- Owner completed the human listening gate for the Issue #5 preview: overall delivery is too excited and unsuitable for audiobook narration.
+- Acoustic acceptance result: objective generation/format/resume evidence remains PASS; listening quality is FAIL for the current emotion profile. This is valid completion evidence for Issue #5 and a handoff to Issue #6, not a reason to alter presets in this ticket.
+- Owner's proposed Issue #6 decision space: restrained affirmative/confident emotion for selective emphasis; light attention cues only where needed; or no explicit emotion vector for most narration with short pauses only.
+- T-5 is checked with listening.md as proof. Tracker is complete with 5/5 tasks; Issue #7 retains peak/headroom release policy. No source, preset, manuscript, model, prompt, or generated audio was changed.
+
+# ← Reply / A-003
+* _2026-09-20 09:36:00 (GPT-5)_
+
+## [SUMMARY]
+
+- 人工聽感驗收已完成：目前聲音整體過度亢奮，不適合直接作為有聲書配音。
+- T-1 至 T-4 的 runtime、生成、WAV、manifest、checksum 與 resume 證據仍然通過。
+- T-5 已記錄為 listening quality FAIL，Issue #5 執行完成並交由 Issue #6 決定新的情緒策略。
+
+## [FINAL REPORT]
+
+這次 preview 的問題不是模型、speaker reference、格式或 resume 機制，而是目前局部情緒設定造成整體聲音太亢奮。這份音檔不應直接用於有聲書成品。
+
+Issue #6 的候選方向已記錄在 `listening.md`：
+
+- 只在需要強調時使用較克制的肯定／自信情緒；
+- 只在需要抓住注意力的位置使用輕微 attention cue；
+- 大部分 narration 不指定額外情緒，只保留短停頓。
+
+目前沒有選定其中一個方案，也沒有修改 presets、產品程式、canonical manuscript、model、prompt 或生成音檔。Issue #7 仍負責 peak/headroom 與削波 release gate。
+
+Evidence：`.agentflow/artifacts/A-002-execution-plan/listening.md`、`validation.json`、`cross-check-report.md`。原始 preview：[preview.wav](/Users/howard/index-tts-workspace/previews/issue-5-20260920-v3/preview.wav)。
+
+Cross-check review: .agentflow/artifacts/A-003-acceptance/cross-check-report.md
+Cross-check implementation: df99169a860066d6da096c51ca6f9cd3bc981a55
+Host gate: PASS
+
+## Questions (batched — each with a suggested default)
+
+- None. Issue #6 owns the next emotion-policy experiment.
+
+---
+
+# → Ask / A-004
 
 +
