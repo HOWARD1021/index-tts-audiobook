@@ -1,0 +1,17 @@
+{
+  "status": "PASS",
+  "action": "moved_to_trash",
+  "paths": [
+    "/Users/howard/index-tts-workspace/previews/issue-5-20260920",
+    "/Users/howard/index-tts-workspace/previews/issue-5-20260920-v2"
+  ],
+  "reason": "Superseded failed preview attempts; neither is required by the final v3 evidence or the Issue #9 pronunciation candidate set.",
+  "preserved": [
+    "/Users/howard/index-tts-workspace/previews/issue-5-20260920-v3",
+    "/Users/howard/index-tts-workspace/previews/issue-8-benchmark-20260920",
+    "/Users/howard/index-tts-workspace/previews/issue-8-benchmark-yuanyuan-20260920",
+    "/Users/howard/index-tts-workspace/previews/issue-8-yuanyuan-pronunciation-20260920"
+  ],
+  "reversible": true,
+  "production_or_remote_files_touched": false
+}

@@ -4,15 +4,15 @@ Project: index-tts-audiobook
 
 Notebook: .agentflow/devlog.md — root.
 
-Current commit: 3828041 — A-006 production rerender/upload/cleanup plan now uses a chapter-four pilot gate.
+Current commit: 86f0ef2 — chapter-four pilot gate recorded; superseded failed previews safely moved to Trash.
 
 Tests/scenarios: 31 passed, 1 opt-in MLX skip; Ruff/compileall PASS; 32 chunk WAVs and 8 final WAVs validated.
 
 Configuration: ag.json — validated; MLX 1.5 and IndexTTS-2.5 external runtimes; primary runs used same script/prompt identity.
 
-Proven: Original 13-chapter local audio/feed inventory and R2 destination recovered; chapter-four pilot-first gate recorded before production rerender.
+Proven: Original 13-chapter local audio/feed inventory and R2 destination recovered; superseded failed previews cleaned recoverably; chapter-four pilot gate remains.
 
-Open: Freeze Issue #9 pronunciation form before production rerender; Issue #6 emotion policy; Issue #7 headroom.
+Open: Freeze Issue #9 pronunciation form before chapter-four pilot; Issue #6 emotion policy; Issue #7 headroom.
 
 Next: lock the successful pronunciation candidate, then stage only chapter 04; no full rerender/upload/cleanup before pilot validation.
 
@@ -567,5 +567,53 @@ Host gate: PASS
 ---
 
 # → Ask / A-009
+
+我們一些做測試的這些檔案，是不是可以先移除掉？
+
+## [RUN-001] Event (during round A-009)
+
+- Owner asked to remove some test files before production rerender.
+- Cleanup PASS: moved only the two superseded failed Issue #5 preview directories to macOS Trash, preserving recoverability.
+- Preserved final v3 evidence, both Issue #8 benchmark directories, and Yuanyuan pronunciation candidates because they remain needed for pilot/Issue #9.
+- No production local audio, canonical source, prompt, model, R2 object, feed, or Music library file was touched. Cleanup receipt is `cleanup-receipt.json`.
+
+# ← Reply / A-009
+* _2026-09-20 17:26:00 (GPT-5)_
+
+## [SUMMARY]
+
+- 可以先移除已淘汰的測試檔案；兩個失敗 preview 目錄已移到 macOS Trash，可復原。
+- 沒有碰 production audio、canonical source、prompt、model、R2、feed 或 Music library。
+- Issue #5 v3 evidence、Issue #8 benchmark、Yuanyuan outputs 與 Issue #9 pronunciation candidates 都保留。
+
+## [FINAL REPORT]
+
+已移除到 Trash：
+
+- `/Users/howard/index-tts-workspace/previews/issue-5-20260920`
+- `/Users/howard/index-tts-workspace/previews/issue-5-20260920-v2`
+
+保留：
+
+- `issue-5-20260920-v3`：最終 Issue #5 evidence
+- `issue-8-benchmark-20260920`：horseshoe prompt benchmark evidence
+- `issue-8-benchmark-yuanyuan-20260920`：圓圓 backend comparison
+- `issue-8-yuanyuan-pronunciation-20260920`：Issue #9 pronunciation candidates
+
+Cleanup receipt：[cleanup-receipt.json](/Users/howard/orca/index-tts-audiobook/.agentflow/artifacts/A-006-production-rerender-upload-cleanup/cleanup-receipt.json)
+
+原始 production 目錄與 R2 尚未變更。下一步仍是 chapter-four pilot，不會直接重生 13 集。
+
+Cross-check review: `.agentflow/artifacts/A-009-test-cleanup/cross-check-report.md`
+Cross-check implementation: 86f0ef26603d3720139519d01ea39fa7edde5e49
+Host gate: PASS
+
+## Questions (batched — each with a suggested default)
+
+- None. Cleanup is complete for the superseded failed previews; production work remains gated by Issue #9 pronunciation form and chapter-four pilot.
+
+---
+
+# → Ask / A-010
 
 +

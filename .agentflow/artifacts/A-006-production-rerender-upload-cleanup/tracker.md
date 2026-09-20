@@ -4,11 +4,11 @@
 
 - **Work key:** A-006-production-rerender-upload-cleanup.
 
-- **Active Ask:** A-008.
+- **Active Ask:** A-009.
 
 - **Goal:** Plan and execute the verified Yuanyuan/IndexTTS-2.5 production rerender, original-destination publication, and allowlisted test cleanup.
 
-- **Last update:** 2026-09-20 17:10:00 Asia/Taipei.
+- **Last update:** 2026-09-20 17:25:00 Asia/Taipei.
 
 - **Evidence commit:** uncommitted.
 
@@ -34,13 +34,13 @@
 
 ## Accepted scope changes
 
-- None.
+- Early cleanup of two superseded failed Issue #5 preview directories. Source: A-009. Effect: moved only those directories to recoverable Trash; preserved v3, benchmark, Yuanyuan, and pronunciation evidence.
 
 ## Current recovery
 
 - **Current item:** T-1.
 
-- **Last proven result:** T-1 destination inventory PASS: 13 chapter outputs, local audio/feed directory, R2 bucket `howard-audiobooks`, public base, publish script, and Yuanyuan prompt checksum recorded. Pronunciation form remains pending Issue #9 candidate confirmation.
+- **Last proven result:** T-1 destination inventory PASS; two superseded failed preview directories moved to recoverable Trash; all final evidence and production files preserved.
 
 - **Active blocker or running process:** None; planning only.
 
