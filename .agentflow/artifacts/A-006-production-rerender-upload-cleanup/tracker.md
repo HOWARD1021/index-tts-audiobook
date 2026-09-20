@@ -8,7 +8,7 @@
 
 - **Goal:** Plan and execute the verified Yuanyuan/IndexTTS-2.5 production rerender, original-destination publication, and allowlisted test cleanup.
 
-- **Last update:** 2026-09-20 17:15:00 Asia/Taipei.
+- **Last update:** 2026-09-20 20:20:00 Asia/Taipei.
 
 - **Evidence commit:** uncommitted.
 
@@ -40,11 +40,11 @@
 
 - **Current item:** T-2.
 
-- **Last proven result:** T-1 PASS: destination/output/reference frozen and plain-text `伴随着` pronunciation accepted from Yuanyuan candidate listening.
+- **Last proven result:** T-1 PASS; pilot paused intentionally after 66 validated outer chunks / 119 completed synthesis calls, with manifest and staging artifacts preserved.
 
-- **Active blocker or running process:** None; planning only.
+- **Active blocker or running process:** Pilot paused by owner request; no process running; staging remains resumable.
 
-- **Next safe action:** Stage only chapter 04 with IndexTTS-2.5 + Yuanyuan; validate and listen before any full rerender/upload/cleanup.
+- **Next safe action:** Resume the chapter-four pilot from its in-progress manifest; validate/listen before any full rerender/upload/cleanup.
 
 - **Expected changed files:** `.agentflow/artifacts/A-006-production-rerender-upload-cleanup/` and external staged production artifacts; no product source changes expected unless Issue #9 requires a pronunciation fix first.
 

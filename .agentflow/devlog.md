@@ -706,3 +706,9 @@ plain.wav：伴随着高成交量。這個可以
 - Plain-text pronunciation fix implementation commit `60f2a6b` received independent cross-check PASS (Outcome/Minimality/Conformance/Verdict).
 - Full 31-pass suite and lint checks remain green. The phrase-level override is limited to `伴随著`/`伴随着`; no global `著／着` replacement was introduced.
 - Audit keeps 23 unknown contexts visible; full-book production remains blocked until those contexts are classified. Chapter-four pilot continues independently as the bounded pilot.
+
+## [RUN-004] Event (during round A-011)
+
+- Owner requested a pause while sleeping.
+- Pilot process stopped with SIGINT; staging and manifest are preserved. Pilot-run status is interrupted/failed by intentional pause, not a synthesis error.
+- Resume point: 66 validated outer chunks, 119 completed synthesis calls, no partial WAV remains. Next safe action is to resume from the in-progress manifest; do not restart or delete staging.
