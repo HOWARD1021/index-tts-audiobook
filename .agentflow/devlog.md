@@ -4,19 +4,19 @@ Project: index-tts-audiobook
 
 Notebook: .agentflow/devlog.md — root.
 
-Current commit: 889d278 — Issue #8 benchmark and T-5 listening recorded; Issue #9 pronunciation follow-up ready.
+Current commit: 2fc11e9 — Issue #8 benchmark closed; A-006 production rerender/upload/cleanup plan recorded.
 
 Tests/scenarios: 31 passed, 1 opt-in MLX skip; Ruff/compileall PASS; 32 chunk WAVs and 8 final WAVs validated.
 
 Configuration: ag.json — validated; MLX 1.5 and IndexTTS-2.5 external runtimes; primary runs used same script/prompt identity.
 
-Proven: Yuanyuan listening prefers IndexTTS-2.5 for smoother audiobook delivery and fewer wrong characters; T-1 through T-5 and independent code cross-check PASS.
+Proven: Yuanyuan listening prefers IndexTTS-2.5; Issue #9 pronunciation gate and A-006 production delivery plan are recorded.
 
-Open: Issue #9 real-model `伴隨著` pronunciation acceptance; Issue #6 owns emotion policy and Issue #7 owns headroom.
+Open: A-006 T-1 destination/input inventory; Issue #9 pronunciation implementation; Issue #6 emotion policy; Issue #7 headroom.
 
-Next: fix and acoustically verify `ㄓㄜ` pronunciation with Yuanyuan under Issue #9.
+Next: run A-006 T-1 read-only inventory; do not upload or clean test files until destination and pronunciation form are frozen.
 
-Artifacts: .agentflow/artifacts/A-002-execution-plan/, A-003-acceptance/, A-004-mlx-vs-indextts-benchmark/, A-005-benchmark-execution/; external comparison in `/Users/howard/index-tts-workspace/previews/issue-8-benchmark-20260920/`.
+Artifacts: A-002 through A-006 Agentflow records; benchmark audio in `/Users/howard/index-tts-workspace/previews/`; production destination remains to be resolved in A-006 T-1.
 
 Archived eras: none.
 
@@ -415,5 +415,54 @@ Host gate: PASS
 ---
 
 # → Ask / A-006
+
+yes 測試是成功的 我們 godev 排定計劃 接下來 該怎麼 重新生成之前生成的檔案 並且上傳到原本上傳的地方 測試檔案 也要移除
+
+## [RUN-001] Event (during round A-006)
+
+- Owner confirmed the pronunciation test successful and requested a godev plan for production rerender, original-destination publication, and test-artifact cleanup.
+- Route: planning only. No production render, upload, overwrite, remote mutation, or deletion started.
+- Plan boundary: freeze the successful Issue #9 pronunciation form and exact original destination before any generation; stage new output; validate; dry-run destination diff; publish; verify destination checksums; then clean only an explicit test-artifact allowlist.
+- Read-only discovery found prior chapter WAVs in `/Users/howard/Music/Music/Media.localized/Music/Unknown Artist/Unknown Album/`, but no authoritative destination/object-key record was found in this repository. T-1 must resolve this ambiguity.
+- Tracker validation PASS. Unrelated `docs/apple-audiobook-conversion.md` remains untouched.
+
+# ← Reply / A-006
+* _2026-09-20 17:00:00 (GPT-5)_
+
+## [SUMMARY]
+
+- 已建立正式 rerender → destination publish → test cleanup 的 A-006 godev 計劃。
+- 目前只完成 planning record；沒有重新生成、上傳、覆蓋或刪除任何檔案。
+- 第一個安全動作是 T-1：解析原本正式檔案與原始上傳目的地，並鎖定成功的 pronunciation form。
+
+## [FINAL REPORT]
+
+Plan：[.agentflow/artifacts/A-006-production-rerender-upload-cleanup/plan.md](/Users/howard/orca/index-tts-audiobook/.agentflow/artifacts/A-006-production-rerender-upload-cleanup/plan.md)
+
+Tracker：[tracker.md](/Users/howard/orca/index-tts-audiobook/.agentflow/artifacts/A-006-production-rerender-upload-cleanup/tracker.md)，validation PASS。
+
+流程固定為：
+
+1. 凍結 production source、chapter output list、Yuanyuan prompt、成功 pronunciation form、原始 destination/object keys。
+2. 用 IndexTTS-2.5 + Yuanyuan 生成到新的 staging 目錄，不原地覆蓋舊檔。
+3. 驗證 WAV、manifest、checksum、headroom、pronunciation 與代表性聽感。
+4. 先做 destination dry-run diff，再上傳／複製並逐檔驗證 destination checksum。
+5. 只清理明確列出的 test artifacts；production、canonical manuscript、model、prompt、final manifest 保留。
+
+唯讀掃描目前找到過去 chapter WAV 的 Music library 位置：
+`/Users/howard/Music/Music/Media.localized/Music/Unknown Artist/Unknown Album/`。
+但沒有把它直接假定為唯一原始目的地；T-1 會先從既有檔名、manifest、Music library 或原始 upload record 解析確切目標。若目的地或成功 pronunciation form 不明，會停在 upload 前，不會猜測。
+
+Cross-check review: `.agentflow/artifacts/A-006-production-rerender-upload-cleanup/cross-check-report.md`
+Cross-check implementation: 2fc11e9beb3a76573abdf9a568d740ecb64579ed
+Host gate: PASS
+
+## Questions (batched — each with a suggested default)
+
+- None. The next planned action is T-1 read-only inventory.
+
+---
+
+# → Ask / A-007
 
 +
