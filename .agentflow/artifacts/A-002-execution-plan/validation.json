@@ -1,0 +1,227 @@
+{
+  "status": "PASS",
+  "wav_count": 14,
+  "session_count": 1,
+  "synthesis_calls": 9,
+  "final_duration_seconds": 67.35791383219954,
+  "final_sha256": "d35111901e757046349ba134d890b3a8170ed5bf46ddc6ac9160b2926a5d8c62",
+  "prompt_sha256": "dd077517ab6558b5aab2cb785a2c6e47bf9450f94982cad35cf5f9a1f5366297",
+  "ffprobe": {
+    "programs": [],
+    "stream_groups": [],
+    "streams": [
+      {
+        "codec_name": "pcm_s16le",
+        "sample_rate": "22050",
+        "channels": 1
+      }
+    ],
+    "format": {
+      "duration": "67.357914"
+    }
+  },
+  "checks": [
+    {
+      "path": "/Users/howard/index-tts-workspace/previews/issue-5-20260920-v3/preview.chunks/spans/0001/0000.wav",
+      "sha256": "7e310f7dd0b7f738ccadbb1e784698feea0343e84c01c7d09ba4b6747bc3b4b3",
+      "duration": 3.308843537414966,
+      "finite": true,
+      "peak": 0.999969482421875,
+      "near_full_scale_samples": 64,
+      "characters": 9
+    },
+    {
+      "path": "/Users/howard/index-tts-workspace/previews/issue-5-20260920-v3/preview.chunks/spans/0001/0001.wav",
+      "sha256": "110c58b69c54f25d4f15002f335bf495818ceceef29d1f9c2b2d670324c3bd8f",
+      "duration": 2.507755102040816,
+      "finite": true,
+      "peak": 0.999969482421875,
+      "near_full_scale_samples": 265,
+      "characters": 6
+    },
+    {
+      "path": "/Users/howard/index-tts-workspace/previews/issue-5-20260920-v3/preview.chunks/spans/0001/0002.wav",
+      "sha256": "cd4faf6deca87593364dd4af3a4602a9fb6dfe5d9a7ef84e4962e900f38129ab",
+      "duration": 14.814331065759637,
+      "finite": true,
+      "peak": 0.999969482421875,
+      "near_full_scale_samples": 6088,
+      "characters": 83
+    },
+    {
+      "path": "/Users/howard/index-tts-workspace/previews/issue-5-20260920-v3/preview.chunks/0001.wav",
+      "sha256": "fb0a4d7031db89383800d89001076193bb5e085ddd93187eda10165136991b2d",
+      "duration": 20.79092970521542,
+      "validation": "PASS"
+    },
+    {
+      "path": "/Users/howard/index-tts-workspace/previews/issue-5-20260920-v3/preview.chunks/spans/0002/0000.wav",
+      "sha256": "1163b8d420c5e40b5a6d03a5e03444c24207488df7424af366703190c91c2fbb",
+      "duration": 2.948934240362812,
+      "finite": true,
+      "peak": 0.999969482421875,
+      "near_full_scale_samples": 76,
+      "characters": 11
+    },
+    {
+      "path": "/Users/howard/index-tts-workspace/previews/issue-5-20260920-v3/preview.chunks/spans/0002/0001.wav",
+      "sha256": "1faa3d03f54a4d78270fde096ad2c49ed5996f6af2eafcc36fee43f04f998840",
+      "duration": 3.3436734693877552,
+      "finite": true,
+      "peak": 0.999969482421875,
+      "near_full_scale_samples": 143,
+      "characters": 8
+    },
+    {
+      "path": "/Users/howard/index-tts-workspace/previews/issue-5-20260920-v3/preview.chunks/spans/0002/0002.wav",
+      "sha256": "2bc1df7376dc5eb5fc2642b27f1a890302fadfff586fb6d47f90ef76776106d6",
+      "duration": 1.474467120181406,
+      "finite": true,
+      "peak": 0.999969482421875,
+      "near_full_scale_samples": 62,
+      "characters": 3
+    },
+    {
+      "path": "/Users/howard/index-tts-workspace/previews/issue-5-20260920-v3/preview.chunks/spans/0002/0003.wav",
+      "sha256": "ae1b0df29e4d3dbd31040ea802cfc60e0313db1aaa47356dff06991df675180c",
+      "duration": 6.2693877551020405,
+      "finite": true,
+      "peak": 0.999969482421875,
+      "near_full_scale_samples": 171,
+      "characters": 28
+    },
+    {
+      "path": "/Users/howard/index-tts-workspace/previews/issue-5-20260920-v3/preview.chunks/0002.wav",
+      "sha256": "1a917b55da1ecd04cf2399d05f8d390a493e8877488ecb57bc9ecf5f4c102996",
+      "duration": 14.276462585034013,
+      "validation": "PASS"
+    },
+    {
+      "path": "/Users/howard/index-tts-workspace/previews/issue-5-20260920-v3/preview.chunks/spans/0003/0000.wav",
+      "sha256": "318dd4b5f928e9d85c7f588df6dffe178cec0280331894c3d5bd14c68509445e",
+      "duration": 13.25859410430839,
+      "finite": true,
+      "peak": 0.999969482421875,
+      "near_full_scale_samples": 9727,
+      "characters": 71
+    },
+    {
+      "path": "/Users/howard/index-tts-workspace/previews/issue-5-20260920-v3/preview.chunks/0003.wav",
+      "sha256": "318dd4b5f928e9d85c7f588df6dffe178cec0280331894c3d5bd14c68509445e",
+      "duration": 13.25859410430839,
+      "validation": "PASS"
+    },
+    {
+      "path": "/Users/howard/index-tts-workspace/previews/issue-5-20260920-v3/preview.chunks/spans/0004/0000.wav",
+      "sha256": "2f125e41a01af51c23179f1d2c170381f233a00292f0b85bbdd37bdcbbbd9236",
+      "duration": 17.68199546485261,
+      "finite": true,
+      "peak": 0.999969482421875,
+      "near_full_scale_samples": 17398,
+      "characters": 91
+    },
+    {
+      "path": "/Users/howard/index-tts-workspace/previews/issue-5-20260920-v3/preview.chunks/0004.wav",
+      "sha256": "2f125e41a01af51c23179f1d2c170381f233a00292f0b85bbdd37bdcbbbd9236",
+      "duration": 17.68199546485261,
+      "validation": "PASS"
+    }
+  ],
+  "timeline": [
+    {
+      "chunk": 1,
+      "span": 1,
+      "style": "base",
+      "start_seconds": 0.0,
+      "duration_seconds": 3.308843537414966
+    },
+    {
+      "chunk": 1,
+      "span": 2,
+      "style": "bold",
+      "start_seconds": 3.388843537414966,
+      "duration_seconds": 2.507755102040816
+    },
+    {
+      "chunk": 1,
+      "span": 3,
+      "style": "base",
+      "start_seconds": 5.976598639455782,
+      "duration_seconds": 14.814331065759637
+    },
+    {
+      "chunk": 2,
+      "span": 4,
+      "style": "base",
+      "start_seconds": 21.240907029478457,
+      "duration_seconds": 2.948934240362812
+    },
+    {
+      "chunk": 2,
+      "span": 5,
+      "style": "bold",
+      "start_seconds": 24.26984126984127,
+      "duration_seconds": 3.3436734693877552
+    },
+    {
+      "chunk": 2,
+      "span": 6,
+      "style": "base",
+      "start_seconds": 27.693514739229023,
+      "duration_seconds": 1.474467120181406
+    },
+    {
+      "chunk": 2,
+      "span": 7,
+      "style": "italic",
+      "start_seconds": 29.24798185941043,
+      "duration_seconds": 6.2693877551020405
+    },
+    {
+      "chunk": 3,
+      "span": 8,
+      "style": "bold",
+      "start_seconds": 35.967346938775506,
+      "duration_seconds": 13.25859410430839
+    },
+    {
+      "chunk": 4,
+      "span": 9,
+      "style": "bold",
+      "start_seconds": 49.67591836734694,
+      "duration_seconds": 17.68199546485261
+    }
+  ],
+  "source_unchanged": true,
+  "runtime_file_unchanged": true,
+  "model_config_unchanged": true,
+  "manifest_checks": "PASS; text + styled-source + prompt + runtime paths + emotion vectors + WAV checksums",
+  "listening": "PENDING HUMAN",
+  "resume": {
+    "status": "PASS",
+    "model_loads": 0,
+    "synthesis_calls": 0,
+    "reused_chunks": 4,
+    "unchanged_span_and_chunk_wavs": 13,
+    "final_checksum_unchanged": true,
+    "elapsed_seconds": 0.030807018280029297
+  },
+  "peak_warning": {
+    "total_samples": 1485242,
+    "rail_samples": 33716,
+    "rail_percent": 2.270067773467219,
+    "peak_abs_pcm": 32767,
+    "interpretation": "Potential clipping; no peak threshold in existing validation. Human distortion check required. No gain/profile changes applied."
+  },
+  "runtime_warnings": [
+    "GenerationMixin compatibility warning",
+    "past_key_values tuple deprecation"
+  ],
+  "generation_log": "/Users/howard/index-tts-workspace/previews/issue-5-20260920-v3/generate.log",
+  "exact_command": "PYTORCH_ENABLE_MPS_FALLBACK=1 /Users/howard/orca/workspaces/index-tts/horseshoe/.venv/bin/python -u /Users/howard/index-tts-workspace/previews/issue-5-20260920-v3/run-preview.py generate",
+  "command_cwd": "/Users/howard/orca/workspaces/index-tts/horseshoe",
+  "generation_process_exit": 0,
+  "resume_process_exit": 0,
+  "product_changes": false,
+  "test_results": "26 passed, 1 opt-in MLX skip; Ruff and compileall PASS"
+}

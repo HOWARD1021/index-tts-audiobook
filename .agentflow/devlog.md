@@ -154,3 +154,12 @@ keep  going  godev
 - **Still to do:** Complete render, validate WAVs/manifest/checksums/resume, and obtain human listening verdict.
 - **Next work action:** Monitor current model session through completion and execute validate-preview.py.
 - **Checks:** [x] tracker.md | [x] devlog RUN | [x] scope matches tracker
+
+## [RUN-007] Event (during round A-002)
+
+- T-3/T-4 PASS: real IndexTTS-2.5 v3 render exited 0; one model session made nine synthesis calls. Final preview is 67.3579138322 s; all fourteen span/chunk/final WAVs are finite, non-empty mono PCM16/22050 Hz and meet existing duration/join checks.
+- Identity PASS: clean text, per-chunk markup, styled source, prompt SHA-256, runtime/config identity, actual per-call vectors/alpha, and final checksum. Source manuscript and runtime file/config remain unchanged.
+- Resume PASS: exit 0; all four chunks reused; zero model loads or syntheses; thirteen span/chunk files retain hashes and mtimes; joined final checksum remains d35111901e757046349ba134d890b3a8170ed5bf46ddc6ac9160b2926a5d8c62.
+- Quality warning: 33,716 of 1,485,242 final samples (2.2701%) reach ±32,767; external runtime clamps at that amplitude. Format checks pass but clipping/distortion requires human listening. Runtime also emitted GenerationMixin and past_key_values deprecation warnings; no truncation warning observed.
+- T-5 pending: owner was given the audio link and listening question. No human verdict yet, so Issue #5 is not complete. listening.md provides timestamps and Issue #6 / #7 handoff boundaries; no external messages were sent.
+- Scope comparison: all current owned changes are task records under .agentflow and external preview artifacts; unrelated docs/apple-audiobook-conversion.md remains untouched. No source, preset, canonical manuscript, dependency, or product-document changes in this execution. Tracker validation PASS.
