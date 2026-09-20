@@ -4,13 +4,13 @@ Project: index-tts-audiobook
 
 Notebook: .agentflow/devlog.md — root.
 
-Current commit: 86f0ef2 — chapter-four pilot gate recorded; superseded failed previews safely moved to Trash.
+Current commit: 1b5683f — requirements audit complete; chapter-four pilot remains gated by Issue #9 pronunciation form.
 
 Tests/scenarios: 31 passed, 1 opt-in MLX skip; Ruff/compileall PASS; 32 chunk WAVs and 8 final WAVs validated.
 
 Configuration: ag.json — validated; MLX 1.5 and IndexTTS-2.5 external runtimes; primary runs used same script/prompt identity.
 
-Proven: Original 13-chapter local audio/feed inventory and R2 destination recovered; superseded failed previews cleaned recoverably; chapter-four pilot gate remains.
+Proven: Requirements audit confirms destination, outputs, reference, backend preference, and cleanup boundaries; frontend monitor is out of scope.
 
 Open: Freeze Issue #9 pronunciation form before chapter-four pilot; Issue #6 emotion policy; Issue #7 headroom.
 
@@ -615,5 +615,57 @@ Host gate: PASS
 ---
 
 # → Ask / A-010
+
+好像其實也不用做前端業務。OK，我們去審覈一下目前的需求哪些東西還沒有完成吧。然後，如果完成之後，我們就直接來跑第四章的 pilot。
+
+## [RUN-001] Event (during round A-010)
+
+- Owner removed the frontend-monitor idea from scope and requested a requirements audit before chapter-four pilot.
+- Audit result: destination, 13-chapter output list, Yuanyuan prompt, backend preference, and safe cleanup boundaries are proven. Pronunciation candidate freeze is the only pre-pilot blocker.
+- Issue #6 emotion policy remains downstream; pilot can use IndexTTS-2.5 neutral/pause-only. Issue #7 headroom remains a release gate.
+- Decision: do not load the model or start chapter-four generation until Issue #9 candidate form and Yuanyuan evidence are recorded. Requirements audit is `.agentflow/artifacts/A-010-requirements-audit/requirements-audit.md`.
+
+# ← Reply / A-010
+* _2026-09-20 17:46:00 (GPT-5)_
+
+## [SUMMARY]
+
+- 需求 audit 已完成；前端監控頁面正式列為 out of scope。
+- 目的地、13 集 output list、Yuanyuan reference、IndexTTS-2.5 backend 與 cleanup boundary 都已確認。
+- 目前不能直接跑 pilot，唯一缺口是 Issue #9 pronunciation candidate 尚未 frozen。
+
+## [FINAL REPORT]
+
+Audit：[requirements-audit.md](/Users/howard/orca/index-tts-audiobook/.agentflow/artifacts/A-010-requirements-audit/requirements-audit.md)
+
+已完成：
+
+- 找回正式本地 audio/feed 目錄。
+- 找回 R2 bucket `howard-audiobooks` 與 public/feed URL。
+- 確認 00 foreword 到 12 chapter，共 13 集。
+- 確認 Yuanyuan prompt 與 checksum。
+- 確認 IndexTTS-2.5 是下一輪 production backend。
+- 確認 test cleanup 使用 allowlist + Trash。
+- 確認不需要 frontend monitor 才能執行本次 delivery。
+
+尚未完成：
+
+- Issue #9 三種 pronunciation candidate 尚未選出並記錄為正式 production form。
+- 第 04 章 pilot 尚未生成。
+- Pilot validation、13 集 rerender、R2 upload、feed 更新、最終 cleanup 尚未開始。
+
+因此下一步是：先把成功的 pronunciation candidate 凍結成 T-1 input，接著只生成第 04 章 pilot。Pilot 通過後才生成其餘 12 集。
+
+Cross-check review: `.agentflow/artifacts/A-010-requirements-audit/cross-check-report.md`
+Cross-check implementation: 1b5683f9644ff05bd8152a006868105f85d578e3
+Host gate: PASS
+
+## Questions (batched — each with a suggested default)
+
+- None. The next execution gate is Issue #9 pronunciation-form freeze.
+
+---
+
+# → Ask / A-011
 
 +

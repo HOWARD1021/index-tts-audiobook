@@ -4,11 +4,11 @@
 
 - **Work key:** A-006-production-rerender-upload-cleanup.
 
-- **Active Ask:** A-009.
+- **Active Ask:** A-010.
 
 - **Goal:** Plan and execute the verified Yuanyuan/IndexTTS-2.5 production rerender, original-destination publication, and allowlisted test cleanup.
 
-- **Last update:** 2026-09-20 17:25:00 Asia/Taipei.
+- **Last update:** 2026-09-20 17:45:00 Asia/Taipei.
 
 - **Evidence commit:** uncommitted.
 
@@ -40,11 +40,11 @@
 
 - **Current item:** T-1.
 
-- **Last proven result:** T-1 destination inventory PASS; two superseded failed preview directories moved to recoverable Trash; all final evidence and production files preserved.
+- **Last proven result:** Requirements audit recorded: destination/reference/output inventory PASS; pronunciation form is the only pre-pilot blocker; frontend monitor is out of scope.
 
 - **Active blocker or running process:** None; planning only.
 
-- **Next safe action:** Freeze the successful Issue #9 pronunciation form, then stage a chapter-four pilot; no full rerender, upload, or cleanup before the pilot gate.
+- **Next safe action:** Record the accepted Issue #9 candidate, then stage only chapter 04; no full rerender, upload, or cleanup before the pilot gate.
 
 - **Expected changed files:** `.agentflow/artifacts/A-006-production-rerender-upload-cleanup/` and external staged production artifacts; no product source changes expected unless Issue #9 requires a pronunciation fix first.
 
