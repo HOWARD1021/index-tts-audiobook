@@ -4,7 +4,7 @@ Project: index-tts-audiobook
 
 Notebook: .agentflow/devlog.md — root.
 
-Current commit: 8e0aeea — verified preview evidence; Issue #5 listening gate recorded in follow-up records.
+Current commit: 439138f — Issue #5 listening gate recorded; Issue #6 handoff ready.
 
 Tests/scenarios: 26 passed, 1 opt-in MLX skip; Ruff/compileall PASS; 14 WAVs and zero-model resume PASS.
 
