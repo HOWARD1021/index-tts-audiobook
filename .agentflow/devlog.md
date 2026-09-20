@@ -4,19 +4,19 @@ Project: index-tts-audiobook
 
 Notebook: .agentflow/devlog.md — root.
 
-Current commit: 420aabf — Issue #8 comparison spec published; A-004 planning records follow.
+Current commit: 338e48b — Issue #8 T-1 through T-4 benchmark evidence recorded; T-5 listening pending.
 
-Tests/scenarios: 26 passed, 1 opt-in MLX skip; Ruff/compileall PASS; 14 WAVs and zero-model resume PASS.
+Tests/scenarios: 31 passed, 1 opt-in MLX skip; Ruff/compileall PASS; 32 chunk WAVs and 8 final WAVs validated.
 
-Configuration: ag.json — validated; MLX 1.5 and IndexTTS-2.5 external runtimes; no benchmark settings changed.
+Configuration: ag.json — validated; MLX 1.5 and IndexTTS-2.5 external runtimes; primary runs used same script/prompt identity.
 
-Proven: Issue #5 listening gate recorded; Issue #8 spec published with ready-for-agent; A-004 plan/tracker and spec cross-check PASS.
+Proven: MLX 1.5 warm median RTF 1.863; IndexTTS-2.5 MPS warm median RTF 4.105; T-1 through T-4 and independent code cross-check PASS.
 
-Open: A-004 benchmark T-1 through T-5; no MLX-vs-2.5 benchmark has run. Issue #6 owns emotion policy and Issue #7 owns headroom.
+Open: A-005 T-5 human listening; speed result is not an audiobook quality decision. Issue #6 owns emotion policy and Issue #7 owns headroom.
 
-Next: execute A-004 T-1 preflight only after the benchmark run is explicitly started.
+Next: listen to paired warm outputs in `/Users/howard/index-tts-workspace/previews/issue-8-benchmark-20260920/listening.md` and record the naturalness-first verdict.
 
-Artifacts: .agentflow/artifacts/A-002-execution-plan/, A-003-acceptance/, and A-004-mlx-vs-indextts-benchmark/; Issue #8 spec in docs/specs/.
+Artifacts: .agentflow/artifacts/A-002-execution-plan/, A-003-acceptance/, A-004-mlx-vs-indextts-benchmark/, A-005-benchmark-execution/; external comparison in `/Users/howard/index-tts-workspace/previews/issue-8-benchmark-20260920/`.
 
 Archived eras: none.
 
