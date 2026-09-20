@@ -8,21 +8,21 @@
 
 - **Goal:** Record and execute the Issue #8 MLX 1.5 versus IndexTTS-2.5 benchmark plan.
 
-- **Last update:** 2026-09-20 16:30:00 Asia/Taipei.
+- **Last update:** 2026-09-20 16:53:00 Asia/Taipei.
 
-- **Evidence commit:** uncommitted.
+- **Evidence commit:** 889d27829dcf5a6103663800786f1370d4287352.
 
 ## Overall state
 
-- **State:** active.
+- **State:** complete.
 
-- **Reason:** The comparison plan is frozen; no benchmark run has started.
+- **Reason:** Primary comparison, objective validation, resume evidence, and human listening are complete; pronunciation follow-up is handed to a separate issue.
 
 - **Total:** 5.
 
-- **Completed:** 4.
+- **Completed:** 5.
 
-- **Remaining:** 1.
+- **Remaining:** 0.
 
 ## Accepted task checklist
 
@@ -30,7 +30,7 @@
 - [x] **T-2:** Prepare the benchmark report schema and metric aggregation at the existing runner seam, with deterministic fake-backend tests and no product-default changes; proof requires focused tests and stable report fields. Source: A-005. Proof: tests/test_benchmark.py and 31 passed / 1 skipped.
 - [x] **T-3:** Run MLX 1.5 pause-only and IndexTTS-2.5 neutral/pause-only, plus optional 2.5 local-emotion diagnostic, with cold and repeated warm measurements; proof requires raw external logs and validated per-run artifacts. Source: A-005. Proof: comparison-report.json and backend reports.
 - [x] **T-4:** Validate native WAV formats, finite samples, durations, checksums, RTF calculations, headroom observations, and unchanged-input resume; proof requires comparison, validation, and resume reports. Source: A-005. Proof: objective-validation.json and resume-validation.json.
-- [ ] **T-5:** Perform the backend-blind listening gate and record a naturalness-first recommendation, handing emotion decisions to Issue #6 and headroom decisions to Issue #7; proof requires listening.md with timestamped verdicts. Source: A-004.
+- [x] **T-5:** Perform the backend-blind listening gate and record a naturalness-first recommendation, handing emotion decisions to Issue #6 and headroom decisions to Issue #7; proof requires listening.md with timestamped verdicts. Source: A-005. Proof: listening.md.
 
 ## Accepted scope changes
 
@@ -38,29 +38,29 @@
 
 ## Current recovery
 
-- **Current item:** T-5.
+- **Current item:** none.
 
-- **Last proven result:** T-1/T-2 PASS; MLX 1.5 warm median RTF 1.863 and IndexTTS-2.5 MPS warm median RTF 4.105 on Apple M4; ratio 2.20x. All benchmark WAVs/checksums/format checks pass and resume scan loaded zero models.
+- **Last proven result:** Yuanyuan human listening prefers IndexTTS-2.5 for smoother delivery and fewer wrong characters; `伴隨著` pronunciation remains wrong and is a follow-up requirement.
 
-- **Active blocker or running process:** None; planning only.
+- **Active blocker or running process:** None.
 
-- **Next safe action:** Listen to the paired warm outputs using external listening.md and record naturalness-first verdicts; do not change defaults before Issue #6 decision.
+- **Next safe action:** None.
 
 - **Expected changed files:** `.agentflow/artifacts/A-004-mlx-vs-indextts-benchmark/` and external benchmark artifacts; no product source or canonical manuscript changes expected during preflight.
 
 ## Completion proof
 
-- **All accepted tasks checked:** no.
+- **All accepted tasks checked:** yes.
 
 - **Blocking accepted decision:** none.
 
 - **Operation running:** no.
 
-- **Next action remaining:** T-5.
+- **Next action remaining:** none.
 
-- **Evidence status:** current.
+- **Evidence status:** complete.
 
-- **Judgment:** active.
+- **Judgment:** complete.
 
 ## Update meaning
 

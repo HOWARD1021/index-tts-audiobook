@@ -4,17 +4,17 @@ Project: index-tts-audiobook
 
 Notebook: .agentflow/devlog.md — root.
 
-Current commit: 338e48b — Issue #8 T-1 through T-4 benchmark evidence recorded; T-5 listening pending.
+Current commit: 889d278 — Issue #8 benchmark and T-5 listening recorded; Issue #9 pronunciation follow-up ready.
 
 Tests/scenarios: 31 passed, 1 opt-in MLX skip; Ruff/compileall PASS; 32 chunk WAVs and 8 final WAVs validated.
 
 Configuration: ag.json — validated; MLX 1.5 and IndexTTS-2.5 external runtimes; primary runs used same script/prompt identity.
 
-Proven: MLX 1.5 warm median RTF 1.863; IndexTTS-2.5 MPS warm median RTF 4.105; T-1 through T-4 and independent code cross-check PASS.
+Proven: Yuanyuan listening prefers IndexTTS-2.5 for smoother audiobook delivery and fewer wrong characters; T-1 through T-5 and independent code cross-check PASS.
 
-Open: A-005 T-5 human listening; speed result is not an audiobook quality decision. Issue #6 owns emotion policy and Issue #7 owns headroom.
+Open: Issue #9 real-model `伴隨著` pronunciation acceptance; Issue #6 owns emotion policy and Issue #7 owns headroom.
 
-Next: listen to paired warm outputs in `/Users/howard/index-tts-workspace/previews/issue-8-benchmark-20260920/listening.md` and record the naturalness-first verdict.
+Next: fix and acoustically verify `ㄓㄜ` pronunciation with Yuanyuan under Issue #9.
 
 Artifacts: .agentflow/artifacts/A-002-execution-plan/, A-003-acceptance/, A-004-mlx-vs-indextts-benchmark/, A-005-benchmark-execution/; external comparison in `/Users/howard/index-tts-workspace/previews/issue-8-benchmark-20260920/`.
 
@@ -362,3 +362,58 @@ godev
 - Rebuilt the two external formal reports from unchanged raw model outputs so `runs[].chunk_timings` is now present; no model rerun was needed.
 - Follow-up independent cross-check of implementation commit `08691b2572018ecb70fbacf3eca479e3ef3f810b` returned Outcome PASS, Minimality PASS, Conformance PASS, Verdict PASS. Report is stored under A-005 benchmark execution records.
 - T-5 remains the only pending task and requires human listening of the paired warm outputs.
+
+## [RUN-005] Event (during round A-005)
+
+- Owner completed human listening on the fresh Yuanyuan-reference outputs. IndexTTS-2.5 is preferred for smoother audiobook delivery and fewer wrong characters; MLX 1.5 is not selected for the current narrator direction.
+- Pronunciation failure: `伴隨著` still sounds like `ㄓㄨˋ` / `ZHU4` instead of the required `ㄓㄜ` / `ZHE5`, despite the existing `<著|ZHE5>` prepared-text override.
+- Requirement update: future real-model tests must use the default Yuanyuan prompt (`index-tts/prompts/voice.wav`, byte-identical to `yuanyuan_vocals_30s.wav`) and include this exact word in the audio acceptance gate. Text-only assertions are insufficient.
+- Candidate audio forms were generated externally: current annotation, direct `ZHE5`, and plain text. No override or runtime file was changed while the acoustic choice remains under review.
+- Follow-up GitHub Issue #9 created with `ready-for-agent`: real-model Yuanyuan pronunciation regression and acceptance gate. Issue #6 remains emotion policy; Issue #7 remains headroom.
+- T-5 is complete for Issue #8 with the pronunciation follow-up explicitly separated. Tracker validation remains required after final record update.
+
+# ← Reply / A-005
+* _2026-09-20 16:53:00 (GPT-5)_
+
+## [SUMMARY]
+
+- A-004/A-005 MLX 1.5 vs IndexTTS-2.5 benchmark 已完成，包含 T-1 至 T-5。
+- 人工聽感選擇 IndexTTS-2.5：聲音較順、較適合有聲書，錯別字較少。
+- `伴隨著` 發音仍失敗：實際聽到 `ㄓㄨˋ`，要求是 `ㄓㄜ`；已建立 Issue #9 作為獨立 pronunciation follow-up。
+
+## [FINAL REPORT]
+
+本輪比較使用預設圓圓 reference：
+`/Users/howard/index-tts-workspace/index-tts/prompts/voice.wav`，與
+`prompts/yuanyuan/yuanyuan_vocals_30s.wav` checksum 完全相同。
+
+新生成的比較資料在：
+`/Users/howard/index-tts-workspace/previews/issue-8-benchmark-yuanyuan-20260920/`。
+
+- [MLX 1.5 圓圓 output](/Users/howard/index-tts-workspace/previews/issue-8-benchmark-yuanyuan-20260920/mlx-1.5/final.wav)：71.09 秒，RTF 1.54。
+- [IndexTTS-2.5 圓圓 output](/Users/howard/index-tts-workspace/previews/issue-8-benchmark-yuanyuan-20260920/indextts-2.5/final.wav)：59.89 秒，RTF 6.54。
+
+人工結果優先於速度結果：IndexTTS-2.5 暫定為較適合的 audiobook backend；MLX 1.5 不作為目前 narrator default。這不是因為速度，而是因為 2.5 聽起來更順、錯誤較少。
+
+Pronunciation follow-up：[Issue #9 Make 伴隨著 pronunciation a real-model acceptance gate](https://github.com/HOWARD1021/index-tts-audiobook/issues/9)。Issue #9 明確要求：
+
+- 所有 real-model pronunciation test 使用 Yuanyuan reference；
+- fixture 必須包含 `伴隨著`；
+- `ㄓㄜ` 必須透過實際 audio listening 驗收；
+- 不能只靠 `ZHE5` 文字 assertion 宣稱通過。
+
+已保存三個 Yuanyuan candidate audio：目前 annotation、direct `ZHE5`、plain text；在選定可聽的正確形式前，沒有修改 override 或 runtime。Issue #6 繼續負責 emotion policy，Issue #7 繼續負責 peak/headroom。
+
+Cross-check review: `.agentflow/artifacts/A-005-benchmark-execution/cross-check-report.md`
+Cross-check implementation: 08691b2572018ecb70fbacf3eca479e3ef3f810b
+Host gate: PASS
+
+## Questions (batched — each with a suggested default)
+
+- None. Issue #9 owns the pronunciation correction and real-model acceptance gate.
+
+---
+
+# → Ask / A-006
+
++
