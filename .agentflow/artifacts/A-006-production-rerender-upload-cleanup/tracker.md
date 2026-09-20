@@ -4,11 +4,11 @@
 
 - **Work key:** A-006-production-rerender-upload-cleanup.
 
-- **Active Ask:** A-006.
+- **Active Ask:** A-007.
 
 - **Goal:** Plan and execute the verified Yuanyuan/IndexTTS-2.5 production rerender, original-destination publication, and allowlisted test cleanup.
 
-- **Last update:** 2026-09-20 17:20:00 Asia/Taipei.
+- **Last update:** 2026-09-20 17:35:00 Asia/Taipei.
 
 - **Evidence commit:** uncommitted.
 
@@ -40,11 +40,11 @@
 
 - **Current item:** T-1.
 
-- **Last proven result:** Issue #8 benchmark complete; IndexTTS-2.5 + Yuanyuan preferred by human listening; Issue #9 pronunciation acceptance and original upload destination still need to be frozen for production work.
+- **Last proven result:** T-1 destination inventory PASS: 13 chapter outputs, local audio/feed directory, R2 bucket `howard-audiobooks`, public base, publish script, and Yuanyuan prompt checksum recorded. Pronunciation form remains pending Issue #9 candidate confirmation.
 
 - **Active blocker or running process:** None; planning only.
 
-- **Next safe action:** Inventory prior production files and resolve the exact original upload destination without modifying files.
+- **Next safe action:** Freeze the successful Issue #9 pronunciation form, then stage production rerender; no upload or cleanup before that gate.
 
 - **Expected changed files:** `.agentflow/artifacts/A-006-production-rerender-upload-cleanup/` and external staged production artifacts; no product source changes expected unless Issue #9 requires a pronunciation fix first.
 

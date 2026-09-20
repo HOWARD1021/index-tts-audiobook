@@ -1,0 +1,40 @@
+{
+  "status": "PASS_WITH_PRONUNCIATION_FORM_PENDING",
+  "source_dir": "/Users/howard/Downloads/幽靈的禮物/volume-price-analysis-en-chapters/zh",
+  "script_dir": "/Users/howard/Downloads/幽靈的禮物/volume-price-analysis-en-chapters/zh-simplified-tts/scripts",
+  "local_audio_dir": "/Users/howard/Downloads/幽靈的禮物/volume-price-analysis-en-chapters/zh-simplified-tts/audio",
+  "run_manifest": "/Users/howard/Downloads/幽靈的禮物/volume-price-analysis-en-chapters/zh-simplified-tts/run-manifest.json",
+  "publish_script": "/Users/howard/Downloads/幽靈的禮物/volume-price-analysis-en-chapters/zh-simplified-tts/publish_podcast.py",
+  "feed": "/Users/howard/Downloads/幽靈的禮物/volume-price-analysis-en-chapters/zh-simplified-tts/audio/feed.xml",
+  "r2": {
+    "bucket": "howard-audiobooks",
+    "public_base": "https://pub-43dc4106670549999990fa09d26d8316.r2.dev",
+    "feed_url": "https://pub-43dc4106670549999990fa09d26d8316.r2.dev/feed.xml"
+  },
+  "chapters": [
+    "00-foreword",
+    "01-chapter-one",
+    "02-chapter-two",
+    "03-chapter-three",
+    "04-chapter-four",
+    "05-chapter-five",
+    "06-chapter-six",
+    "07-chapter-seven",
+    "08-chapter-eight",
+    "09-chapter-nine",
+    "10-chapter-ten",
+    "11-chapter-eleven",
+    "12-chapter-twelve"
+  ],
+  "expected_outputs_per_chapter": [".wav", ".m4a", ".manifest.json", ".chunks/"],
+  "reference": {
+    "path": "/Users/howard/index-tts-workspace/index-tts/prompts/voice.wav",
+    "equivalent_path": "/Users/howard/index-tts-workspace/index-tts/prompts/yuanyuan/yuanyuan_vocals_30s.wav",
+    "sha256": "d8ba82bf2f84c2c0ff0ea03d8f9f2fcfef2ac0592a384381a4415fd8f53d71b7"
+  },
+  "previous_backend": "mlx-1.5",
+  "production_backend_candidate": "indextts-2.5",
+  "pronunciation_form": "PENDING_ISSUE_9_CANDIDATE_CONFIRMATION",
+  "destination_resolution": "PASS: local audio/feed plus R2 bucket/public base recovered from publish_podcast.py and feed.xml; no upload or deletion performed",
+  "cleanup_rule": "allowlist only after post-upload checksum verification; use recoverable Trash for local test artifacts"
+}

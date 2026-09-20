@@ -4,17 +4,17 @@ Project: index-tts-audiobook
 
 Notebook: .agentflow/devlog.md — root.
 
-Current commit: 2fc11e9 — Issue #8 benchmark closed; A-006 production rerender/upload/cleanup plan recorded.
+Current commit: e234145 — A-006 production rerender/upload/cleanup plan; A-007 destination inventory recorded.
 
 Tests/scenarios: 31 passed, 1 opt-in MLX skip; Ruff/compileall PASS; 32 chunk WAVs and 8 final WAVs validated.
 
 Configuration: ag.json — validated; MLX 1.5 and IndexTTS-2.5 external runtimes; primary runs used same script/prompt identity.
 
-Proven: Yuanyuan listening prefers IndexTTS-2.5; Issue #9 pronunciation gate and A-006 production delivery plan are recorded.
+Proven: Original 13-chapter local audio/feed inventory and R2 destination recovered; Issue #9 pronunciation gate and A-006 production delivery plan are recorded.
 
-Open: A-006 T-1 destination/input inventory; Issue #9 pronunciation implementation; Issue #6 emotion policy; Issue #7 headroom.
+Open: Freeze Issue #9 pronunciation form before production rerender; Issue #6 emotion policy; Issue #7 headroom.
 
-Next: run A-006 T-1 read-only inventory; do not upload or clean test files until destination and pronunciation form are frozen.
+Next: lock the successful pronunciation candidate, then stage 13-chapter IndexTTS-2.5 + Yuanyuan rerender; no upload/cleanup before validation.
 
 Artifacts: A-002 through A-006 Agentflow records; benchmark audio in `/Users/howard/index-tts-workspace/previews/`; production destination remains to be resolved in A-006 T-1.
 
@@ -464,5 +464,65 @@ Host gate: PASS
 ---
 
 # → Ask / A-007
+
+下一步該怎麼做
+
+## [RUN-001] Event (during round A-007)
+
+- User asked for the next action after the A-006 production rerender/upload/cleanup plan.
+- T-1 read-only inventory PASS: recovered source/scripts, 13 chapter IDs (00 foreword through 12), local audio/feed directory, publish script, R2 bucket `howard-audiobooks`, public base `https://pub-43dc4106670549999990fa09d26d8316.r2.dev`, and feed URL.
+- Existing local destination contains WAV, M4A, manifests, chunks, and feed.xml; Music library copies were observed separately and are not treated as the canonical upload target.
+- Yuanyuan reference path and checksum are frozen. Pronunciation form remains the only input gate pending Issue #9 candidate confirmation.
+- No render, upload, overwrite, remote mutation, or deletion occurred. Production inventory is recorded in `production-inputs.json`; tracker validation remains required after the record update.
+
+# ← Reply / A-007
+* _2026-09-20 17:06:00 (GPT-5)_
+
+## [SUMMARY]
+
+- 下一步已完成 T-1 唯讀盤點：原始本地音訊目錄、13 集輸出清單與 R2 上傳目的地都已找回。
+- 目前尚未重新生成、上傳、覆蓋或刪除任何檔案。
+- 唯一仍需先鎖定的是 Issue #9 的成功 pronunciation form。
+
+## [FINAL REPORT]
+
+正式本地目錄：
+`/Users/howard/Downloads/幽靈的禮物/volume-price-analysis-en-chapters/zh-simplified-tts/audio/`
+
+原始發布設定已從 `publish_podcast.py` 與 `feed.xml` 恢復：
+
+- R2 bucket：`howard-audiobooks`
+- Public base：`https://pub-43dc4106670549999990fa09d26d8316.r2.dev`
+- Feed：`https://pub-43dc4106670549999990fa09d26d8316.r2.dev/feed.xml`
+- Chapter range：`00-foreword` 到 `12-chapter-twelve`，共 13 集
+- 本地每集包含 `.wav`、`.m4a`、`.manifest.json`、`.chunks/`
+- Yuanyuan prompt：`/Users/howard/index-tts-workspace/index-tts/prompts/voice.wav`
+- Yuanyuan prompt SHA-256：`d8ba82bf2f84c2c0ff0ea03d8f9f2fcfef2ac0592a384381a4415fd8f53d71b7`
+
+下一步順序：
+
+1. 在 Issue #9 凍結真正聽對 `ㄓㄜ` 的 pronunciation form。
+2. 在新的 staging 目錄重新生成 13 集，不覆蓋現有正式檔。
+3. 驗證 WAV、M4A、manifest、checksum 與代表性聽感。
+4. 對 `howard-audiobooks` 做 dry-run diff，確認 13 個 object key 與 feed 更新內容。
+5. 上傳並逐檔驗證 R2 內容後，才清理明確 allowlist 內的 benchmark/test artifacts。
+
+測試檔案會使用可恢復 Trash／明確 allowlist 清理，不會用廣泛 pattern 刪除，也不會碰 canonical source、model、prompt 或正式 production files。
+
+Plan：[A-006 production rerender/upload/cleanup](/Users/howard/orca/index-tts-audiobook/.agentflow/artifacts/A-006-production-rerender-upload-cleanup/plan.md)
+
+Inventory：[production-inputs.json](/Users/howard/orca/index-tts-audiobook/.agentflow/artifacts/A-006-production-rerender-upload-cleanup/production-inputs.json)
+
+Cross-check review: `.agentflow/artifacts/A-007-destination-inventory/cross-check-report.md`
+Cross-check implementation: e23414557d60a312a99faa884f975088a6b1ac2b
+Host gate: PASS
+
+## Questions (batched — each with a suggested default)
+
+- None. The next execution gate is pronunciation-form freeze under Issue #9.
+
+---
+
+# → Ask / A-008
 
 +
