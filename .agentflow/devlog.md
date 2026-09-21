@@ -719,3 +719,10 @@ plain.wav：伴随着高成交量。這個可以
 - Objective result: 149 outer chunks, 157 synthesis calls, 56:59.21 mono PCM16/22050 WAV, SHA-256 `d3c56434e65ba5888a0173606b09ce669f48a781d8c8effbc99cf7014ad6a847`.
 - Manifest/checksum/finite/WAV gates PASS; plain `伴随着` appears 6 times in backend text and `<著|ZHE5>` appears 0 times. Rail samples are 0.0712%.
 - No production destination, R2 object, canonical source, or test cleanup was touched. Human listening is now the only T-3 gate before remaining chapters.
+
+## [RUN-006] Event (during round A-011)
+
+- Resumed chapter-four pilot completed successfully after the sleep pause.
+- Final staged output: 149 outer chunks / 157 synthesis calls; 56:59.21 mono PCM16/22050 WAV; SHA-256 `d3c56434e65ba5888a0173606b09ce669f48a781d8c8effbc99cf7014ad6a847`.
+- Objective validation PASS: manifest complete, all chunk checksums PASS, finite samples PASS, plain `伴随着` present 6 times, `<著|ZHE5>` absent, rail samples 0.0712%.
+- No production destination, R2 object, canonical source, or test cleanup touched. Human pilot listening is the only remaining gate before remaining chapters.

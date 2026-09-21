@@ -8,7 +8,7 @@
 
 - **Goal:** Plan and execute the verified Yuanyuan/IndexTTS-2.5 production rerender, original-destination publication, and allowlisted test cleanup.
 
-- **Last update:** 2026-09-21 08:30:00 Asia/Taipei.
+- **Last update:** 2026-09-21 08:45:00 Asia/Taipei.
 
 - **Evidence commit:** uncommitted.
 
@@ -40,7 +40,7 @@
 
 - **Current item:** T-3.
 
-- **Last proven result:** Chapter-four pilot complete: 149 chunks / 157 synthesis calls; 56:59 mono PCM16/22050 WAV; manifest/checksum/finite/plain-pronunciation gates PASS; human listening pending.
+- **Last proven result:** Chapter-four pilot complete: 149 chunks / 157 synthesis calls; 56:59.21 mono PCM16/22050 WAV; manifest/checksum/finite/plain-pronunciation gates PASS; human listening pending.
 
 - **Active blocker or running process:** No process running; pilot awaits human listening before full-book rerender.
 
