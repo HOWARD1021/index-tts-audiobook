@@ -726,3 +726,10 @@ plain.wav：伴随着高成交量。這個可以
 - Final staged output: 149 outer chunks / 157 synthesis calls; 56:59.21 mono PCM16/22050 WAV; SHA-256 `d3c56434e65ba5888a0173606b09ce669f48a781d8c8effbc99cf7014ad6a847`.
 - Objective validation PASS: manifest complete, all chunk checksums PASS, finite samples PASS, plain `伴随着` present 6 times, `<著|ZHE5>` absent, rail samples 0.0712%.
 - No production destination, R2 object, canonical source, or test cleanup touched. Human pilot listening is the only remaining gate before remaining chapters.
+
+## [RUN-007] Event (during round A-011)
+
+- Owner listening located two pacing issues: `第四章` standalone chunk around 00:01 is too slow; isolated bold `不是` around 01:30 is too slow.
+- Pilot uses zero emotion vectors and `use_qwen_emo=false`; source has no laughter cue. Pleasant laugh-like prosody is not attributed to configured emotion yet.
+- Root-cause direction: short heading/short emphasis span synthesis, not global speed. Issue #6 received timestamped findings and recommendations to merge headings, promote short emphasis to sentence context, and avoid global speed changes until those tests pass.
+- Full-book production remains paused; no destination/upload/cleanup changes.
