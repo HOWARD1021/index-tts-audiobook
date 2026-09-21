@@ -8,7 +8,7 @@
 
 - **Goal:** Plan and execute the verified Yuanyuan/IndexTTS-2.5 production rerender, original-destination publication, and allowlisted test cleanup.
 
-- **Last update:** 2026-09-20 20:20:00 Asia/Taipei.
+- **Last update:** 2026-09-21 08:30:00 Asia/Taipei.
 
 - **Evidence commit:** uncommitted.
 
@@ -20,14 +20,14 @@
 
 - **Total:** 5.
 
-- **Completed:** 1.
+- **Completed:** 2.
 
-- **Remaining:** 4.
+- **Remaining:** 3.
 
 ## Accepted task checklist
 
 - [x] **T-1:** Resolve and freeze source scripts, production output list, Yuanyuan prompt checksum, accepted pronunciation form, original destination/object keys, and overwrite policy; proof requires production-inputs.json and destination inventory. Source: A-011. Proof: production-inputs.json and requirements-audit.md.
-- [ ] **T-2:** Stage a new IndexTTS-2.5 + Yuanyuan production rerender beginning with a chapter-four pilot that contains `伴隨著`; proceed to the remaining chapters only after pilot pronunciation/listening PASS, with resumable manifests and no in-place overwrite; proof requires pilot/full manifests, WAVs, listening verdict, and logs. Source: A-006.
+- [x] **T-2:** Stage a new IndexTTS-2.5 + Yuanyuan production rerender beginning with a chapter-four pilot that contains `伴隨著`; proceed to the remaining chapters only after pilot pronunciation/listening PASS, with resumable manifests and no in-place overwrite; proof requires pilot/full manifests, WAVs, listening verdict, and logs. Source: A-011. Proof: pilot-run.json and completed pilot staging.
 - [ ] **T-3:** Validate staged WAVs, checksums, manifests, headroom, pronunciation fixture, and representative human listening; proof requires production-validation.json and release note. Source: A-006.
 - [ ] **T-4:** Publish only after dry-run diff PASS, then verify original destination objects/files, checksums, chapter names, and catalog/feed metadata; proof requires upload receipt and post-upload inventory. Source: A-006.
 - [ ] **T-5:** Remove only the explicit test-artifact allowlist after publication verification; preserve production files, canonical source, models, prompts, and final manifests; proof requires cleanup receipt and after-inventory. Source: A-006.
@@ -38,13 +38,13 @@
 
 ## Current recovery
 
-- **Current item:** T-2.
+- **Current item:** T-3.
 
-- **Last proven result:** T-1 PASS; pilot paused intentionally after 66 validated outer chunks / 119 completed synthesis calls, with manifest and staging artifacts preserved.
+- **Last proven result:** Chapter-four pilot complete: 149 chunks / 157 synthesis calls; 56:59 mono PCM16/22050 WAV; manifest/checksum/finite/plain-pronunciation gates PASS; human listening pending.
 
-- **Active blocker or running process:** Pilot paused by owner request; no process running; staging remains resumable.
+- **Active blocker or running process:** No process running; pilot awaits human listening before full-book rerender.
 
-- **Next safe action:** Resume the chapter-four pilot from its in-progress manifest; validate/listen before any full rerender/upload/cleanup.
+- **Next safe action:** Listen to the chapter-four pilot; do not generate remaining chapters or upload until PASS.
 
 - **Expected changed files:** `.agentflow/artifacts/A-006-production-rerender-upload-cleanup/` and external staged production artifacts; no product source changes expected unless Issue #9 requires a pronunciation fix first.
 
@@ -56,7 +56,7 @@
 
 - **Operation running:** no.
 
-- **Next action remaining:** T-2.
+- **Next action remaining:** T-3.
 
 - **Evidence status:** current.
 

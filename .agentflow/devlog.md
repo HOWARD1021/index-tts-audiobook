@@ -712,3 +712,10 @@ plain.wav：伴随着高成交量。這個可以
 - Owner requested a pause while sleeping.
 - Pilot process stopped with SIGINT; staging and manifest are preserved. Pilot-run status is interrupted/failed by intentional pause, not a synthesis error.
 - Resume point: 66 validated outer chunks, 119 completed synthesis calls, no partial WAV remains. Next safe action is to resume from the in-progress manifest; do not restart or delete staging.
+
+## [RUN-005] Event (during round A-011)
+
+- Chapter-four pilot resumed and completed successfully after the pause.
+- Objective result: 149 outer chunks, 157 synthesis calls, 56:59.21 mono PCM16/22050 WAV, SHA-256 `d3c56434e65ba5888a0173606b09ce669f48a781d8c8effbc99cf7014ad6a847`.
+- Manifest/checksum/finite/WAV gates PASS; plain `伴随着` appears 6 times in backend text and `<著|ZHE5>` appears 0 times. Rail samples are 0.0712%.
+- No production destination, R2 object, canonical source, or test cleanup was touched. Human listening is now the only T-3 gate before remaining chapters.
