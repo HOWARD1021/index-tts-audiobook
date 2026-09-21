@@ -11,3 +11,14 @@ def test_chunking_preserves_paragraph_order_and_avoids_empty_chunks():
 def test_long_sentence_is_hard_split_at_limit():
     chunks = split_text("甲" * 25, max_chars=10)
     assert [chunk.text for chunk in chunks] == ["甲" * 10, "甲" * 10, "甲" * 5]
+
+
+def test_short_chapter_heading_merges_with_following_title():
+    text = "第四章\n\n量价分析——第一基本原理\n\n正文开始。"
+
+    chunks = split_text(text, max_chars=400)
+
+    assert [chunk.text for chunk in chunks] == [
+        "第四章\n量价分析——第一基本原理",
+        "正文开始。",
+    ]

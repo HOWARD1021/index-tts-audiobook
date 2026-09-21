@@ -67,6 +67,9 @@ Styled spans are rendered separately and joined with a short pause, so the
 markers never reach the TTS runtime. Local Markdown emotion currently requires
 the `indextts-2.5` backend; the MLX 1.5 adapter has no emotion-vector interface
 and rejects styled source rather than silently ignoring it.
+Very short emphasis spans are rendered with their surrounding sentence instead
+of as standalone synthesis calls, and a leading chapter heading is merged with
+its following title to avoid unnaturally slow short utterances.
 
 ## Quality gates
 

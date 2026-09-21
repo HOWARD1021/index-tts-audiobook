@@ -6,6 +6,7 @@ import re
 from dataclasses import dataclass
 
 SENTENCE_BOUNDARY_RE = re.compile(r"(?<=[。！？!?；;])\s*")
+CHAPTER_HEADING_RE = re.compile(r"第[0-9一二三四五六七八九十百]+章$")
 
 
 @dataclass(frozen=True)
@@ -55,6 +56,12 @@ def split_text(text: str, max_chars: int = 400) -> list[TextChunk]:
         raise ValueError("max_chars must be positive")
 
     paragraphs = [p.strip() for p in re.split(r"\n\s*\n", text) if p.strip()]
+    if (
+        len(paragraphs) >= 2
+        and CHAPTER_HEADING_RE.fullmatch(paragraphs[0])
+        and len(paragraphs[0]) + 1 + len(paragraphs[1]) <= max_chars
+    ):
+        paragraphs = [f"{paragraphs[0]}\n{paragraphs[1]}", *paragraphs[2:]]
     pieces: list[str] = []
     for paragraph in paragraphs:
         pieces.extend(_split_paragraph(paragraph, max_chars))

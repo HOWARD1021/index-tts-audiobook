@@ -79,6 +79,16 @@ def _prepare_chunks(script: str | Path, config: PipelineConfig) -> list[Prepared
             chunk.text,
             active_emphasis,
         )
+        spans = tuple(
+            NarrationSpan(
+                span.text,
+                span.emphasis
+                if span.emphasis is None
+                or len(span.text.strip()) >= config.min_emphasis_characters
+                else None,
+            )
+            for span in spans
+        )
         prepared.append(
             PreparedChunk(
                 index=chunk.index,
@@ -134,6 +144,7 @@ def _run_identity(
         "sampling_parameters": sampling_parameters_for(backend, config),
         "chunking": {
             "max_chunk_chars": config.max_chunk_chars,
+            "min_emphasis_characters": config.min_emphasis_characters,
             "inter_chunk_pause_ms": config.inter_chunk_pause_ms,
             "emotion_span_pause_ms": config.emotion_span_pause_ms,
             "max_seconds_per_char": config.max_seconds_per_char,

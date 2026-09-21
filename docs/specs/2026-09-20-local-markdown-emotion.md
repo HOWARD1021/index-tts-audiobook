@@ -125,6 +125,10 @@ Create one canonical narration-preparation and rendering workflow:
   calm and reflective. Profiles can be changed without changing parsing logic.
 - A short local join pause is configuration, not a hidden constant in the
   backend adapter.
+- One- or two-character emphasis spans are not rendered as independent audio;
+  they fall back to surrounding sentence context. Leading chapter headings
+  merge with their following title so short labels do not receive isolated,
+  slow prosody.
 - Meaningful punctuation remains text. The pipeline does not reinterpret every
   exclamation mark or question mark as an emotion vector; punctuation supplies
   prosody, while Markdown emphasis supplies explicit local emotion metadata.

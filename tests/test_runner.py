@@ -270,6 +270,28 @@ def test_render_applies_local_emotion_to_markdown_emphasis(tmp_path):
     assert calls[2][2] == config.emotion.vector
 
 
+def test_short_emphasis_falls_back_to_sentence_context(tmp_path):
+    script = tmp_path / "short-emphasis.md"
+    script.write_text("这是一段**不是**普通文字。", encoding="utf-8")
+    prompt = tmp_path / "prompt.wav"
+    sf.write(prompt, np.zeros(2205), 22_050, subtype="PCM_16")
+    calls = []
+    config = PipelineConfig(min_emphasis_characters=3)
+
+    render_chapter(
+        script,
+        tmp_path / "chapter.wav",
+        prompt_wav=prompt,
+        project_root=tmp_path / "indextts-runtime",
+        config=config,
+        backend_factory=lambda *args, **kwargs: FakeBackend(22_050, calls),
+    )
+
+    assert len(calls) == 1
+    assert calls[0][1] == "这是一段不是普通文字。"
+    assert calls[0][2] == config.emotion.vector
+
+
 def test_plan_handles_emphasis_that_crosses_chunk_boundaries(tmp_path):
     script = tmp_path / "long-emphasis.md"
     emphasized = "很長的強調文字" * 20
