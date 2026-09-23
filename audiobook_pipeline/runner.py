@@ -79,6 +79,8 @@ def _prepare_chunks(script: str | Path, config: PipelineConfig) -> list[Prepared
             chunk.text,
             active_emphasis,
         )
+        if not config.render_local_emotion:
+            spans = tuple(NarrationSpan(span.text) for span in spans)
         spans = tuple(
             NarrationSpan(
                 span.text,
@@ -145,6 +147,7 @@ def _run_identity(
         "chunking": {
             "max_chunk_chars": config.max_chunk_chars,
             "min_emphasis_characters": config.min_emphasis_characters,
+            "render_local_emotion": config.render_local_emotion,
             "inter_chunk_pause_ms": config.inter_chunk_pause_ms,
             "emotion_span_pause_ms": config.emotion_span_pause_ms,
             "max_seconds_per_char": config.max_seconds_per_char,

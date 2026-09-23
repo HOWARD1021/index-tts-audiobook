@@ -129,6 +129,10 @@ Create one canonical narration-preparation and rendering workflow:
   they fall back to surrounding sentence context. Leading chapter headings
   merge with their following title so short labels do not receive isolated,
   slow prosody.
+- Neutral audiobook runs can disable local span rendering with
+  `render_local_emotion = false`. The cleaned text remains unchanged, while
+  styled spans are synthesized once per outer chunk instead of making separate
+  zero-emotion model calls.
 - Meaningful punctuation remains text. The pipeline does not reinterpret every
   exclamation mark or question mark as an emotion vector; punctuation supplies
   prosody, while Markdown emphasis supplies explicit local emotion metadata.

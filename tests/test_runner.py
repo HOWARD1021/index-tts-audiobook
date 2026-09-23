@@ -292,6 +292,31 @@ def test_short_emphasis_falls_back_to_sentence_context(tmp_path):
     assert calls[0][2] == config.emotion.vector
 
 
+def test_neutral_styled_spans_render_once_without_local_emotion(tmp_path):
+    script = tmp_path / "neutral-styled.md"
+    script.write_text(
+        "價格的小幅上漲是由**巨大的成交量**產生的。",
+        encoding="utf-8",
+    )
+    prompt = tmp_path / "prompt.wav"
+    sf.write(prompt, np.zeros(2205), 22_050, subtype="PCM_16")
+    calls = []
+    config = PipelineConfig(render_local_emotion=False)
+
+    render_chapter(
+        script,
+        tmp_path / "chapter.wav",
+        prompt_wav=prompt,
+        project_root=tmp_path / "indextts-runtime",
+        config=config,
+        backend_factory=lambda *args, **kwargs: FakeBackend(22_050, calls),
+    )
+
+    assert len(calls) == 1
+    assert calls[0][1] == "价格的小幅上涨是由巨大的成交量产生的。"
+    assert calls[0][2] == config.emotion.vector
+
+
 def test_plan_handles_emphasis_that_crosses_chunk_boundaries(tmp_path):
     script = tmp_path / "long-emphasis.md"
     emphasized = "很長的強調文字" * 20

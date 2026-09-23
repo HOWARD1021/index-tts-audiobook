@@ -70,6 +70,9 @@ and rejects styled source rather than silently ignoring it.
 Very short emphasis spans are rendered with their surrounding sentence instead
 of as standalone synthesis calls, and a leading chapter heading is merged with
 its following title to avoid unnaturally slow short utterances.
+For audiobook narration that intentionally uses no local emotion, set
+`render_local_emotion = false`; styled spans then become one neutral chunk call
+instead of multiple zero-emotion calls.
 
 ## Quality gates
 

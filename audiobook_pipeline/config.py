@@ -31,6 +31,7 @@ class PipelineConfig:
     device: str = "mps"
     max_chunk_chars: int = 400
     min_emphasis_characters: int = 3
+    render_local_emotion: bool = True
     max_text_tokens_per_segment: int = 100
     interval_silence_ms: int = 250
     inter_chunk_pause_ms: int = 450
