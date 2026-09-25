@@ -4,17 +4,17 @@ Project: index-tts-audiobook
 
 Notebook: .agentflow/devlog.md — root.
 
-Current commit: 216a807 — Colab runner hardened; IndexTTS-2.5 checkpoints, fugashi auto-install, and zero-defect cleanup.
+Current commit: dd196de — Chapter 1 synthesis proven on A100 GPU; batch rendering and runner turnkey configuration finalized.
 
 Tests/scenarios: 34 passed, 1 opt-in MLX skip; Ruff/compileall PASS.
 
 Configuration: ag.json — validated; IndexTTS-2.5 external runtime; Colab CUDA profile in config/colab-cuda.toml.
 
-Proven: Colab GPU turnkey runner established with chunk resume and Google Drive caching; IndexTTS-2.5 checkpoints & codec.pth download verified; turnkey runner scripts created; Apple Books M4A conversion documented.
+Proven: Live Chapter 1 synthesis succeeded on Colab A100 GPU (sample-chapter.wav rendered and validated); fugashi/unidic-lite Japanese G2P runtime dependency resolved; Colab notebook batch loop optimized for Volume Price Analysis chapters; Google Drive checkpoints persistence established.
 
-Open: Issue #6 restrained emotion policy; Issue #7 headroom release gate; Colab Chapter 4 / full-book production render.
+Open: Step 10 batch multi-chapter synthesis execution for 13 chapters; Apple Books M4A packaging.
 
-Next: Complete Colab synthesis for 13 chapters of Volume Price Analysis on A100 GPU and verify Google Drive output.
+Next: Batch render remaining chapters 00 through 12 on Colab A100 GPU and package final audiobook.
 
 Artifacts: notebooks/colab_indextts_render.ipynb; notebooks/colab_quick_runner.ipynb; scripts/colab_run.py; config/colab-cuda.toml; docs/colab-runner-guide.md; docs/apple-audiobook-conversion.md.
 
@@ -880,3 +880,12 @@ plain.wav：伴随着高成交量。這個可以
   4. Notebook Ergonomics: Updated `notebooks/colab_indextts_render.ipynb` and created standalone `notebooks/colab_quick_runner.ipynb` with self-contained fallback paths, eliminating shell indentation and `NameError` risks. Added turnkey CLI helper `scripts/colab_run.py`.
   5. Documentation: Added Apple Books WAV to M4A conversion guide at `docs/apple-audiobook-conversion.md` and updated `docs/colab-runner-guide.md`.
 - Verification: Pytest suite passed (34 passed, 1 skipped); full git clean tree synced with `origin/main` (`1cb532d`).
+
+## [RUN-027] Event (during round A-011)
+
+- Live A100 Validation: Step 8 (`sample-chapter.wav`) completed synthesis successfully on Google Colab with NVIDIA A100-SXM4-80GB.
+- Final Upstream Dependency Cleared: Resolved Japanese G2P tagger requirement (`fugashi`, `unidic-lite`) in `infer_v2_5.py` by adding them to `pyproject.toml`, notebooks, and automatic self-healing check in `audiobook_pipeline/backends.py`.
+- Exhaustive Codebase Audit: Verified across all 262 Python files in `indextts/` that no further uninstalled runtime modules exist in the inference execution path.
+- Batch Loop Optimization: Optimized Step 10 in `colab_indextts_render.ipynb` and `colab_quick_runner.ipynb` to directly recognize pre-simplified chapter manuscripts (such as `00-foreword-zh-simplified.md` through `12-chapter-twelve-zh-simplified.md`), stripping redundant suffix tags for clean output audio names (`00-foreword.wav`, etc.).
+- Google Drive Persistence: All IndexTTS-2.5 model weights (~12GB) and generated WAVs are permanently persisted in `/content/drive/MyDrive/audiobook-workspace/`. Subsequent Colab restarts bypass model downloads entirely.
+
