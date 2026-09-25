@@ -108,6 +108,30 @@ class IndexTTS25Backend:
         self._prompt_wav = prompt_wav
         self._config = config
 
+        required_files = [
+            "config.yaml",
+            "codec.pth",
+            "gpt.pth",
+            "s2mel.pth",
+            "wav2vec2bert_stats.pt",
+        ]
+        if not all((model_dir / f).exists() for f in required_files):
+            try:
+                from huggingface_hub import snapshot_download
+
+                print(
+                    f">> Checkpoints missing in {model_dir}. Auto-downloading IndexTTS-2.5 from Hugging Face..."
+                )
+                model_dir.mkdir(parents=True, exist_ok=True)
+                snapshot_download(
+                    repo_id="IndexTeam/IndexTTS-2.5",
+                    local_dir=str(model_dir),
+                    local_dir_use_symlinks=False,
+                )
+                print(">> IndexTTS-2.5 weights downloaded successfully.")
+            except Exception as exc:
+                print(f"Warning: Failed to auto-download checkpoints: {exc}")
+
         import inspect
         sig = inspect.signature(IndexTTS2.__init__)
         init_kwargs: dict[str, object] = {
