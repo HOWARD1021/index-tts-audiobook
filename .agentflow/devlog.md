@@ -4,7 +4,7 @@ Project: index-tts-audiobook
 
 Notebook: .agentflow/devlog.md — root.
 
-Current commit: 44cf52f — Colab runner and CUDA configuration added; Chapter 4 v2 pilot validated.
+Current commit: c831e83 — Colab runner and CUDA configuration added; Chapter 4 v2 pilot validated.
 
 Tests/scenarios: 34 passed, 1 opt-in MLX skip; Ruff/compileall PASS; Chapter 4 v2 pilot validated.
 
