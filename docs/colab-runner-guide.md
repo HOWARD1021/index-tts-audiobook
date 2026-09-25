@@ -86,7 +86,7 @@ Google Drive: 我的雲端硬碟/
 2. **單元格 3（安裝環境）**：自動 clone IndexTTS 核心程式並安裝 `index-tts-audiobook`。
 3. **單元格 4（下載模型）**：
    - 若 Drive 中已有權重，直接跳過；
-   - 若無，會自動從 Hugging Face 下載 `IndexTeam/IndexTTS-2` 權重至 Drive。
+   - 若無，會自動從 Hugging Face 下載 `IndexTeam/IndexTTS-2.5` 權重至 Drive。
 4. **單元格 5~6（設定與文稿檢查）**：建立 `colab-cuda.toml` 並確認 prompts 與 scripts 目錄中是否有檔案。
 
 ### 步驟 4：執行生成
