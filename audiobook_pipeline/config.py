@@ -41,7 +41,7 @@ class PipelineConfig:
     use_qwen_emo: bool = False
     sample_rate: int = 22050
     channels: int = 1
-    max_seconds_per_char: float = 0.8
+    max_seconds_per_char: float = 1.2
     max_mel_tokens: int = 800
     temperature: float = 1.0
     top_k: int = 30

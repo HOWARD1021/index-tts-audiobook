@@ -12,10 +12,19 @@ def test_valid_pcm16_mono_wav_passes(tmp_path):
     assert result.duration_seconds == 1.0
 
 
+def test_short_emotion_span_with_prosody_padding_passes(tmp_path):
+    # Regression test for IndexTTS short span (e.g. 5 chars taking 9.54s with prosody/tail silence)
+    path = tmp_path / "short_span.wav"
+    sf.write(path, np.zeros(int(22050 * 9.54), dtype=np.float32), 22050, subtype="PCM_16")
+    result = validate_wav(path, text_characters=5, max_seconds_per_char=1.2)
+    assert result.ok
+    assert abs(result.duration_seconds - 9.54) < 0.01
+
+
 def test_runaway_short_chunk_fails_duration_sanity(tmp_path):
     path = tmp_path / "runaway.wav"
-    sf.write(path, np.zeros(22050 * 20, dtype=np.float32), 22050, subtype="PCM_16")
-    result = validate_wav(path, text_characters=5, max_seconds_per_char=0.8)
+    sf.write(path, np.zeros(22050 * 25, dtype=np.float32), 22050, subtype="PCM_16")
+    result = validate_wav(path, text_characters=5, max_seconds_per_char=1.2)
     assert not result.ok
     assert any("sanity limit" in error for error in result.errors)
 

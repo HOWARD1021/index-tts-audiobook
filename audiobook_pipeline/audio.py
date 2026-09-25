@@ -57,7 +57,7 @@ def validate_wav(
     if subtype != expected_subtype:
         errors.append(f"subtype {subtype} != {expected_subtype}")
     if max_seconds_per_char is not None and text_characters is not None:
-        maximum = max(5.0, text_characters * max_seconds_per_char + 5.0)
+        maximum = max(12.0, text_characters * max_seconds_per_char + 6.0)
         if duration > maximum:
             errors.append(
                 f"duration {duration:.2f}s exceeds {maximum:.2f}s sanity limit"
