@@ -4,19 +4,19 @@ Project: index-tts-audiobook
 
 Notebook: .agentflow/devlog.md — root.
 
-Current commit: c831e83 — Colab runner and CUDA configuration added; Chapter 4 v2 pilot validated.
+Current commit: 1250286 — Colab runner hardened; IndexTTS-2.5 checkpoints & codec.pth auto-download integrated.
 
-Tests/scenarios: 34 passed, 1 opt-in MLX skip; Ruff/compileall PASS; Chapter 4 v2 pilot validated.
+Tests/scenarios: 34 passed, 1 opt-in MLX skip; Ruff/compileall PASS.
 
 Configuration: ag.json — validated; IndexTTS-2.5 external runtime; Colab CUDA profile in config/colab-cuda.toml.
 
-Proven: Chapter 4 v2 pilot completed and validated (56:36.07); plain pronunciation accepted; Colab GPU turnkey runner established with chunk resume and Google Drive caching.
+Proven: Colab GPU turnkey runner established with chunk resume and Google Drive caching; IndexTTS-2.5 checkpoints & codec.pth download verified; turnkey runner scripts created; Apple Books M4A conversion documented.
 
-Open: Issue #6 restrained emotion policy; Issue #7 headroom release gate; Colab test render.
+Open: Issue #6 restrained emotion policy; Issue #7 headroom release gate; Colab Chapter 4 / full-book production render.
 
-Next: Test Chapter 4 render via Colab notebook (`notebooks/colab_indextts_render.ipynb`) on GPU; preserve local audio staging.
+Next: Complete Colab synthesis for 13 chapters of Volume Price Analysis on A100 GPU and verify Google Drive output.
 
-Artifacts: A-002 through A-011 Agentflow records; notebooks/colab_indextts_render.ipynb; config/colab-cuda.toml.
+Artifacts: notebooks/colab_indextts_render.ipynb; notebooks/colab_quick_runner.ipynb; scripts/colab_run.py; config/colab-cuda.toml; docs/colab-runner-guide.md; docs/apple-audiobook-conversion.md.
 
 Archived eras: none.
 
