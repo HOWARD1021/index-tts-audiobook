@@ -870,3 +870,13 @@ plain.wav：伴随着高成交量。這個可以
 - Added `config/colab-cuda.toml` with `device = "cuda"` and 16 GB memory limit profile.
 - Updated `audiobook_pipeline/backends.py` to dynamically support both `indextts.infer_v2_5` and `indextts.infer_v2` upstream checkouts, using parameter introspection for `use_bf16`/`use_fp16` and `use_qwen_emo`.
 - Verification: test suite `34 passed, 1 skipped`; notebook JSON structure validated; no production audio, R2, feed, or canonical manuscript changed.
+
+## [RUN-026] Event (during round A-011)
+
+- Hardened Google Colab (CUDA) runner and pipeline backend based on live A100 runtime validation:
+  1. Dependencies: Pinned exact working set in Colab (`transformers==4.52.1`, `accelerate==1.8.1`, `tokenizers==0.21.0`, `openai-whisper`, `descript-audiotools`, `munch`, `omegaconf`, `einops`, `json5`, `textstat`, `pydub`, `librosa`, `jieba`, etc.).
+  2. Upstream Checkpoints: Identified that IndexTTS-2.5 requires the `IndexTeam/IndexTTS-2.5` checkpoint repository (which contains `codec.pth`, updated `gpt.pth`, and `s2mel.pth`), fixing the `Checkpoint not found: codec.pth` assertion error.
+  3. Backend Self-Healing: Added automatic Hugging Face checkpoint download in `audiobook_pipeline/backends.py` (`IndexTTS25Backend`) so any missing `codec.pth` triggers auto-download directly inside the CLI.
+  4. Notebook Ergonomics: Updated `notebooks/colab_indextts_render.ipynb` and created standalone `notebooks/colab_quick_runner.ipynb` with self-contained fallback paths, eliminating shell indentation and `NameError` risks. Added turnkey CLI helper `scripts/colab_run.py`.
+  5. Documentation: Added Apple Books WAV to M4A conversion guide at `docs/apple-audiobook-conversion.md` and updated `docs/colab-runner-guide.md`.
+- Verification: Pytest suite passed (34 passed, 1 skipped); full git clean tree synced with `origin/main` (`1cb532d`).
