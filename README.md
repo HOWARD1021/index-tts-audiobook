@@ -82,6 +82,13 @@ instead of multiple zero-emotion calls.
 - Reject empty, malformed, non-finite, wrong-format, or implausibly long WAVs.
 - Listen to the preview before starting a full chapter or book render.
 
+## Google Colab GPU (CUDA) Runner
+
+For accelerated rendering without Apple Silicon memory/swap pressure, run the pipeline on an NVIDIA GPU via Google Colab:
+- Notebook: [`notebooks/colab_indextts_render.ipynb`](notebooks/colab_indextts_render.ipynb)
+- Detailed guide: [`docs/colab-runner-guide.md`](docs/colab-runner-guide.md)
+- Handles Google Drive caching, one-time Hugging Face weight downloads, chunk-level resume safety, and multi-chapter batch rendering.
+
 ## Repository boundaries
 
 Do not commit model checkpoints, private speaker references, speaker-conditioning
