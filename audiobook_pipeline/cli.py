@@ -4,7 +4,11 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 from pathlib import Path
+
+os.environ.setdefault("USE_TF", "0")
+os.environ.setdefault("TF_ENABLE_ONEDNN_OPTS", "0")
 
 from .audio import validate_wav
 from .backends import BACKEND_NAMES, INDEXTTS_25, output_format_for

@@ -2,10 +2,14 @@
 
 from __future__ import annotations
 
+import os
 import sys
 from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import Protocol
+
+os.environ.setdefault("USE_TF", "0")
+os.environ.setdefault("TF_ENABLE_ONEDNN_OPTS", "0")
 
 from .config import PipelineConfig
 
