@@ -1,0 +1,15 @@
+{
+  "changed_files": [
+    "audiobook_pipeline/config.py",
+    "audiobook_pipeline/runner.py",
+    "tests/test_runner.py",
+    "README.md",
+    "docs/specs/2026-09-20-local-markdown-emotion.md"
+  ],
+  "changed_lines": 44,
+  "behavior_change": true,
+  "trust_boundary": false,
+  "broad_change": false,
+  "consequential_change": false,
+  "owner_control": "default"
+}

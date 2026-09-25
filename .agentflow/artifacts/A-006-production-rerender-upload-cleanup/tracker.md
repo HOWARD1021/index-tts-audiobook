@@ -8,15 +8,15 @@
 
 - **Goal:** Plan and execute the verified Yuanyuan/IndexTTS-2.5 production rerender, original-destination publication, and allowlisted test cleanup.
 
-- **Last update:** 2026-09-21 08:45:00 Asia/Taipei.
+- **Last update:** 2026-09-24 22:31:00 Asia/Taipei.
 
-- **Evidence commit:** uncommitted.
+- **Evidence commit:** 44cf52f (neutral-mode optimization); current devlog checkpoint is uncommitted.
 
 ## Overall state
 
 - **State:** active.
 
-- **Reason:** Production rerender and publication plan is recorded; destination and accepted pronunciation form are not yet frozen.
+- **Reason:** A macOS watchdog kernel panic/reboot interrupted the eight-chunk patch during its first MPS inference call; original Chapter 4 audio remains intact.
 
 - **Total:** 5.
 
@@ -40,13 +40,13 @@
 
 - **Current item:** T-3.
 
-- **Last proven result:** Chapter-four pilot complete: 149 chunks / 157 synthesis calls; 56:59.21 mono PCM16/22050 WAV; manifest/checksum/finite/plain-pronunciation gates PASS; human listening pending.
+- **Last proven result:** Original v2 chapter-four pilot remains valid at 148 chunks / 56:36.07 mono PCM16/22050; checksum `bc0450141d0e997c2076265297e0941239d9a737484a412f6eb429b512180765` is unchanged. Runner fix is in the working tree; chunk-6 audio patch is incomplete.
 
-- **Active blocker or running process:** No process running; pilot awaits human listening before full-book rerender.
+- **Active blocker or running process:** No process running. Panic evidence reports low swap/segment exhaustion; post-reboot check still shows 5.18 of 6.14 GB swap used, so another MPS synthesis is deferred until the host is stable.
 
-- **Next safe action:** Listen to the chapter-four pilot; do not generate remaining chapters or upload until PASS.
+- **Next safe action:** Stabilize memory/swap use; then choose an isolated CPU fallback or a much smaller MPS probe before continuing the 8-chunk patch. Preserve all existing audio and do not upload until human listening PASS.
 
-- **Expected changed files:** `.agentflow/artifacts/A-006-production-rerender-upload-cleanup/` and external staged production artifacts; no product source changes expected unless Issue #9 requires a pronunciation fix first.
+- **Expected changed files:** `audiobook_pipeline/runner.py`, `.agentflow/artifacts/A-006-production-rerender-upload-cleanup/`, and external staged patch artifacts; no production destination, R2, feed, or canonical manuscript changes.
 
 ## Completion proof
 

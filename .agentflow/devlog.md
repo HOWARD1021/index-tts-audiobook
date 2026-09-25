@@ -4,19 +4,19 @@ Project: index-tts-audiobook
 
 Notebook: .agentflow/devlog.md — root.
 
-Current commit: 1b5683f — requirements audit complete; chapter-four pilot remains gated by Issue #9 pronunciation form.
+Current commit: 44cf52f — Colab runner and CUDA configuration added; Chapter 4 v2 pilot validated.
 
-Tests/scenarios: 31 passed, 1 opt-in MLX skip; Ruff/compileall PASS; 32 chunk WAVs and 8 final WAVs validated.
+Tests/scenarios: 34 passed, 1 opt-in MLX skip; Ruff/compileall PASS; Chapter 4 v2 pilot validated.
 
-Configuration: ag.json — validated; MLX 1.5 and IndexTTS-2.5 external runtimes; primary runs used same script/prompt identity.
+Configuration: ag.json — validated; IndexTTS-2.5 external runtime; Colab CUDA profile in config/colab-cuda.toml.
 
-Proven: Requirements audit confirms destination, outputs, reference, backend preference, and cleanup boundaries; frontend monitor is out of scope.
+Proven: Chapter 4 v2 pilot completed and validated (56:36.07); plain pronunciation accepted; Colab GPU turnkey runner established with chunk resume and Google Drive caching.
 
-Open: Freeze Issue #9 pronunciation form before chapter-four pilot; Issue #6 emotion policy; Issue #7 headroom.
+Open: Issue #6 restrained emotion policy; Issue #7 headroom release gate; Colab test render.
 
-Next: lock the successful pronunciation candidate, then stage only chapter 04; no full rerender/upload/cleanup before pilot validation.
+Next: Test Chapter 4 render via Colab notebook (`notebooks/colab_indextts_render.ipynb`) on GPU; preserve local audio staging.
 
-Artifacts: A-002 through A-006 Agentflow records; benchmark audio in `/Users/howard/index-tts-workspace/previews/`; production destination remains to be resolved in A-006 T-1.
+Artifacts: A-002 through A-011 Agentflow records; notebooks/colab_indextts_render.ipynb; config/colab-cuda.toml.
 
 Archived eras: none.
 
@@ -733,3 +733,140 @@ plain.wav：伴随着高成交量。這個可以
 - Pilot uses zero emotion vectors and `use_qwen_emo=false`; source has no laughter cue. Pleasant laugh-like prosody is not attributed to configured emotion yet.
 - Root-cause direction: short heading/short emphasis span synthesis, not global speed. Issue #6 received timestamped findings and recommendations to merge headings, promote short emphasis to sentence context, and avoid global speed changes until those tests pass.
 - Full-book production remains paused; no destination/upload/cleanup changes.
+
+## [RUN-008] Event (during round A-011)
+
+- Owner paused the v2 chapter-four pilot after the pacing strategy change.
+- v2 staging is preserved with 13 completed synthesis calls out of 263 expected; no final WAV yet. SIGINT was intentional, not a synthesis error.
+- Existing v1 pilot remains preserved separately as before-evidence; no production destination, R2, canonical source, or cleanup changed.
+- Next resume target is v2 manifest/staging, not a fresh restart.
+
+## [RUN-009] Event (during round A-011)
+
+- Owner resumed the Chapter 4 v2 pilot on 2026-09-22.
+- The first resume attempt used the project venv and failed before synthesis because the IndexTTS-2.5 runtime is only available in the horseshoe venv; no staging output was lost.
+- The pilot is now running in persistent tmux session `indextts-pilot-v2` with the horseshoe Python 3.11 runtime, reusing validated chunks from the v2 manifest.
+- Current status at checkpoint: model load PASS, one new synthesis call active (chunk 6000), no final WAV yet; production destination, R2, feed, canonical source, and cleanup remain untouched.
+- Next action: monitor the persistent run and validate the completed v2 pilot before any full-book generation.
+
+## [RUN-010] Event (during round A-011)
+
+- Owner paused Chapter 4 pilot v2 on 2026-09-22 after the run reached 124 of 148 outer chunks (about 83.8%).
+- The synthesis ledger has 215 started calls, 214 completed, and one active call interrupted intentionally at chunk 125000; `pilot-run.json` records `KeyboardInterrupt()` and no synthesis error.
+- The v2 manifest remains in progress with 124 validated outer chunks and no final WAV. Staging is preserved for resume.
+- No production destination, R2 object, feed, canonical source, or cleanup was touched.
+- Next resume target is the existing v2 manifest/staging, followed by objective validation and human listening before any full-book generation.
+
+## [RUN-011] Event (during round A-011)
+
+- The overnight diagnosis identified neutral styled-span call amplification: the paused v2 profile planned 263 model calls for 148 outer chunks even though all emotion vectors were zero.
+- TDD added `PipelineConfig.render_local_emotion`; when false, styled spans are flattened to one base-vector synthesis call per outer chunk, and the flag is included in manifest identity. Default local-emotion behavior remains enabled.
+- Verification: focused regression and complete suite `34 passed, 1 skipped`; compileall PASS; `git diff --check` PASS.
+- Implementation commit `44cf52ff621c4ad3a72be9f4832afb0d7a09b8af` received independent targeted cross-check PASS for Outcome, Minimality, Conformance, and Verdict; host inspection confirms only the declared report changed in the disposable clone.
+- Commit `44cf52f` and the preceding pacing commit were pushed to origin/main. The old v2 staging remains preserved as before-evidence; a clean optimized v3 staging is prepared for the neutral pilot.
+
+## [RUN-012] Event (during round A-011)
+
+- Optimized v3 Chapter 4 pilot started in persistent tmux session `indextts-pilot-v3-neutral` using the horseshoe Python 3.11 runtime.
+- The new manifest identity uses `render_local_emotion=false`; dry-run planning proves 148 outer chunks and 148 synthesis calls, down from v2's 263 calls.
+- Model load PASS; call 1 is active and no synthesis error is reported. v2 remains preserved at 124 validated chunks as before-evidence.
+- No canonical source, production audio, R2 object, feed, or cleanup path has been touched.
+- Next action: monitor v3 to completion, then run objective validation and human listening before considering the pilot gate.
+
+## [RUN-013] Event (during round A-011)
+
+- v3 neutral pilot was stopped intentionally after 20 of 148 calls; its observed median call time was 234 seconds, projecting 8–9 hours remaining. It is preserved as throughput-comparison evidence, with no production impact.
+- The v2 manifest metadata was migrated to record the explicit existing default `render_local_emotion=true`; identity comparison PASS confirms its 124 validated chunks remain reusable.
+- v2 resumed in persistent tmux session `indextts-pilot-v2` with model load PASS and chunk 125000 active. The resumable path avoids regenerating the first 124 outer chunks.
+- No production destination, R2 object, feed, canonical source, or cleanup changed.
+- Next action: monitor v2 through the remaining 42 synthesis calls, then validate the final pilot and obtain human listening.
+
+## [RUN-014] Event (during round A-011)
+
+- Owner paused the resumed v2 Chapter 4 pilot on 2026-09-23.
+- The run stopped intentionally while chunk 125000 was active; `pilot-run.json` now records `KeyboardInterrupt()` and no synthesis error.
+- The v2 manifest remains in progress with 124 validated outer chunks and no final WAV. The existing 124 chunks and identity metadata are preserved for the next resume.
+- No production destination, R2 object, feed, canonical source, or cleanup changed.
+- Next resume target is the existing v2 manifest/staging; expected remaining work is about 42 synthesis calls, followed by objective validation and human listening.
+
+## [RUN-015] Event (during round A-011)
+
+- Owner resumed the paused v2 Chapter 4 pilot on 2026-09-24.
+- The existing manifest identity check still passes after the explicit `render_local_emotion=true` metadata migration; 124 validated chunks are reusable.
+- Persistent tmux session `indextts-pilot-v2` is running with the horseshoe Python 3.11 runtime. Model load completed in 120.4 seconds and chunk 125000 is active; no synthesis error is reported.
+- No production destination, R2 object, feed, canonical source, or cleanup changed.
+- Next action: monitor the remaining v2 synthesis calls, then validate and listen to the completed pilot.
+
+## [RUN-016] Event (during round A-011)
+
+- Record correction: RUN-015 resumed the pilot on 2026-09-23 Asia/Taipei, not 2026-09-24. The runtime, manifest, and process facts in RUN-015 are unchanged.
+
+## [RUN-017] Event (during round A-011)
+
+- v2 progressed past the interrupted chunk: manifest now has 125 of 148 outer chunks validated (about 84.5%).
+- The resumed process completed the seven span calls for chunk 125 and is actively synthesizing chunk 126; no error is reported.
+- Based on the frozen plan, about 35 synthesis calls remain after the active call. Final WAV is not yet assembled.
+- No production destination, R2 object, feed, canonical source, or cleanup changed.
+
+## [RUN-018] Event (during round A-011)
+
+- Owner requested pause after the current section; a watcher allowed chunk 130 to finish before sending SIGINT.
+- v2 manifest now has 130 of 148 outer chunks validated (about 87.8%). The pilot stopped before starting chunk 131; `pilot-run.json` records an intentional KeyboardInterrupt and no synthesis error.
+- The pause watcher stopped the persistent tmux process cleanly after manifest commit; all completed chunks remain resumable.
+- No production destination, R2 object, feed, canonical source, or cleanup changed.
+- Next resume target is chunk 131 in the existing v2 manifest/staging, with about 18 outer chunks remaining.
+
+## [RUN-019] Event (during round A-011)
+
+- Owner resumed Chapter 4 v2 on 2026-09-24 from the preserved manifest.
+- The runner reused 130 validated outer chunks; model load PASS in 34.5 seconds and chunk 131 is now active in persistent tmux session `indextts-pilot-v2`.
+- No synthesis error or production-side mutation occurred.
+- Next action: complete the remaining 18 outer chunks, then validate the final pilot and obtain human listening.
+
+## [RUN-020] Event (during round A-011)
+
+- Chapter-four v2 generation completed: manifest status complete, 148 of 148 outer chunks, 28 synthesis calls in the final resume process, and final WAV checksum `bc0450141d0e997c2076265297e0941239d9a737484a412f6eb429b512180765`.
+- Objective validation PASS: mono PCM16/22050 Hz, finite samples, all chunk checksums match, final checksum matches manifest, duration 3396.070839 seconds, six accepted plain `伴随着` occurrences, and zero `<著|ZHE5>` annotations.
+- Full-scale sample count is 58,004 (about 0.077% of samples); this is a listening check item, not an objective format failure.
+- Final staged WAV was revealed in Finder. Production destination, R2, feed, canonical source, and cleanup remain untouched.
+- Next action: owner human listening at the earlier pacing points (~00:01 and ~01:30) plus general audiobook suitability; do not rerender remaining chapters or upload until PASS.
+
+## [RUN-021] Event (during round A-011)
+
+- Owner asked why the 01:30 pacing dips and requested only a focused 01:30–01:35 test.
+- Timestamp mapping proves 01:30 falls at chunk 6 offset 11.353 seconds. Chunk 6 span 0003 is the isolated plain-text `不是` call, duration 1.997 seconds; it has no emotion vector, but the runner still synthesizes it alone because disabling short-span emotion does not merge span boundaries.
+- Created an exact five-second original crop and one context candidate, `藝術，它不是一門硬性科學。`, generated as a single neutral IndexTTS-2.5/MPS call with the same Yuanyuan reference. Candidate duration is 3.344 seconds.
+- Both sample WAVs validate as finite mono PCM16/22050; artifacts and checksums are recorded in `/Users/howard/index-tts-workspace/previews/issue-9-chapter-four-90s-focused-test-20260924/validation.json`.
+- The focused candidate is ready for owner listening; no product code, production audio, R2, feed, canonical source, or remaining chapter was changed.
+
+## [RUN-022] Event (during round A-011)
+
+- Owner explicitly approved the bounded runner repair and asked whether the completed audio can be changed only around the slow passage.
+- Implementation plan: coalesce adjacent spans after short emphasis is neutralized, persist a per-chunk synthesis-plan hash, and compare old chunks to the legacy plan so only chunks whose call boundaries changed become stale.
+- Audio plan: preserve the original pilot; create a separate patched full-chapter WAV by regenerating only chunk 6's merged ordinary span and reusing its unaffected two spans plus the other 147 validated outer chunks.
+- No tests are being added or run in this step. Verification will use the requested focused real IndexTTS output, checksums, manifest, and WAV validation.
+
+## [RUN-023] Event (during round A-011)
+
+- Owner paused the focused chunk-6 audio patch while the contextual span was being synthesized.
+- The synthesis process is stopped. The original pilot final checksum remains `bc0450141d0e997c2076265297e0941239d9a737484a412f6eb429b512180765`, and original chunk 6 remains `fadddc4911d04736c35a8e093489487e22a0bbbe93b4107c13522c697621518d`; source audio was not changed.
+- The patched output is incomplete and no revised full-chapter WAV exists. Partial patch staging is preserved; it must be resumed into a fresh safe staging directory because the current staging run was interrupted.
+- Runner source fix remains in the working tree; compileall and diff check passed before generation, but no test suite was added or run.
+- No R2, production destination, feed, canonical source, or cleanup path changed.
+
+## [RUN-024] Event (during round A-011)
+
+- Host rebooted during the first IndexTTS-2.5/MPS call for the eight-chunk segmentation repair. The owner supplied a macOS watchdog kernel panic log: watchdogd missed check-ins for 91 seconds; panic state reported 100% segment limit and low swap space.
+- After reboot, no IndexTTS or patch process remains. Repair ledger was marked interrupted; no complete regenerated span, chunk, manifest, or patched final WAV was written.
+- Original Chapter 4 final checksum remains `bc0450141d0e997c2076265297e0941239d9a737484a412f6eb429b512180765`; original chunk 6 remains `fadddc4911d04736c35a8e093489487e22a0bbbe93b4107c13522c697621518d`.
+- Current host check shows swap 5.18 of 6.14 GB used with about 0.97 GB free after 19 minutes uptime. No new MPS synthesis should start until memory pressure is reduced and a safer execution profile is chosen.
+- Next safe action: stabilize the host, then decide between a single-chunk CPU fallback or a much smaller isolated MPS probe; preserve source audio and all partial staging.
+
+## [RUN-025] Event (during round A-011)
+
+- Owner evaluated offloading IndexTTS-2.5 rendering to Google Colab (CUDA) to eliminate Mac M4 memory/swap pressure and watchdog kernel panics during long synthesis.
+- Architected hybrid workflow: manuscript preparation and chunk planning remain local; heavy synthesis runs on Colab with persistent Google Drive storage and resumable chunk manifests.
+- Implemented turnkey Colab runner at `notebooks/colab_indextts_render.ipynb` covering Drive auto-mount, one-time HuggingFace checkpoint caching, resumable CUDA render, quality-gate validation, inline audio playback, and batch multi-chapter loop.
+- Added `config/colab-cuda.toml` with `device = "cuda"` and 16 GB memory limit profile.
+- Updated `audiobook_pipeline/backends.py` to dynamically support both `indextts.infer_v2_5` and `indextts.infer_v2` upstream checkouts, using parameter introspection for `use_bf16`/`use_fp16` and `use_qwen_emo`.
+- Verification: test suite `34 passed, 1 skipped`; notebook JSON structure validated; no production audio, R2, feed, or canonical manuscript changed.

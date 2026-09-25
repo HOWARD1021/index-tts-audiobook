@@ -35,6 +35,8 @@ class PreparedChunk:
     index: int
     markup_text: str
     spans: tuple[NarrationSpan, ...]
+    legacy_spans: tuple[NarrationSpan, ...]
+    legacy_synthesis_plan_sha256: str
 
     @property
     def text(self) -> str:
@@ -48,6 +50,10 @@ class PreparedChunk:
     def has_local_emotion(self) -> bool:
         return any(span.emphasis is not None for span in self.spans)
 
+    @property
+    def synthesis_plan_sha256(self) -> str:
+        return _synthesis_plan_sha256(self.spans)
+
 
 def sha256_file(path: str | Path) -> str:
     digest = hashlib.sha256()
@@ -59,6 +65,11 @@ def sha256_file(path: str | Path) -> str:
 
 def sha256_text(text: str) -> str:
     return hashlib.sha256(text.encode("utf-8")).hexdigest()
+
+
+def _synthesis_plan_sha256(spans: tuple[NarrationSpan, ...]) -> str:
+    plan = [{"text": span.text, "emphasis": span.emphasis} for span in spans]
+    return sha256_text(json.dumps(plan, ensure_ascii=False, separators=(",", ":")))
 
 
 def _load_narration_document(script: str | Path):
@@ -91,11 +102,25 @@ def _prepare_chunks(script: str | Path, config: PipelineConfig) -> list[Prepared
             )
             for span in spans
         )
+        legacy_spans = spans
+        legacy_synthesis_plan_sha256 = _synthesis_plan_sha256(legacy_spans)
+        merged_spans: list[NarrationSpan] = []
+        for span in spans:
+            if merged_spans and merged_spans[-1].emphasis == span.emphasis:
+                previous = merged_spans[-1]
+                merged_spans[-1] = NarrationSpan(
+                    previous.text + span.text,
+                    span.emphasis,
+                )
+            else:
+                merged_spans.append(span)
         prepared.append(
             PreparedChunk(
                 index=chunk.index,
                 markup_text=chunk.text,
-                spans=spans,
+                spans=tuple(merged_spans),
+                legacy_spans=legacy_spans,
+                legacy_synthesis_plan_sha256=legacy_synthesis_plan_sha256,
             )
         )
     if active_emphasis is not None:
@@ -270,10 +295,18 @@ def render_chapter(
         markup_sha = sha256_text(chunk.markup_text)
         prior = previous_records.get(chunk.index, {})
         validation = None
+        prior_plan_sha256 = prior.get("synthesis_plan_sha256")
+        plan_is_compatible = (
+            prior_plan_sha256 == chunk.synthesis_plan_sha256
+            if prior_plan_sha256 is not None
+            else chunk.legacy_synthesis_plan_sha256
+            == chunk.synthesis_plan_sha256
+        )
         reusable = (
             prior.get("status") == "validated"
             and prior.get("text_sha256") == text_sha
             and prior.get("markup_sha256") == markup_sha
+            and plan_is_compatible
             and chunk_wav.is_file()
         )
         if reusable:
@@ -365,6 +398,7 @@ def render_chapter(
             "text": str(chunk_text),
             "text_sha256": text_sha,
             "markup_sha256": markup_sha,
+            "synthesis_plan_sha256": chunk.synthesis_plan_sha256,
             "wav": str(chunk_wav),
             "characters": chunk.characters,
             "duration_seconds": validation.duration_seconds,

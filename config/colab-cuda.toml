@@ -1,0 +1,30 @@
+[defaults]
+language = "ZH"
+device = "cuda"
+max_chunk_chars = 400
+max_text_tokens_per_segment = 100
+interval_silence_ms = 250
+inter_chunk_pause_ms = 450
+emotion_span_pause_ms = 80
+text_normalization = true
+use_random = false
+use_qwen_emo = false
+sample_rate = 22050
+channels = 1
+max_seconds_per_char = 0.8
+max_mel_tokens = 800
+temperature = 1.0
+top_k = 30
+top_p = 0.8
+repetition_penalty = 10.0
+speed = 1.0
+seed = 42
+memory_limit_gb = 16.0
+
+[defaults.emotion]
+vector = [0.30, 0.0, 0.0, 0.0, 0.0, 0.0, 0.15, 0.35]
+alpha = 1.0
+bold_vector = [0.45, 0.0, 0.0, 0.0, 0.0, 0.0, 0.20, 0.10]
+bold_alpha = 1.0
+italic_vector = [0.15, 0.0, 0.0, 0.0, 0.0, 0.20, 0.0, 0.45]
+italic_alpha = 1.0

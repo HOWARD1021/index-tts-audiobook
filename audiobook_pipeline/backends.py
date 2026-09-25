@@ -93,24 +93,36 @@ class IndexTTS25Backend:
             sys.path.insert(0, str(project_root))
         try:
             from indextts.infer_v2_5 import IndexTTS2
-        except ImportError as exc:
-            raise RuntimeError(
-                f"IndexTTS-2.5 runtime is unavailable under {project_root}"
-            ) from exc
+        except ImportError:
+            try:
+                from indextts.infer_v2 import IndexTTS2
+            except ImportError as exc:
+                raise RuntimeError(
+                    f"IndexTTS-2.5 runtime is unavailable under {project_root}"
+                ) from exc
 
         self._prompt_wav = prompt_wav
         self._config = config
-        self._model = IndexTTS2(
-            cfg_path=str(model_dir / "config.yaml"),
-            model_dir=str(model_dir),
-            device=config.device,
-            use_bf16=False,
-            use_cuda_kernel=False,
-            use_deepspeed=False,
-            use_accel=False,
-            use_torch_compile=False,
-            use_qwen_emo=config.use_qwen_emo,
-        )
+
+        import inspect
+        sig = inspect.signature(IndexTTS2.__init__)
+        init_kwargs: dict[str, object] = {
+            "cfg_path": str(model_dir / "config.yaml"),
+            "model_dir": str(model_dir),
+            "device": config.device,
+            "use_cuda_kernel": False,
+            "use_deepspeed": False,
+            "use_accel": False,
+            "use_torch_compile": False,
+        }
+        if "use_bf16" in sig.parameters:
+            init_kwargs["use_bf16"] = False
+        elif "use_fp16" in sig.parameters:
+            init_kwargs["use_fp16"] = False
+        if "use_qwen_emo" in sig.parameters:
+            init_kwargs["use_qwen_emo"] = config.use_qwen_emo
+
+        self._model = IndexTTS2(**init_kwargs)
 
     def synthesize(
         self,
