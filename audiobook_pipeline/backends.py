@@ -108,6 +108,33 @@ class IndexTTS25Backend:
         self._prompt_wav = prompt_wav
         self._config = config
 
+        # Ensure Japanese G2P dependencies (fugashi, unidic-lite) are available
+        try:
+            import fugashi  # noqa: F401
+            import unidic_lite  # noqa: F401
+        except ImportError:
+            try:
+                import subprocess
+
+                print(
+                    ">> Auto-installing missing Japanese G2P dependencies (fugashi, unidic-lite)..."
+                )
+                subprocess.run(
+                    [
+                        sys.executable,
+                        "-m",
+                        "pip",
+                        "install",
+                        "-q",
+                        "fugashi",
+                        "unidic-lite",
+                    ],
+                    check=True,
+                )
+                print(">> Japanese G2P dependencies installed successfully.")
+            except Exception as exc:
+                print(f"Warning: Failed to auto-install fugashi/unidic-lite: {exc}")
+
         required_files = [
             "config.yaml",
             "codec.pth",
