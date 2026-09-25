@@ -4,7 +4,7 @@ Project: index-tts-audiobook
 
 Notebook: .agentflow/devlog.md — root.
 
-Current commit: 1250286 — Colab runner hardened; IndexTTS-2.5 checkpoints & codec.pth auto-download integrated.
+Current commit: 216a807 — Colab runner hardened; IndexTTS-2.5 checkpoints, fugashi auto-install, and zero-defect cleanup.
 
 Tests/scenarios: 34 passed, 1 opt-in MLX skip; Ruff/compileall PASS.
 
