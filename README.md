@@ -18,7 +18,7 @@ checks.
 ## Quick start
 
 ```bash
-uv sync --extra dev
+uv sync --extra dev --extra indextts
 
 # Derive and review a narration script without changing the source manuscript.
 uv run audiobook prepare \

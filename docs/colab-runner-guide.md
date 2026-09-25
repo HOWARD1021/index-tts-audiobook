@@ -83,7 +83,7 @@ Google Drive: 我的雲端硬碟/
 
 ### 步驟 3：依序執行 Notebook 單元格
 1. **單元格 1~2（硬體與 Drive 掛載）**：確認 GPU 正常並授權掛載 Google Drive。
-2. **單元格 3（安裝環境）**：自動 clone IndexTTS 核心程式並安裝 `index-tts-audiobook`。
+2. **單元格 3（安裝環境）**：自動 clone IndexTTS 核心程式並安裝 `index-tts-audiobook[indextts]`，包含 IndexTTS-2.5 初始化必需的日文 G2P 套件 `fugashi` 與 `unidic-lite`。若遇到 `No module named 'fugashi'`，請同步最新 notebook 並重新執行此安裝單元格後再生成。
 3. **單元格 4（下載模型）**：
    - 若 Drive 中已有權重，直接跳過；
    - 若無，會自動從 Hugging Face 下載 `IndexTeam/IndexTTS-2.5` 權重至 Drive。
