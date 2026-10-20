@@ -1,0 +1,9 @@
+{
+  "changed_files": ["README.md","audiobook_pipeline/audio.py","audiobook_pipeline/backends.py","audiobook_pipeline/cli.py","audiobook_pipeline/config.py","audiobook_pipeline/runner.py","config/colab-cuda.toml","config/default.toml","docs/apple-audiobook-conversion.md","docs/colab-runner-guide.md","notebooks/colab_indextts_render.ipynb","notebooks/colab_quick_runner.ipynb","pyproject.toml","scripts/colab_run.py","tests/test_audio.py","uv.lock"],
+  "changed_lines": 1422,
+  "behavior_change": true,
+  "trust_boundary": false,
+  "broad_change": true,
+  "consequential_change": false,
+  "owner_control": "default"
+}

@@ -900,3 +900,26 @@ plain.wav：伴随着高成交量。這個可以
 - Verification: Test suite passed with 35 passed, 1 skipped. Code compiled cleanly.
 
 
+
+godev 繼續開發
+
+## [RUN-029] Event (during round A-011)
+
+- Owner resumed with `godev 繼續開發` on 2026-10-20. Route: direct (state reconciliation + local reversible packaging only).
+- Reconciled out-of-band facts not previously recorded: production `zh-simplified-tts/audio` now holds Colab IndexTTS-2.5 WAV/manifest for 00–11 (byte-identical to the Drive download `output-20260925T164629Z-1-002.zip`), new 64k AAC M4A for 01–11, and feed.xml dated 2026-09-28. R2 HEAD checks show 01–11 M4A sizes match local new files (Last-Modified 2026-09-25 17:03 UTC) and feed.xml (2026-09-28 05:47 UTC) is live.
+- Chapter 12 is NOT replaced: local and R2 `12-chapter-twelve.m4a` remain the old MLX-1.5 render (8,777,278 bytes, manifest backend `mlx-1.5`). Colab IndexTTS-2.5 manifest for 12 is `in_progress` with 22 validated chunks.
+- Foreword packaging: created `00-foreword.m4a` locally (AAC 64k mono 22050, 488.34 s, 4,236,705 bytes, SHA-256 `b43c762c…a79e1`). Not uploaded; R2 `00-foreword.m4a` returns 404 and `publish_podcast.py` CHAPTERS omits 00, so feed has 12 items.
+- No R2, feed, canonical source, or WAV changed this round. Remaining: Chapter 12 Colab Step 10 resume (owner-run), then 12 M4A + publish of 12 and 00 (outward, needs owner approval).
+
+## [RUN-030] Event (during round A-011)
+
+- Reply completion check blocked: source range `44cf52f..98f1201` (16 files, ~1.4k lines; Colab notebooks, backend self-healing, duration floor) has no independent review.
+- Coordinator evidence at 98f1201: pytest 35 passed / 1 skipped; compileall PASS; `uvx ruff check .` FAILS with 26 errors (backends.py 2, two notebooks 23, scripts/colab_run.py 1) — earlier "Ruff PASS" claims for this range are not supported.
+- cross-check-plan.js level: full. Dispatched claude-default (claude-opus-5-5/high; cli-provider off → host family only) in a disposable no-remote clone; brief `.agentflow/artifacts/A-011-colab-backend-review/cross-check-brief.md`.
+
+## [RUN-031] Event (during round A-011)
+
+- Cross-check of `98f1201` returned Verdict BLOCKING (Outcome/Minimality/Conformance BLOCKING); report `.agentflow/artifacts/A-011-colab-backend-review/cross-check-report.md`. Clone wrote only the report.
+- Host verified: F1 silent `infer_v2` fallback under the `indextts-2.5` label (backends.py:98-106) — confirmed. F3 identity reset — confirmed: Ch12 Colab manifest uses 0.8 while quick runner patches 1.2, so its 22 validated chunks would be re-rendered (GPU cost, not wrong audio). F4 7-element `bold_vector` in scripts/colab_run.py:60 — confirmed, but all published 00–11 manifests record the correct 8-element vectors, so released audio is unaffected.
+- F2 (double loosening of the duration gate, untested 12 s floor, Ch12 chunk 23 lacks quality evidence), F5 (pip/HF self-heal side effects), F6 (quick runner ignores render failures), and ruff 26 errors remain open.
+- Host gate: BLOCKING. Repairs are not self-authorized; owner decision required before changing code or resuming Chapter 12.
