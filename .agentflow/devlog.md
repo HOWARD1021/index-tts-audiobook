@@ -933,3 +933,7 @@ yes make a plan for it and I want to make sure that we can both use colab and ge
 - Owner asked why the notebooks conflict (answered: both rewrite the shared Drive `colab-cuda.toml` with 0.8 vs 1.2; that value is in run identity, so Ch12's 22 chunks reset) and requested a plan plus Colab-vs-Gemini TTS use/comparison.
 - Route: consequential (backend/identity behavior). Plan commit `77c45fd`: `.agentflow/artifacts/A-011-colab-repair-and-tts-compare/design.md` — Part A repairs F1–F6/ruff/F8 keeping only the 12 s floor at k=0.8; Part B evaluation-only comparison (Gemini via AiStudioTts browser automation cannot clone Yuanyuan).
 - No source changed. Awaiting `Design Go: 77c45fd`.
+
+## [RUN-033] Event (during round A-011)
+
+- Correction: the 2026-10-21 `godev 繼續開發` and the follow-up plan request were meant for `~/projects/ghost-gift-ebook` (http://127.0.0.1:8765), not this repo. RUN-032 and plan `77c45fd` are not owner-requested here; `Design Go: 77c45fd` is NOT pending. RUN-031 BLOCKING findings remain open as before. No source changed.
