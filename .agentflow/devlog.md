@@ -923,3 +923,7 @@ godev 繼續開發
 - Host verified: F1 silent `infer_v2` fallback under the `indextts-2.5` label (backends.py:98-106) — confirmed. F3 identity reset — confirmed: Ch12 Colab manifest uses 0.8 while quick runner patches 1.2, so its 22 validated chunks would be re-rendered (GPU cost, not wrong audio). F4 7-element `bold_vector` in scripts/colab_run.py:60 — confirmed, but all published 00–11 manifests record the correct 8-element vectors, so released audio is unaffected.
 - F2 (double loosening of the duration gate, untested 12 s floor, Ch12 chunk 23 lacks quality evidence), F5 (pip/HF self-heal side effects), F6 (quick runner ignores render failures), and ruff 26 errors remain open.
 - Host gate: BLOCKING. Repairs are not self-authorized; owner decision required before changing code or resuming Chapter 12.
+
+這是為什麼 打架
+
+yes make a plan for it and I want to make sure that we can both use colab and gemnitts right , or maybe we should compare this two method ?
